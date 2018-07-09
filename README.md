@@ -20,6 +20,6 @@ A web app for managing courses/classes and signups
 2. Clone the crimson repository.
 3. Create an empty MySQL database.
 4. Configure a domain name, e.g. crimson.test to point to your crimson directory. With Homestead, the domain name and folder mapping is configured in Homestead.yaml.
-5. Create a configuration file by copying `.evn.example` to `.env` and fill it out with your database credentials, Auth0 credentials etc.
+5. Create a configuration file by copying `.evn.example` to `.env` and fill it out with your database credentials, Auth0 credentials etc. An app key can be created using `php artisan key:generate`
 6. Install PHP packages: `composer install`
 7. Install frontend packages: `npm run dev`
