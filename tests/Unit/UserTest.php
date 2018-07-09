@@ -30,7 +30,7 @@ class UserTest extends TestCase
 
         $this->assertTrue($adminUser->hasRole($adminRoleId), "Expected user to have the given role");
         $this->assertFalse($adminUser->hasRole($otherRoleId), "Did not expect user to have the given role");
-        $this->assertTrue($adminUser->hasRole([$adminRoleId, $otherRoleId]), "Expected user to have one of the given roles");
+        $this->assertTrue($adminUser->hasRole($adminRoleId, $otherRoleId), "Expected user to have one of the given roles");
     }
 
     public function testAddRemoveRoles()

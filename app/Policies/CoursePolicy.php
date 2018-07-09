@@ -33,7 +33,7 @@ class CoursePolicy
     public function create(User $user)
     {
         Log::debug("Authorize create course for user ".$user->id());
-        return $user->hasRole([RoleId::instructor(), RoleId::admin()]);
+        return $user->hasRole(RoleId::instructor(), RoleId::admin());
     }
 
     /**
@@ -45,7 +45,7 @@ class CoursePolicy
      */
     public function update(User $user, Course $course)
     {
-        return $user->hasRole([RoleId::instructor(), RoleId::admin()]);
+        return $user->hasRole(RoleId::instructor(), RoleId::admin());
     }
 
     /**
@@ -57,6 +57,6 @@ class CoursePolicy
      */
     public function delete(User $user, Course $course)
     {
-        return $user->hasRole([RoleId::instructor(), RoleId::admin()]);
+        return $user->hasRole(RoleId::instructor(), RoleId::admin());
     }
 }

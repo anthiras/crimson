@@ -15,9 +15,9 @@ class Course extends AggregateRoot
         $this->courseId = $courseId;
         $this->name = $name;
         $this->schedule = $schedule;
-        $this->instructors = collect($instructors)->keyBy([$this, 'instructorKey']);
-        $this->participants = collect($participants)->keyBy([$this, 'participantKey']);
-        $this->lessons = collect($lessons);
+        $this->instructors = collect($instructors)->verifyType(UserId::class)->keyBy([$this, 'instructorKey']);
+        $this->participants = collect($participants)->verifyType(Participant::class)->keyBy([$this, 'participantKey']);
+        $this->lessons = collect($lessons)->verifyType(Lesson::class);
     }
 
     public function id()

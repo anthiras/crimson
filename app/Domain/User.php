@@ -28,8 +28,8 @@ class User extends AggregateRoot implements Authenticatable, Authorizable
         $this->name = $name;
         $this->email = $email;
         $this->picture = $picture;
-        $this->auth0ids = collect($auth0ids)->keyBy([$this, 'auth0Key']);
-        $this->roleIds = collect($roleIds)->keyBy([$this, 'roleKey']);
+        $this->auth0ids = collect($auth0ids)->verifyType(Auth0Id::class)->keyBy([$this, 'auth0Key']);
+        $this->roleIds = collect($roleIds)->verifyType(RoleId::class)->keyBy([$this, 'roleKey']);
     }
 
     public function id(): UserId
@@ -130,12 +130,8 @@ class User extends AggregateRoot implements Authenticatable, Authorizable
         return $this->roleIds;
     }
 
-    public function hasRole($roles): bool
+    public function hasRole(RoleId ...$roles): bool
     {
-        if (!is_array($roles))
-        {
-            $roles = [$roles];
-        }
         return $this->roleIds->intersect($roles)->isNotEmpty();
     }
 
