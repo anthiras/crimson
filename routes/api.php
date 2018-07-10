@@ -34,11 +34,11 @@ Route::delete('/courses/{courseId}', 'API\CourseController@destroy')->middleware
 Route::post('/courses/{courseId}/signUp', 'API\CourseParticipantController@signUp')->middleware('requireauth');
 Route::post('/courses/{courseId}/cancelSignUp', 'API\CourseParticipantController@cancel')->middleware('requireauth');
 
-Route::get('/users', 'API\UserController@index')->middleware('requireauth');
+Route::get('/users', 'API\UserController@index')->middleware('requireauth');;
 Route::get('/users/current', 'API\UserController@current')->middleware('requireauth');
+Route::get('/users/{userId}', 'API\UserController@show')->middleware('requireauth');
 Route::post('/users/{userId}/roles/{roleId}', 'API\UserRoleController@addRole')->middleware('requireauth');
 Route::delete('/users/{userId}/roles/{roleId}', 'API\UserRoleController@removeRole')->middleware('requireauth');
-//Route::put('/users/current', 'API\UserController@update')->middleware('requireauth');
 
 Route::get('/roles', 'API\RoleController@index');
 

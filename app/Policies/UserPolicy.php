@@ -12,7 +12,12 @@ class UserPolicy
 
     public function show(User $authenticatedUser, User $accessedUser)
     {
-        return true;
+        if ($authenticatedUser->hasRole(RoleId::admin()))
+        {
+            return true;
+        }
+
+        return $authenticatedUser->id()->equals($accessedUser->id());
     }
 
     public function update(User $authenticatedUser, User $accessedUser)
