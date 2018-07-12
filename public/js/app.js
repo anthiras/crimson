@@ -5627,15 +5627,13 @@ var Auth = function () {
     }, {
         key: 'setSession',
         value: function setSession(authResult) {
-            console.log("authResult", authResult);
+            //console.log("authResult", authResult);
             // Set the time that the Access Token will expire at
             var expiresAt = JSON.stringify(authResult.expiresIn * 1000 + new Date().getTime());
             localStorage.setItem('access_token', authResult.accessToken);
             localStorage.setItem('id_token', authResult.idToken);
             localStorage.setItem('expires_at', expiresAt);
             localStorage.setItem('profile', JSON.stringify(authResult.idTokenPayload));
-            // navigate to the home route
-            //history.replace('/');
         }
     }, {
         key: 'logout',
@@ -92077,6 +92075,7 @@ var Navigation = function (_Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__fortawesome_free_solid_svg_icons_index__ = __webpack_require__(316);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__fortawesome_free_solid_svg_icons_index___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__fortawesome_free_solid_svg_icons_index__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__SignUpModal__ = __webpack_require__(317);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Auth__ = __webpack_require__(13);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -92084,6 +92083,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -92103,9 +92103,10 @@ var CourseSignUp = function (_Component) {
         _this.state = {
             modalOpen: false
         };
+        _this.auth = new __WEBPACK_IMPORTED_MODULE_5__Auth__["a" /* default */]();
         _this.cancel = _this.cancel.bind(_this);
-        _this.openModal = _this.openModal.bind(_this);
-        _this.closeModal = _this.closeModal.bind(_this);
+        _this.openSignUpModal = _this.openSignUpModal.bind(_this);
+        _this.closeSignUpModal = _this.closeSignUpModal.bind(_this);
         _this.onSignedUp = _this.onSignedUp.bind(_this);
         return _this;
     }
@@ -92121,19 +92122,23 @@ var CourseSignUp = function (_Component) {
             });
         }
     }, {
-        key: "openModal",
-        value: function openModal() {
+        key: "openSignUpModal",
+        value: function openSignUpModal() {
+            if (!this.auth.isAuthenticated()) {
+                this.auth.login();
+                return;
+            }
             this.setState({ modalOpen: true });
         }
     }, {
-        key: "closeModal",
-        value: function closeModal() {
+        key: "closeSignUpModal",
+        value: function closeSignUpModal() {
             this.setState({ modalOpen: false });
         }
     }, {
         key: "onSignedUp",
         value: function onSignedUp(response) {
-            this.closeModal();
+            this.closeSignUpModal();
             this.props.onStatusChanged(response.status);
         }
     }, {
@@ -92144,7 +92149,7 @@ var CourseSignUp = function (_Component) {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
                 null,
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__SignUpModal__["a" /* default */], { visible: this.state.modalOpen, course: this.course, onClose: this.closeModal,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__SignUpModal__["a" /* default */], { visible: this.state.modalOpen, course: this.course, onClose: this.closeSignUpModal,
                     onSignedUp: this.onSignedUp }),
                 status === "pending" && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     "p",
@@ -92169,7 +92174,7 @@ var CourseSignUp = function (_Component) {
                 ),
                 (status === null || status === "cancelled") && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     "button",
-                    { className: "btn btn-primary", onClick: this.openModal },
+                    { className: "btn btn-primary", onClick: this.openSignUpModal },
                     "Sign up..."
                 )
             );

@@ -3,6 +3,7 @@ import {post} from "./Api";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons/index";
 import SignUpModal from './SignUpModal';
+import Auth from './Auth'
 
 class CourseSignUp extends Component {
     constructor(props) {
@@ -11,9 +12,10 @@ class CourseSignUp extends Component {
         this.state = {
             modalOpen: false
         }
+        this.auth = new Auth();
         this.cancel = this.cancel.bind(this);
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
+        this.openSignUpModal = this.openSignUpModal.bind(this);
+        this.closeSignUpModal = this.closeSignUpModal.bind(this);
         this.onSignedUp = this.onSignedUp.bind(this);
     }
 
@@ -25,16 +27,20 @@ class CourseSignUp extends Component {
             });
     }
 
-    openModal() {
+    openSignUpModal() {
+        if (!this.auth.isAuthenticated()) {
+            this.auth.login();
+            return;
+        }
         this.setState({modalOpen: true});
     }
 
-    closeModal() {
+    closeSignUpModal() {
         this.setState({modalOpen: false});
     }
 
     onSignedUp(response) {
-        this.closeModal();
+        this.closeSignUpModal();
         this.props.onStatusChanged(response.status);
     }
 
@@ -43,7 +49,7 @@ class CourseSignUp extends Component {
 
         return (
             <React.Fragment>
-                <SignUpModal visible={this.state.modalOpen} course={this.course} onClose={this.closeModal}
+                <SignUpModal visible={this.state.modalOpen} course={this.course} onClose={this.closeSignUpModal}
                              onSignedUp={this.onSignedUp}  />
                 {status === "pending" &&
                     <p>
@@ -56,7 +62,7 @@ class CourseSignUp extends Component {
                     <p><FontAwesomeIcon icon={faCheckCircle} size="lg"/> Signup confirmed</p>
                 }
                 {(status === null || status === "cancelled") &&
-                    <button className="btn btn-primary" onClick={this.openModal}>Sign up...</button>
+                    <button className="btn btn-primary" onClick={this.openSignUpModal}>Sign up...</button>
                 }
             </React.Fragment>
         );

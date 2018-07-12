@@ -45,15 +45,13 @@ export default class Auth {
     }
 
     setSession(authResult) {
-        console.log("authResult", authResult);
+        //console.log("authResult", authResult);
         // Set the time that the Access Token will expire at
         let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
         localStorage.setItem('access_token', authResult.accessToken);
         localStorage.setItem('id_token', authResult.idToken);
         localStorage.setItem('expires_at', expiresAt);
         localStorage.setItem('profile', JSON.stringify(authResult.idTokenPayload));
-        // navigate to the home route
-        //history.replace('/');
     }
 
     logout() {
