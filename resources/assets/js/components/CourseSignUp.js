@@ -22,9 +22,7 @@ class CourseSignUp extends Component {
     cancel(e) {
         e.preventDefault();
         post('api/courses/' + this.course.id + '/cancelSignUp')
-            .then((response) => {
-                this.props.onStatusChanged(response.status);
-            });
+            .then(({status}) => this.props.onStatusChanged(status));
     }
 
     openSignUpModal() {

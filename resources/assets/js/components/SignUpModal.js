@@ -7,12 +7,14 @@ class SignUpModal extends Component
     constructor(props) {
         super(props);
         this.modalId = "signup" + props.course.id;
+        this.signupUrl = 'api/courses/' + props.course.id + '/signUp';
         this.submitSignup = this.submitSignup.bind(this);
         this.setSignUpDetails = this.setSignUpDetails.bind(this);
         this.state = {
             signUpDetails: {
                 role: null
-            }
+            },
+            error: false
         }
     }
 
@@ -24,10 +26,10 @@ class SignUpModal extends Component
 
     submitSignup(e) {
         e.preventDefault();
-        post('api/courses/' + this.props.course.id + '/signUp', this.state.signUpDetails)
-            .then((response) => {
-                this.props.onSignedUp(response);
-            });
+        this.setState({error: false});
+        post(this.signupUrl, this.state.signUpDetails)
+            .then(this.props.onSignedUp)
+            .catch(() => this.setState({error: true}));
     }
 
     render() {
@@ -42,16 +44,17 @@ class SignUpModal extends Component
                 <div className="modal-body">
                     <div className="form-check">
                         <input className="form-check-input" type="radio" name="role" id={this.modalId + "_lead"}
-                               value="lead" onChange={(e) => this.setSignUpDetails('role', e)}/>
+                               value="lead" onChange={(e) => this.setSignUpDetails('role', e)} required />
                         <label className="form-check-label" htmlFor={this.modalId + "_lead"}>Lead (male)</label>
                     </div>
                     <div className="form-check">
                         <input className="form-check-input" type="radio" name="role"
                                id={this.modalId + "_follow"}
-                               value="follow" onChange={(e) => this.setSignUpDetails('role', e)}/>
+                               value="follow" onChange={(e) => this.setSignUpDetails('role', e)} required />
                         <label className="form-check-label" htmlFor={this.modalId + "_follow"}>Follow
                             (female)</label>
                     </div>
+                    {this.state.error && <div className="alert alert-danger">An error occurred while attempting to signup for the course.</div>}
                 </div>
                 <div className="modal-footer">
                     <button type="button" onClick={this.props.onClose} className="btn btn-secondary">Cancel

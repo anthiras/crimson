@@ -5551,7 +5551,7 @@ function parseJsonIfContentTypeJson(response) {
 
 function handleErrors(response) {
     if (!response.ok) {
-        throw Error(response.statusText);
+        throw new Error(response.statusText);
     }
     return response;
 }
@@ -92117,8 +92117,9 @@ var CourseSignUp = function (_Component) {
             var _this2 = this;
 
             e.preventDefault();
-            Object(__WEBPACK_IMPORTED_MODULE_1__Api__["c" /* post */])('api/courses/' + this.course.id + '/cancelSignUp').then(function (response) {
-                _this2.props.onStatusChanged(response.status);
+            Object(__WEBPACK_IMPORTED_MODULE_1__Api__["c" /* post */])('api/courses/' + this.course.id + '/cancelSignUp').then(function (_ref) {
+                var status = _ref.status;
+                return _this2.props.onStatusChanged(status);
             });
         }
     }, {
@@ -94124,12 +94125,14 @@ var SignUpModal = function (_Component) {
         var _this = _possibleConstructorReturn(this, (SignUpModal.__proto__ || Object.getPrototypeOf(SignUpModal)).call(this, props));
 
         _this.modalId = "signup" + props.course.id;
+        _this.signupUrl = 'api/courses/' + props.course.id + '/signUp';
         _this.submitSignup = _this.submitSignup.bind(_this);
         _this.setSignUpDetails = _this.setSignUpDetails.bind(_this);
         _this.state = {
             signUpDetails: {
                 role: null
-            }
+            },
+            error: false
         };
         return _this;
     }
@@ -94147,8 +94150,9 @@ var SignUpModal = function (_Component) {
             var _this2 = this;
 
             e.preventDefault();
-            Object(__WEBPACK_IMPORTED_MODULE_1__Api__["c" /* post */])('api/courses/' + this.props.course.id + '/signUp', this.state.signUpDetails).then(function (response) {
-                _this2.props.onSignedUp(response);
+            this.setState({ error: false });
+            Object(__WEBPACK_IMPORTED_MODULE_1__Api__["c" /* post */])(this.signupUrl, this.state.signUpDetails).then(this.props.onSignedUp).catch(function () {
+                return _this2.setState({ error: true });
             });
         }
     }, {
@@ -94190,7 +94194,7 @@ var SignUpModal = function (_Component) {
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { className: "form-check-input", type: "radio", name: "role", id: this.modalId + "_lead",
                                 value: "lead", onChange: function onChange(e) {
                                     return _this3.setSignUpDetails('role', e);
-                                } }),
+                                }, required: true }),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 "label",
                                 { className: "form-check-label", htmlFor: this.modalId + "_lead" },
@@ -94204,12 +94208,17 @@ var SignUpModal = function (_Component) {
                                 id: this.modalId + "_follow",
                                 value: "follow", onChange: function onChange(e) {
                                     return _this3.setSignUpDetails('role', e);
-                                } }),
+                                }, required: true }),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 "label",
                                 { className: "form-check-label", htmlFor: this.modalId + "_follow" },
                                 "Follow (female)"
                             )
+                        ),
+                        this.state.error && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "div",
+                            { className: "alert alert-danger" },
+                            "An error occurred while attempting to signup for the course."
                         )
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
