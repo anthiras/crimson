@@ -51,7 +51,7 @@ class CourseTest extends TestCase
         $course = CourseBuilder::buildRandom();
         $userId = UserId::create();
 
-        $course->signUp($userId);
+        $course->signUp($userId, Participant::ROLE_LEAD);
         $this->assertEquals(Participant::STATUS_PENDING, $course->participant($userId)->status(),
             "Expected user to be signed up pending confirmation");
 

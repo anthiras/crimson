@@ -13,7 +13,6 @@
         "axios": "^0.18",
         "babel-preset-react": "^6.23.0",
         "bootstrap": "^4.0.0",
-        "cross-env": "^5.1.4",
         "jquery": "^3.2",
         "laravel-mix": "^2.0",
         "lodash": "^4.17.4",
@@ -22,9 +21,13 @@
         "react-dom": "^16.2.0"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^1.2.0-14",
+        "@fortawesome/free-solid-svg-icons": "^5.1.0-11",
+        "@fortawesome/react-fontawesome": "0.1.0-11",
         "auth0-js": "^9.5.1",
         "history": "^4.7.2",
         "moment": "^2.22.1",
+        "react-bootstrap4-modal": "^1.4.0",
         "react-router-dom": "^4.2.2"
     }
 }

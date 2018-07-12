@@ -24,9 +24,7 @@ export default class Auth {
                 this.setSession(authResult);
                 this.storeAuth0Profile(authResult.idToken)
                     .then(() => history.replace('/'));
-                //history.replace('/');
             } else if (err) {
-                //history.replace('/');
                 console.log(err);
             }
         });

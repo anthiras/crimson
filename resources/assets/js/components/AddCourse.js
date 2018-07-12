@@ -27,7 +27,7 @@ class AddCourse extends Component {
 		e.preventDefault();
 		console.log(this.state.newCourse);
 
-        post('api/courses', JSON.stringify(this.state.newCourse))
+        post('api/courses', this.state.newCourse)
             .then(() => { location.href='/'; });
 
 		//this.props.onAdd(this.state.newCourse);

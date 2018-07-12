@@ -32,6 +32,6 @@ class CourseFactory
 
     public static function createParticipant($participant): Participant
     {
-        return new Participant(new UserId($participant->id), $participant->pivot->status);
+        return new Participant(new UserId($participant->id), $participant->pivot->status, $participant->pivot->role);
     }
 }

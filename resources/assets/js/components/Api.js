@@ -12,7 +12,7 @@ function post(url, data) {
     headers['Content-Type'] = 'application/json';
     return callApi(url, {
         method: 'POST',
-        headers: defaultHeaders(),
+        headers: headers,
         body: JSON.stringify(data)
     });
 }

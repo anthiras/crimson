@@ -13,7 +13,7 @@ class UserModel extends Model
     public function takingCourses()
     {
         return $this->belongsToMany('App\Persistence\CourseModel', 'course_participants', 'user_id', 'course_id')
-            ->withPivot('status')
+            ->withPivot('status', 'role')
             ->withTimestamps();
     }
 

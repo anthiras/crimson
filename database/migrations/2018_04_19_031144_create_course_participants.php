@@ -18,6 +18,7 @@ class CreateCourseParticipants extends Migration
             $table->uuid('user_id');
             $table->timestamps();
             $table->string('status');
+            $table->string('role');
 
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

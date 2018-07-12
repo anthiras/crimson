@@ -8,6 +8,9 @@ class ParticipantBuilder
 {
 	public static function build(UserId $userId = null)
 	{
-		return new Participant($userId ?? UserId::create(), Participant::STATUS_CONFIRMED);
+		return new Participant(
+		    $userId ?? UserId::create(),
+            Participant::STATUS_CONFIRMED,
+            Participant::ROLE_LEAD);
 	}
 }

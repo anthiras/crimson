@@ -22,7 +22,8 @@ class CourseToDb
         return [
             $participant->userId()->string() => 
             [
-                "status" => $participant->status()
+                "status" => $participant->status(),
+                "role" => $participant->role()
             ]
         ];
     }

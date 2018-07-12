@@ -11,10 +11,6 @@ class Navigation extends Component
         this.logout = this.logout.bind(this);
     }
 
-    componentDidMount() {
-
-    }
-
     login(e) {
         e.preventDefault();
         this.auth.login();
@@ -27,7 +23,6 @@ class Navigation extends Component
 
     render() {
         const isAuthenticated = this.auth.isAuthenticated();
-        if (isAuthenticated) console.log(this.auth.getProfile());
         const profile = isAuthenticated ? this.auth.getProfile() : {};
 
         return (

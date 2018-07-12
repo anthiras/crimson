@@ -86,7 +86,7 @@ class Course extends AggregateRoot
         return $this->participants;
     }
 
-    public function participant(UserId $userId)
+    public function participant(UserId $userId): Participant
     {
         return $this->participants()->get($userId->string());
     }
@@ -96,15 +96,15 @@ class Course extends AggregateRoot
         return $participant->userId()->string();
     }
 
-    public function signUp(UserId $userId)
+    public function signUp(UserId $userId, string $role)
     {
         if ($this->participants->has($userId->string()))
         {
-            $this->participants = $this->participants->merge([$userId->string() => Participant::create($userId)]);
+            $this->participants = $this->participants->merge([$userId->string() => Participant::create($userId, $role)]);
             return $this;
         }
 
-        $this->participants = $this->participants->union([$userId->string() => Participant::create($userId)]);
+        $this->participants = $this->participants->union([$userId->string() => Participant::create($userId, $role)]);
         return $this;
     }
 
