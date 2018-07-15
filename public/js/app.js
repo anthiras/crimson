@@ -77915,7 +77915,8 @@ var AddCourse = function (_Component) {
 		_this.state = {
 			newCourse: {
 				name: 'New course',
-				startsAt: '2018-01-01 08:00:00',
+				startsAtDate: '2018-01-01',
+				startsAtTime: '08:00:00',
 				weeks: 8,
 				durationMinutes: 60
 			}
@@ -77937,13 +77938,19 @@ var AddCourse = function (_Component) {
 		key: 'handleSubmit',
 		value: function handleSubmit(e) {
 			e.preventDefault();
-			console.log(this.state.newCourse);
 
-			Object(__WEBPACK_IMPORTED_MODULE_1__Api__["c" /* post */])('api/courses', this.state.newCourse).then(function () {
+			var data = {
+				name: this.state.newCourse.name,
+				startsAt: this.state.newCourse.startsAtDate + " " + this.state.newCourse.startsAtTime,
+				weeks: this.state.newCourse.weeks,
+				durationMinutes: this.state.newCourse.durationMinutes
+			};
+
+			console.log(data);
+
+			Object(__WEBPACK_IMPORTED_MODULE_1__Api__["c" /* post */])('/api/courses', data).then(function () {
 				location.href = '/';
 			});
-
-			//this.props.onAdd(this.state.newCourse);
 		}
 	}, {
 		key: 'render',
@@ -77967,7 +77974,7 @@ var AddCourse = function (_Component) {
 								{ htmlFor: 'name' },
 								'Name'
 							),
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', id: 'name', className: 'form-control', value: this.state.newCourse.name, onChange: function onChange(e) {
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', required: true, id: 'name', className: 'form-control', value: this.state.newCourse.name, onChange: function onChange(e) {
 									return _this2.handleInput('name', e);
 								} })
 						),
@@ -77979,8 +77986,20 @@ var AddCourse = function (_Component) {
 								{ htmlFor: 'startsAt' },
 								'Start date'
 							),
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', id: 'startsAt', className: 'form-control', value: this.state.newCourse.startsAt, onChange: function onChange(e) {
-									return _this2.handleInput('startsAt', e);
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'date', required: true, id: 'startsAtDate', className: 'form-control', value: this.state.newCourse.startsAtDate, onChange: function onChange(e) {
+									return _this2.handleInput('startsAtDate', e);
+								} })
+						),
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'div',
+							{ className: 'form-group' },
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+								'label',
+								{ htmlFor: 'startsAt' },
+								'Time'
+							),
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'time', required: true, id: 'startsAtTime', className: 'form-control', value: this.state.newCourse.startsAtTime, onChange: function onChange(e) {
+									return _this2.handleInput('startsAtTime', e);
 								} })
 						),
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -77991,7 +78010,7 @@ var AddCourse = function (_Component) {
 								{ htmlFor: 'weeks' },
 								'Weeks'
 							),
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'number', id: 'weeks', className: 'form-control', value: this.state.newCourse.weeks, onChange: function onChange(e) {
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'number', required: true, id: 'weeks', className: 'form-control', value: this.state.newCourse.weeks, onChange: function onChange(e) {
 									return _this2.handleInput('weeks', e);
 								} })
 						),
@@ -78001,9 +78020,9 @@ var AddCourse = function (_Component) {
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 								'label',
 								{ htmlFor: 'duration' },
-								'Duration (minutes)'
+								'Duration of lessons (minutes)'
 							),
-							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'number', id: 'duration', className: 'form-control', value: this.state.newCourse.durationMinutes, onChange: function onChange(e) {
+							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'number', required: true, id: 'duration', className: 'form-control', value: this.state.newCourse.durationMinutes, onChange: function onChange(e) {
 									return _this2.handleInput('durationMinutes', e);
 								} })
 						),

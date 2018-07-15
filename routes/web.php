@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/design', function () {
-    return view('design');
-});
-
-Route::get('/{path?}', function () {
+Route::get('/{path}', function () {
     return view('main', [ 'configJson' => \App\ClientConfig::configJson()]);
-});
+})->where('path', '.*');
