@@ -22,7 +22,15 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = UserModel::all()->sortBy('name');
+        $users = UserModel::query();
+
+        $query = $request->query('query');
+        if ($query)
+        {
+            $users = $users->where('name', 'like', '%'.$query.'%');
+        }
+
+        $users = $users->orderBy('name')->get();
 
         $availableIncludes = collect(['roles', 'takingCourses', 'teachingCourses']);
         $includes = $request->query('include');

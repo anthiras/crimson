@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { post } from './Api';
+import { post, get } from './Api';
+import { Async } from 'react-select';
+import 'react-select/dist/react-select.css';
 
 class AddCourse extends Component {
 	constructor(props) {
@@ -10,7 +12,8 @@ class AddCourse extends Component {
 				startsAtDate: '2018-01-01',
 				startsAtTime: '08:00:00',
 				weeks: 8,
-				durationMinutes: 60
+				durationMinutes: 60,
+                instructors: []
 			}
 		}
 
@@ -19,8 +22,9 @@ class AddCourse extends Component {
 	}
 
 	handleInput(key, e) {
-		var state = Object.assign({}, this.state.newCourse); 
-    	state[key] = e.target.value;
+	    var value = e.target === undefined ? e : e.target.value;
+		var state = Object.assign({}, this.state.newCourse);
+    	state[key] = value;
     	this.setState({newCourse: state });
 	}
 
@@ -31,7 +35,8 @@ class AddCourse extends Component {
 			name: this.state.newCourse.name,
 			startsAt: this.state.newCourse.startsAtDate + " " + this.state.newCourse.startsAtTime,
 			weeks: this.state.newCourse.weeks,
-			durationMinutes: this.state.newCourse.durationMinutes
+			durationMinutes: this.state.newCourse.durationMinutes,
+            instructors: this.state.newCourse.instructors.map(user => user.value)
 		};
 
         console.log(data);
@@ -39,6 +44,19 @@ class AddCourse extends Component {
         post('/api/courses', data)
             .then(() => { location.href='/'; });
 	}
+
+	searchUsers(input, callback) {
+	    get('/api/users?query='+input)
+            .then(users => {
+                const options = users.map(user => {
+                    return {
+                        'value': user.id,
+                        'label': user.name
+                    }
+                });
+                callback(null, { options: options });
+            });
+    }
 
 	render() {
 		return (
@@ -65,6 +83,10 @@ class AddCourse extends Component {
 							<label htmlFor="duration">Duration of lessons (minutes)</label>
 							<input type="number" required id="duration" className="form-control" value={this.state.newCourse.durationMinutes} onChange={(e)=>this.handleInput('durationMinutes', e)} />
 						</div>
+                        <div className="form-group">
+                            <label htmlFor="instructors">Instructors</label>
+                            <Async name="instructors" multi={true} loadOptions={this.searchUsers} autoload={false} value={this.state.newCourse.instructors} onChange={(e)=>this.handleInput('instructors', e)} />
+                        </div>
 						<button type="submit" className="btn btn-primary">Save course</button>
 					</form>
 				</div>
