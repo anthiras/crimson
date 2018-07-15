@@ -18,7 +18,11 @@ export default class Auth {
         this.auth0.authorize();
     }
 
-    handleAuthentication() {
+    handleAuthentication(nextState) {
+        if (!/access_token|id_token|error/.test(nextState.location.hash)) {
+            return;
+        }
+
         this.auth0.parseHash((err, authResult) => {
             if (authResult && authResult.accessToken && authResult.idToken) {
                 this.setSession(authResult);

@@ -5596,8 +5596,12 @@ var Auth = function () {
         }
     }, {
         key: 'handleAuthentication',
-        value: function handleAuthentication() {
+        value: function handleAuthentication(nextState) {
             var _this = this;
+
+            if (!/access_token|id_token|error/.test(nextState.location.hash)) {
+                return;
+            }
 
             this.auth0.parseHash(function (err, authResult) {
                 if (authResult && authResult.accessToken && authResult.idToken) {
@@ -59300,62 +59304,52 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 var auth = new __WEBPACK_IMPORTED_MODULE_8__Auth__["a" /* default */]();
 
-var handleAuthentication = function handleAuthentication(nextState, replace) {
-    if (/access_token|id_token|error/.test(nextState.location.hash)) {
-        auth.handleAuthentication();
-    }
-};
-
 var App = function App() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        null,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__Navigation__["a" /* default */], null),
+        __WEBPACK_IMPORTED_MODULE_7_react_router_dom__["d" /* Router */],
+        { history: __WEBPACK_IMPORTED_MODULE_9__History__["a" /* default */] },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'container' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
+            null,
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__Navigation__["a" /* default */], null),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                __WEBPACK_IMPORTED_MODULE_7_react_router_dom__["e" /* Switch */],
-                null,
+                'div',
+                { className: 'container' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    __WEBPACK_IMPORTED_MODULE_7_react_router_dom__["c" /* Route */],
-                    { exact: true, path: '/' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_react_router_dom__["b" /* Redirect */], { to: '/courses' })
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    __WEBPACK_IMPORTED_MODULE_7_react_router_dom__["c" /* Route */],
-                    { path: '/courses' },
+                    __WEBPACK_IMPORTED_MODULE_7_react_router_dom__["e" /* Switch */],
+                    null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
-                        null,
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__CourseNavigation__["a" /* default */], null),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_react_router_dom__["c" /* Route */], { exact: true, path: '/courses', component: __WEBPACK_IMPORTED_MODULE_3__CourseList__["a" /* default */] }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_react_router_dom__["c" /* Route */], { exact: true, path: '/courses/create', component: __WEBPACK_IMPORTED_MODULE_2__AddCourse__["a" /* default */] })
-                    )
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_react_router_dom__["c" /* Route */], { path: '/users', component: __WEBPACK_IMPORTED_MODULE_5__UserList__["a" /* default */] }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_react_router_dom__["c" /* Route */], { path: '/callback', render: function render(props) {
-                        handleAuthentication(props);
-                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
+                        __WEBPACK_IMPORTED_MODULE_7_react_router_dom__["c" /* Route */],
+                        { exact: true, path: '/' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_react_router_dom__["b" /* Redirect */], { to: '/courses' })
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        __WEBPACK_IMPORTED_MODULE_7_react_router_dom__["c" /* Route */],
+                        { path: '/courses' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
                             null,
-                            'Loading'
-                        );
-                    } })
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__CourseNavigation__["a" /* default */], null),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_react_router_dom__["c" /* Route */], { exact: true, path: '/courses', component: __WEBPACK_IMPORTED_MODULE_3__CourseList__["a" /* default */] }),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_react_router_dom__["c" /* Route */], { exact: true, path: '/courses/create', component: __WEBPACK_IMPORTED_MODULE_2__AddCourse__["a" /* default */] })
+                        )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_react_router_dom__["c" /* Route */], { path: '/users', component: __WEBPACK_IMPORTED_MODULE_5__UserList__["a" /* default */] }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_react_router_dom__["c" /* Route */], { path: '/callback', render: function render(props) {
+                            auth.handleAuthentication(props);
+                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                null,
+                                'Loading'
+                            );
+                        } })
+                )
             )
         )
     );
 };
 
-var AppRouter = function AppRouter() {
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_7_react_router_dom__["d" /* Router */],
-        { history: __WEBPACK_IMPORTED_MODULE_9__History__["a" /* default */] },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(App, null)
-    );
-};
-
-__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRouter, null), document.getElementById('root'));
+__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(App, null), document.getElementById('root'));
 
 /***/ }),
 /* 220 */
