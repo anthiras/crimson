@@ -20,6 +20,16 @@ class RoleId
         return new RoleId('e4dff4be-253c-4782-a480-89d9202dacbd');
     }
 
+    public static function fromName(string $name): RoleId
+    {
+        if ($name == 'admin') {
+            return RoleId::admin();
+        } elseif ($name == 'instructor') {
+            return RoleId::instructor();
+        }
+        throw new \Exception("Unknown role " . $name);
+    }
+
     public function string(): string
     {
         return $this->id;
