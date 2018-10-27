@@ -23,7 +23,9 @@ class UserToDb
             //"last_name" => $user->getLastName()
             "name" => $user->getName(),
             "email" => $user->getEmail(),
-            "picture" => $user->getPicture()
+            "picture" => $user->getPicture(),
+            "gender" => $user->getGender(),
+            "birth_date" => $user->getBirthDate()
         ];
     }
 

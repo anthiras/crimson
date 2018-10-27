@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Persistence\CourseModel;
 use App\Persistence\RoleModel;
+use Cake\Chronos\Chronos;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class User extends JsonResource
@@ -20,8 +21,14 @@ class User extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'picture' => $this->picture,
-            'status' => $this->whenPivotLoaded('course_participants', function() {
-                return $this->pivot->status;
+            'gender' => $this->gender,
+            'birthDate' => $this->birth_date == null ? null : Chronos::parse($this->birth_date)->toDateString(),
+            'participation' => $this->whenPivotLoaded('course_participants', function() {
+                return [
+                    'status' => $this->pivot->status,
+                    'role' => $this->pivot->role,
+                    'createdAt' => $this->pivot->created_at->__toString()
+                ];
             }),
             'roles' => IdName::collection($this->whenLoaded('roles')),
             'takingCourses' => IdName::collection($this->whenLoaded('takingCourses')),

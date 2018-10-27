@@ -5,6 +5,7 @@ use App\Domain\Auth0Id;
 use App\Domain\RoleId;
 use App\Domain\User;
 use App\Domain\UserId;
+use Cake\Chronos\Chronos;
 
 class UserBuilder
 {
@@ -12,6 +13,8 @@ class UserBuilder
     protected $email;
     protected $name;
     protected $picture;
+    protected $gender;
+    protected $birthDate;
     protected $auth0ids;
     protected $roleIds;
 
@@ -29,6 +32,8 @@ class UserBuilder
             $this->name ?? $faker->name,
             $this->email ?? $faker->email,
             $this->picture ?? $faker->imageUrl,
+            $this->gender ?? User::GENDER_FEMALE,
+            $this->birthDate ?? Chronos::createFromTimestamp($faker->unixTime()),
             $this->auth0ids ?? [ new Auth0Id($faker->uuid)],
             $this->roleIds ?? [ RoleId::instructor() ]
         );

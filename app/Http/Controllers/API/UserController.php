@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Domain\UserId;
 use App\Domain\UserRepository;
 use App\Persistence\UserModel;
+use Cake\Chronos\Chronos;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User as UserResource;
@@ -63,8 +64,11 @@ class UserController extends Controller
         $user = $this->userRepository->user($userId);
         $this->authorize('update', $user);
         $user->setName($request->name)
-            ->setEmail($request->email)
-            ->setPicture($request->picture);
+            ->setGender($request->gender)
+            ->setBirthDate(Chronos::parse($request->birthDate));
+            //->setEmail($request->email)
+            //->setPicture($request->picture);
         $this->userRepository->save($user);
+        return 204;
     }
 }

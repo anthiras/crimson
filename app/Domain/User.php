@@ -8,6 +8,7 @@
 
 namespace App\Domain;
 
+use Cake\Chronos\Chronos;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 
@@ -19,15 +20,22 @@ class User extends AggregateRoot implements Authenticatable, Authorizable
     protected $email;
     protected $name;
     protected $picture;
+    protected $gender;
+    protected $birthDate;
     protected $auth0ids;
     protected $roleIds;
 
-    public function __construct(UserId $userId, string $name, string $email, string $picture, array $auth0ids,
-                                array $roleIds) {
+    const GENDER_MALE = "male";
+    const GENDER_FEMALE = "female";
+
+    public function __construct(UserId $userId, string $name, string $email, string $picture, string $gender = null,
+                                Chronos $birthDate = null, array $auth0ids, array $roleIds) {
         $this->userId = $userId;
         $this->name = $name;
         $this->email = $email;
         $this->picture = $picture;
+        $this->gender = $gender;
+        $this->birthDate = $birthDate;
         $this->auth0ids = collect($auth0ids)->verifyType(Auth0Id::class)->keyBy([$this, 'auth0Key']);
         $this->roleIds = collect($roleIds)->verifyType(RoleId::class)->keyBy([$this, 'roleKey']);
     }
@@ -39,7 +47,7 @@ class User extends AggregateRoot implements Authenticatable, Authorizable
 
     public static function createNew(string $name, string $email, string $picture, Auth0Id $auth0Id): User
     {
-        return new User(UserId::create(), $name, $email, $picture, [$auth0Id], []);
+        return new User(UserId::create(), $name, $email, $picture, null, null, [$auth0Id], []);
     }
 
     /**
@@ -80,6 +88,42 @@ class User extends AggregateRoot implements Authenticatable, Authorizable
     public function setPicture(string $picture)
     {
         $this->picture = $picture;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    /**
+     * @param string $gender
+     * @return User
+     */
+    public function setGender(string $gender): User
+    {
+        $this->gender = $gender;
+        return $this;
+    }
+
+    /**
+     * @return Chronos
+     */
+    public function getBirthDate(): Chronos
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * @param Chronos $birthDate
+     * @return User
+     */
+    public function setBirthDate(Chronos $birthDate): User
+    {
+        $this->birthDate = $birthDate;
         return $this;
     }
 

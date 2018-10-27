@@ -51,6 +51,8 @@ class UserRepositoryTest extends TestCase
         $this->assertEquals($user->getName(), $reloadedUser->getName());
         $this->assertEquals($user->getEmail(), $reloadedUser->getEmail());
         $this->assertEquals($user->getPicture(), $reloadedUser->getPicture());
+        $this->assertEquals($user->getGender(), $reloadedUser->getGender());
+        $this->assertEquals($user->getBirthDate(), $reloadedUser->getBirthDate());
         $this->assertEquals($user->getAuth0Ids(), $reloadedUser->getAuth0Ids());
 
     }

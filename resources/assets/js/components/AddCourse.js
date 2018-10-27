@@ -45,53 +45,51 @@ class AddCourse extends Component {
             .then(() => { location.href='/'; });
 	}
 
-	searchUsers(input, callback) {
-	    get('/api/users?query='+input)
+	searchUsers(input) {
+	    return get('/api/users?query='+input)
             .then(users => {
-                const options = users.map(user => {
-                    return {
-                        'value': user.id,
-                        'label': user.name
-                    }
-                });
-                callback(null, { options: options });
+                return {
+                    options: users.map(user => {
+                        return {
+                            value: user.id,
+                            label: user.name
+                        }
+                })};
             });
     }
 
 	render() {
 		return (
-			<div className="row">
-				<div className="col-md-4">
-					<form onSubmit={this.handleSubmit}>
-						<div className="form-group">
-							<label htmlFor="name">Name</label>
-							<input type="text" required id="name" className="form-control" value={this.state.newCourse.name} onChange={(e)=>this.handleInput('name', e)} />
-						</div>
-						<div className="form-group">
-							<label htmlFor="startsAt">Start date</label>
-							<input type="date" required id="startsAtDate" className="form-control" value={this.state.newCourse.startsAtDate} onChange={(e)=>this.handleInput('startsAtDate', e)} />
-						</div>
-                        <div className="form-group">
-                            <label htmlFor="startsAt">Time</label>
-                            <input type="time" required id="startsAtTime" className="form-control" value={this.state.newCourse.startsAtTime} onChange={(e)=>this.handleInput('startsAtTime', e)} />
-                        </div>
-						<div className="form-group">
-							<label htmlFor="weeks">Weeks</label>
-							<input type="number" required id="weeks" className="form-control"  value={this.state.newCourse.weeks} onChange={(e)=>this.handleInput('weeks', e)} />
-						</div>
-						<div className="form-group">
-							<label htmlFor="duration">Duration of lessons (minutes)</label>
-							<input type="number" required id="duration" className="form-control" value={this.state.newCourse.durationMinutes} onChange={(e)=>this.handleInput('durationMinutes', e)} />
-						</div>
-                        <div className="form-group">
-                            <label htmlFor="instructors">Instructors</label>
-                            <Async name="instructors" multi={true} loadOptions={this.searchUsers} autoload={false} value={this.state.newCourse.instructors} onChange={(e)=>this.handleInput('instructors', e)} />
-                        </div>
-						<button type="submit" className="btn btn-primary">Save course</button>
-					</form>
-				</div>
-			</div>
-			);
+            <form onSubmit={this.handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="name">Name</label>
+                    <input type="text" required id="name" className="form-control" value={this.state.newCourse.name} onChange={(e)=>this.handleInput('name', e)} />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="instructors">Instructors</label>
+                    <Async name="instructors" multi={true} loadOptions={this.searchUsers} autoload={false} value={this.state.newCourse.instructors} onChange={(e)=>this.handleInput('instructors', e)} />
+                </div>
+                <div className="form-row">
+                    <div className="form-group col-md-3 col-sm-6">
+                        <label htmlFor="startsAt">Start date</label>
+                        <input type="date" required id="startsAtDate" className="form-control" value={this.state.newCourse.startsAtDate} onChange={(e)=>this.handleInput('startsAtDate', e)} />
+                    </div>
+                    <div className="form-group col-md-3 col-sm-6">
+                        <label htmlFor="startsAt">Time</label>
+                        <input type="time" required id="startsAtTime" className="form-control" value={this.state.newCourse.startsAtTime} onChange={(e)=>this.handleInput('startsAtTime', e)} />
+                    </div>
+                    <div className="form-group col-md-3 col-sm-6">
+                        <label htmlFor="weeks">Weeks</label>
+                        <input type="number" required id="weeks" className="form-control"  value={this.state.newCourse.weeks} onChange={(e)=>this.handleInput('weeks', e)} />
+                    </div>
+                    <div className="form-group col-md-3 col-sm-6">
+                        <label htmlFor="duration">Duration of lessons (minutes)</label>
+                        <input type="number" required id="duration" className="form-control" value={this.state.newCourse.durationMinutes} onChange={(e)=>this.handleInput('durationMinutes', e)} />
+                    </div>
+                </div>
+                <button type="submit" className="btn btn-primary">Save course</button>
+            </form>
+        );
 	}
 }
 

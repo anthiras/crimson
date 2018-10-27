@@ -78,12 +78,11 @@ class CourseController extends Controller
      * Display the specified resource.
      *
      * @param  CourseId $courseId
-     * @return \Illuminate\Http\Response
+     * @return CourseResource
      */
     public function show(CourseId $courseId)
     {
-        throw new \Exception("Not implemented");
-        //return new CourseResource(CourseModel::with(['instructors', 'participants'])->find($courseId));
+        return new CourseResource(CourseModel::with(['instructors', 'participants'])->find($courseId));
     }
 
     /**

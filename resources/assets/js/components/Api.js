@@ -17,6 +17,16 @@ function post(url, data) {
     });
 }
 
+function put(url, data) {
+    let headers = defaultHeaders();
+    headers['Content-Type'] = 'application/json';
+    return callApi(url, {
+        method: 'PUT',
+        headers: headers,
+        body: JSON.stringify(data)
+    });
+}
+
 function del(url) {
     return callApi(url, {
        method: 'DELETE',
@@ -57,4 +67,4 @@ function handleErrors(response) {
     return response;
 }
 
-export { get, post, del };
+export { get, post, del, put };

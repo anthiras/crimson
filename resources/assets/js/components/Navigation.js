@@ -51,6 +51,7 @@ class Navigation extends Component
                                     {profile.name}
                                 </a>
                                 <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                                    <NavLink to="/profile" className="dropdown-item" activeClassName="active">My profile</NavLink>
                                     <a className="dropdown-item" href="#" onClick={this.logout}>Sign Out</a>
                                 </div>
                             </li>

@@ -13,6 +13,7 @@ use App\Domain\Auth0Id;
 use App\Domain\RoleId;
 use App\Domain\User;
 use App\Domain\UserId;
+use Cake\Chronos\Chronos;
 
 class UserFactory
 {
@@ -23,6 +24,8 @@ class UserFactory
             $userModel->name,
             $userModel->email,
             $userModel->picture,
+            $userModel->gender,
+            Chronos::parse($userModel->birth_date),
             $userModel->auth0Users()->get()->map(function($model) { return new Auth0Id($model->auth0_id); })->toArray(),
             $userModel->roles()->get()->map(function ($roleModel) { return new RoleId($roleModel->id); })->toArray()
         );
