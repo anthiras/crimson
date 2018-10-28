@@ -33,7 +33,7 @@ class UserController extends Controller
 
         $users = $users->orderBy('name')->get();
 
-        $availableIncludes = collect(['roles', 'takingCourses', 'teachingCourses']);
+        $availableIncludes = collect(UserModel::AVAILABLE_INCLUDES);
         $includes = $request->query('include');
         if ($includes)
         {
@@ -51,7 +51,7 @@ class UserController extends Controller
     {
         $user = $this->userRepository->user($userId);
         $this->authorize('show', $user);
-        return new UserResource(UserModel::with(['roles', 'takingCourses', 'teachingCourses'])->find($userId));
+        return new UserResource(UserModel::with(UserModel::AVAILABLE_INCLUDES)->find($userId));
     }
 
     public function current(Request $request)

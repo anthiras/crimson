@@ -2,6 +2,7 @@
 
 namespace App\Persistence;
 
+use Cake\Chronos\Chronos;
 use Illuminate\Database\Eloquent\Model;
 
 class UserModel extends Model
@@ -9,6 +10,8 @@ class UserModel extends Model
     protected $table = 'users';
     public $incrementing = false;
     protected $guarded = [];
+
+    const AVAILABLE_INCLUDES = ['roles', 'takingCourses', 'teachingCourses', 'memberships'];
 
     public function takingCourses()
     {
@@ -32,5 +35,22 @@ class UserModel extends Model
     {
         return $this->belongsToMany('App\Persistence\RoleModel', 'user_roles', 'user_id', 'role_id')
             ->withTimestamps();
+    }
+
+    public function memberships()
+    {
+        return $this->hasMany('App\Persistence\MembershipModel', 'user_id');
+    }
+
+    public function currentMembership()
+    {
+        if (!$this->relationLoaded('memberships'))
+            return null;
+
+        $now = Chronos::now();
+        return $this->memberships()
+            ->where('created_at', '<', $now)
+            ->where('expires_at', '>', $now)
+            ->first();
     }
 }

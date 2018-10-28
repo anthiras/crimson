@@ -6,6 +6,7 @@ import CourseNavigation from './CourseNavigation'
 import CourseDetails from './CourseDetails';
 import UserList from './UserList'
 import UserProfile from './UserProfile';
+import Membership from './Membership';
 import Navigation from './Navigation'
 import { Router, Route, Redirect, Switch } from "react-router-dom";
 import Auth from './Auth'
@@ -34,6 +35,7 @@ const App = () => (
                     </Route>
                     <Route path="/users" component={UserList} />
                     <Route path="/profile" component={UserProfile} />
+                    <Route path="/membership" component={Membership} />
                     <Route path="/callback" render={(props) => {
                         auth.handleAuthentication(props);
                         return (<div>Loading</div>);

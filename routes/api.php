@@ -41,6 +41,10 @@ Route::put('/users/{userId}', 'API\UserController@update')->middleware('requirea
 Route::post('/users/{userId}/roles/{roleId}', 'API\UserRoleController@addRole')->middleware('requireauth');
 Route::delete('/users/{userId}/roles/{roleId}', 'API\UserRoleController@removeRole')->middleware('requireauth');
 
+Route::get('/membership/current', 'API\MembershipController@current')->middleware('requireauth');
+Route::post('/membership/{userId}/setPaid', 'API\MembershipController@setPaid')->middleware('requireauth');
+Route::post('/membership', 'API\MembershipController@store')->middleware('requireauth');
+
 Route::get('/roles', 'API\RoleController@index');
 
 Route::post('/auth0user', 'API\Auth0UserController@store');

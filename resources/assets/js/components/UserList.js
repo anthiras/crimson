@@ -16,7 +16,7 @@ class UserList extends Component
         get('/api/roles').then(roles => {
             this.setState({ roles })
         });
-        get('/api/users?include[]=roles').then(users => {
+        get('/api/users?include[]=roles&include[]=memberships').then(users => {
             this.setState({ users });
         });
     }
@@ -29,6 +29,7 @@ class UserList extends Component
                         <th width="50"></th>
                         <th>Name</th>
                         <th>Roles</th>
+                        <th>Membership</th>
                     </tr>
                 </thead>
                 <tbody>

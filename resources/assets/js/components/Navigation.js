@@ -35,6 +35,7 @@ class Navigation extends Component
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
                         <NavLink to="/courses" className="nav-link" activeClassName="active" exact={true}>Courses</NavLink>
+                        <NavLink to="/membership" className="nav-link" activeClassName="active">Membership</NavLink>
                         <NavLink to="/users" className="nav-link" activeClassName="active">Users</NavLink>
                     </ul>
                     <ul className="navbar-nav">

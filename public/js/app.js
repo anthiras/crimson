@@ -59345,10 +59345,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__CourseDetails__ = __webpack_require__(316);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__UserList__ = __webpack_require__(319);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__UserProfile__ = __webpack_require__(322);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Navigation__ = __webpack_require__(323);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_router_dom__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Auth__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__History__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Membership__ = __webpack_require__(326);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Navigation__ = __webpack_require__(323);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_react_router_dom__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__Auth__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__History__ = __webpack_require__(63);
 
 
 
@@ -59362,46 +59363,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-var auth = new __WEBPACK_IMPORTED_MODULE_10__Auth__["a" /* default */]();
+
+var auth = new __WEBPACK_IMPORTED_MODULE_11__Auth__["a" /* default */]();
 
 var App = function App() {
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_9_react_router_dom__["e" /* Router */],
-        { history: __WEBPACK_IMPORTED_MODULE_11__History__["a" /* default */] },
+        __WEBPACK_IMPORTED_MODULE_10_react_router_dom__["e" /* Router */],
+        { history: __WEBPACK_IMPORTED_MODULE_12__History__["a" /* default */] },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
             null,
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__Navigation__["a" /* default */], null),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__Navigation__["a" /* default */], null),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'container' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    __WEBPACK_IMPORTED_MODULE_9_react_router_dom__["f" /* Switch */],
+                    __WEBPACK_IMPORTED_MODULE_10_react_router_dom__["f" /* Switch */],
                     null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        __WEBPACK_IMPORTED_MODULE_9_react_router_dom__["d" /* Route */],
+                        __WEBPACK_IMPORTED_MODULE_10_react_router_dom__["d" /* Route */],
                         { exact: true, path: '/' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["c" /* Redirect */], { to: '/courses' })
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_react_router_dom__["c" /* Redirect */], { to: '/courses' })
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        __WEBPACK_IMPORTED_MODULE_9_react_router_dom__["d" /* Route */],
+                        __WEBPACK_IMPORTED_MODULE_10_react_router_dom__["d" /* Route */],
                         { path: '/courses' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
                             null,
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__CourseNavigation__["a" /* default */], null),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                __WEBPACK_IMPORTED_MODULE_9_react_router_dom__["f" /* Switch */],
+                                __WEBPACK_IMPORTED_MODULE_10_react_router_dom__["f" /* Switch */],
                                 null,
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["d" /* Route */], { exact: true, path: '/courses', component: __WEBPACK_IMPORTED_MODULE_3__CourseList__["a" /* default */] }),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["d" /* Route */], { exact: true, path: '/courses/create', component: __WEBPACK_IMPORTED_MODULE_2__AddCourse__["a" /* default */] }),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["d" /* Route */], { exact: true, path: '/courses/:courseId', component: __WEBPACK_IMPORTED_MODULE_5__CourseDetails__["a" /* default */] })
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_react_router_dom__["d" /* Route */], { exact: true, path: '/courses', component: __WEBPACK_IMPORTED_MODULE_3__CourseList__["a" /* default */] }),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_react_router_dom__["d" /* Route */], { exact: true, path: '/courses/create', component: __WEBPACK_IMPORTED_MODULE_2__AddCourse__["a" /* default */] }),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_react_router_dom__["d" /* Route */], { exact: true, path: '/courses/:courseId', component: __WEBPACK_IMPORTED_MODULE_5__CourseDetails__["a" /* default */] })
                             )
                         )
                     ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["d" /* Route */], { path: '/users', component: __WEBPACK_IMPORTED_MODULE_6__UserList__["a" /* default */] }),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["d" /* Route */], { path: '/profile', component: __WEBPACK_IMPORTED_MODULE_7__UserProfile__["a" /* default */] }),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_react_router_dom__["d" /* Route */], { path: '/callback', render: function render(props) {
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_react_router_dom__["d" /* Route */], { path: '/users', component: __WEBPACK_IMPORTED_MODULE_6__UserList__["a" /* default */] }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_react_router_dom__["d" /* Route */], { path: '/profile', component: __WEBPACK_IMPORTED_MODULE_7__UserProfile__["a" /* default */] }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_react_router_dom__["d" /* Route */], { path: '/membership', component: __WEBPACK_IMPORTED_MODULE_8__Membership__["a" /* default */] }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_react_router_dom__["d" /* Route */], { path: '/callback', render: function render(props) {
                             auth.handleAuthentication(props);
                             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'div',
@@ -97877,7 +97880,7 @@ var UserList = function (_Component) {
             Object(__WEBPACK_IMPORTED_MODULE_1__Api__["b" /* get */])('/api/roles').then(function (roles) {
                 _this2.setState({ roles: roles });
             });
-            Object(__WEBPACK_IMPORTED_MODULE_1__Api__["b" /* get */])('/api/users?include[]=roles').then(function (users) {
+            Object(__WEBPACK_IMPORTED_MODULE_1__Api__["b" /* get */])('/api/users?include[]=roles&include[]=memberships').then(function (users) {
                 _this2.setState({ users: users });
             });
         }
@@ -97905,6 +97908,11 @@ var UserList = function (_Component) {
                             "th",
                             null,
                             "Roles"
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "th",
+                            null,
+                            "Membership"
                         )
                     )
                 ),
@@ -97933,6 +97941,7 @@ var UserList = function (_Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Auth__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__UserRoleCheckbox__ = __webpack_require__(321);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Api__ = __webpack_require__(9);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -97940,6 +97949,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -97966,14 +97976,29 @@ var UserRow = function (_Component) {
                         return r.id == role.id;
                     }) !== undefined
                 };
-            })
+            }),
+            membership: _this.user.currentMembership
         };
+
+        _this.setMembershipPaid = _this.setMembershipPaid.bind(_this);
         return _this;
     }
 
     _createClass(UserRow, [{
+        key: 'setMembershipPaid',
+        value: function setMembershipPaid() {
+            var _this2 = this;
+
+            Object(__WEBPACK_IMPORTED_MODULE_3__Api__["c" /* post */])('/api/membership/' + this.user.id + '/setPaid').then(function (membership) {
+                return _this2.setState({ membership: membership });
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var membership = this.state.membership;
+            var memberNotPaid = membership != null && membership.paidAt == null;
+            var memberPaid = membership != null && membership.paidAt != null;
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'tr',
                 null,
@@ -97993,6 +98018,16 @@ var UserRow = function (_Component) {
                     this.state.roles.map(function (userRole) {
                         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__UserRoleCheckbox__["a" /* default */], { key: userRole.roleId, userRole: userRole });
                     })
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'td',
+                    null,
+                    memberNotPaid && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { type: 'button', className: 'btn btn-primary', onClick: this.setMembershipPaid },
+                        'Confirm payment'
+                    ),
+                    memberPaid && "Confirmed paid member"
                 )
             );
         }
@@ -98347,6 +98382,11 @@ var Navigation = function (_Component) {
                         ),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["b" /* NavLink */],
+                            { to: '/membership', className: 'nav-link', activeClassName: 'active' },
+                            'Membership'
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["b" /* NavLink */],
                             { to: '/users', className: 'nav-link', activeClassName: 'active' },
                             'Users'
                         )
@@ -98404,6 +98444,213 @@ var Navigation = function (_Component) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 325 */,
+/* 326 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Api__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__fortawesome_react_fontawesome__ = __webpack_require__(288);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__fortawesome_free_solid_svg_icons_index__ = __webpack_require__(290);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__fortawesome_free_solid_svg_icons_index___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__fortawesome_free_solid_svg_icons_index__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+var Membership = function (_Component) {
+    _inherits(Membership, _Component);
+
+    function Membership(props) {
+        _classCallCheck(this, Membership);
+
+        var _this = _possibleConstructorReturn(this, (Membership.__proto__ || Object.getPrototypeOf(Membership)).call(this, props));
+
+        _this.state = {
+            membership: null,
+            user: null,
+            membershipLoaded: false,
+            userLoaded: false
+        };
+        _this.register = _this.register.bind(_this);
+        return _this;
+    }
+
+    _createClass(Membership, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            Object(__WEBPACK_IMPORTED_MODULE_1__Api__["b" /* get */])('/api/users/current').then(function (user) {
+                _this2.setState({ user: user });
+                _this2.setState({ userLoaded: true });
+            });
+            Object(__WEBPACK_IMPORTED_MODULE_1__Api__["b" /* get */])('/api/membership/current').then(function (membership) {
+                _this2.setState({ membership: membership });
+                _this2.setState({ membershipLoaded: true });
+            }).catch(function () {
+                _this2.setState({ 'membership': null });
+                _this2.setState({ membershipLoaded: true });
+            });
+        }
+    }, {
+        key: "register",
+        value: function register() {
+            var _this3 = this;
+
+            Object(__WEBPACK_IMPORTED_MODULE_1__Api__["c" /* post */])('/api/membership', { userId: this.state.user.id }).then(function (membership) {
+                return _this3.setState({ membership: membership });
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            if (!this.state.membershipLoaded || !this.state.userLoaded) {
+                return "Loading...";
+            }
+
+            var infoCompleted = this.state.user != null && this.state.user.gender != null && this.state.user.birthDate != null;
+
+            var step = 0;
+            if (infoCompleted) {
+                step = 1;
+                if (this.state.membership != null) {
+                    step = 2;
+                    if (this.state.membership.paid != null) {
+                        step = 3;
+                    }
+                }
+            }
+            var successClass = "card text-white bg-success mb-2";
+            var defaultClass = "card mb-2";
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "div",
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "h1",
+                    null,
+                    "Membership"
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: step >= 1 ? successClass : defaultClass },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { className: "card-body" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "h5",
+                            { className: "card-title" },
+                            "1. Fill out your information"
+                        ),
+                        step >= 1 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "p",
+                            null,
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__fortawesome_react_fontawesome__["a" /* FontAwesomeIcon */], { icon: __WEBPACK_IMPORTED_MODULE_4__fortawesome_free_solid_svg_icons_index__["faCheckCircle"], size: "lg" }),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "span",
+                                null,
+                                " Information OK"
+                            )
+                        ),
+                        step === 0 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
+                            null,
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "p",
+                                null,
+                                "We need a few details about you to register you as a member."
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["b" /* NavLink */],
+                                { to: "/profile", className: "btn btn-primary" },
+                                "Fill out your information now"
+                            )
+                        )
+                    )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: step >= 2 ? successClass : defaultClass },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { className: "card-body" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "h5",
+                            { className: "card-title" },
+                            "2. Register/renew your membership"
+                        ),
+                        step >= 2 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "p",
+                            null,
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__fortawesome_react_fontawesome__["a" /* FontAwesomeIcon */], { icon: __WEBPACK_IMPORTED_MODULE_4__fortawesome_free_solid_svg_icons_index__["faCheckCircle"], size: "lg" }),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "span",
+                                null,
+                                " Registration received"
+                            )
+                        ),
+                        step === 1 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "button",
+                            { type: "button", className: "btn btn-primary", onClick: this.register },
+                            "Register now"
+                        )
+                    )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: step >= 3 ? successClass : defaultClass },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { className: "card-body" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "h5",
+                            { className: "card-title" },
+                            "3. Pay your membership fee"
+                        ),
+                        step >= 3 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "p",
+                            null,
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__fortawesome_react_fontawesome__["a" /* FontAwesomeIcon */], { icon: __WEBPACK_IMPORTED_MODULE_4__fortawesome_free_solid_svg_icons_index__["faCheckCircle"], size: "lg" }),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "span",
+                                null,
+                                " Registration completed!"
+                            )
+                        ),
+                        step === 2 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "p",
+                            null,
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__fortawesome_react_fontawesome__["a" /* FontAwesomeIcon */], { icon: __WEBPACK_IMPORTED_MODULE_4__fortawesome_free_solid_svg_icons_index__["faClock"], size: "lg" }),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "span",
+                                null,
+                                " Waiting for payment"
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Membership;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["a"] = (Membership);
 
 /***/ })
 /******/ ]);

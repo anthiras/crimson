@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('App\Domain\CourseRepository', 'App\Persistence\DatabaseCourseRepository');
         $this->app->singleton('App\Domain\UserRepository', 'App\Persistence\DbUserRepository');
         $this->app->singleton('App\AuthenticatedUserResolver', 'App\Persistence\DbUserRepository');
+        $this->app->singleton('App\Domain\MembershipRepository', 'App\Persistence\DbMembershipRepository');
 
         $this->app->bind(
             \Auth0\Login\Contract\Auth0UserRepository::class,

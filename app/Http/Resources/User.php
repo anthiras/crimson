@@ -33,7 +33,8 @@ class User extends JsonResource
             }),
             'roles' => IdName::collection($this->whenLoaded('roles')),
             'takingCourses' => IdName::collection($this->whenLoaded('takingCourses')),
-            'teachingCourses' => IdName::collection($this->whenLoaded('teachingCourses'))
+            'teachingCourses' => IdName::collection($this->whenLoaded('teachingCourses')),
+            'currentMembership' => $this->currentMembership() == null ? null : new MembershipResource($this->currentMembership())
         ];
     }
 }
