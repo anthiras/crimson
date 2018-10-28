@@ -8,7 +8,7 @@ class UserProfile extends Component {
 			user: null,
             headline: null,
             uiState: null
-		}
+		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleInput = this.handleInput.bind(this);
@@ -41,19 +41,18 @@ class UserProfile extends Component {
 		};
 
         put('/api/users/'+this.state.user.id, data)
-            .then(() => {
-                this.setState({uiState: 'saved'});
-                //setTimeout(() => this.setState({uiState: 'ready'}), 1000)
-            });
+            .then(() => this.setState({uiState: 'saved'}))
+            .catch(() => this.setState({uiState: 'error'}));
 	}
 
 	render() {
         if (this.state.user == null) {
             return "Loading...";
         }
-        const { name, birthDate, gender} = this.state.user;
+        const { name, birthDate, gender, email } = this.state.user;
         const uiState = this.state.uiState;
-        const buttonText = uiState === 'saving' ? "Saving..." :
+        const buttonText =
+            uiState === 'saving' ? "Saving..." :
             uiState === 'saved' ? 'Saved!' :
                 'Save information';
 		return (
@@ -64,10 +63,15 @@ class UserProfile extends Component {
                     <input type="text" required id="name" className="form-control" value={name} onChange={(e)=>this.handleInput('name', e)} />
                 </div>
                 <div className="form-group">
+                    <label htmlFor="email">Email</label>
+                    <input type="text" readOnly className="form-control-plaintext" value={email} />
+                </div>
+                <div className="form-group">
                     <label htmlFor="birthDate">Birth date</label>
                     <input type="date" required id="birthDate" className="form-control" value={birthDate} onChange={(e)=>this.handleInput('birthDate', e)} />
                 </div>
                 <div className="form-group">
+                    <label>Gender</label>
                     <div className="form-check">
                         <input className="form-check-input" type="radio" name="gender" id="gender_male"
                                value="male" onChange={(e) => this.handleInput('gender', e)}
@@ -81,6 +85,7 @@ class UserProfile extends Component {
                         <label className="form-check-label" htmlFor="gender_female">Female</label>
                     </div>
                 </div>
+                {this.state.uiState === 'error' && <div className="alert alert-danger">An error occurred while saving your information.</div>}
                 <button type="submit" className={uiState === 'saved' ? "btn btn-success" : "btn btn-primary"}>{buttonText}</button>
             </form>
         );

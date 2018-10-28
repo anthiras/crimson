@@ -98152,8 +98152,9 @@ var UserProfile = function (_Component) {
             };
 
             Object(__WEBPACK_IMPORTED_MODULE_1__Api__["d" /* put */])('/api/users/' + this.state.user.id, data).then(function () {
-                _this3.setState({ uiState: 'saved' });
-                //setTimeout(() => this.setState({uiState: 'ready'}), 1000)
+                return _this3.setState({ uiState: 'saved' });
+            }).catch(function () {
+                return _this3.setState({ uiState: 'error' });
             });
         }
     }, {
@@ -98167,7 +98168,8 @@ var UserProfile = function (_Component) {
             var _state$user = this.state.user,
                 name = _state$user.name,
                 birthDate = _state$user.birthDate,
-                gender = _state$user.gender;
+                gender = _state$user.gender,
+                email = _state$user.email;
 
             var uiState = this.state.uiState;
             var buttonText = uiState === 'saving' ? "Saving..." : uiState === 'saved' ? 'Saved!' : 'Save information';
@@ -98196,6 +98198,16 @@ var UserProfile = function (_Component) {
                     { className: 'form-group' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'label',
+                        { htmlFor: 'email' },
+                        'Email'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', readOnly: true, className: 'form-control-plaintext', value: email })
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'form-group' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'label',
                         { htmlFor: 'birthDate' },
                         'Birth date'
                     ),
@@ -98206,6 +98218,11 @@ var UserProfile = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'form-group' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'label',
+                        null,
+                        'Gender'
+                    ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         { className: 'form-check' },
@@ -98234,6 +98251,11 @@ var UserProfile = function (_Component) {
                             'Female'
                         )
                     )
+                ),
+                this.state.uiState === 'error' && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'alert alert-danger' },
+                    'An error occurred while saving your information.'
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'button',

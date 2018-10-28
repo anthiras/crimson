@@ -20,6 +20,7 @@ class User extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'email' => $this->email,
             'picture' => $this->picture,
             'gender' => $this->gender,
             'birthDate' => $this->birth_date == null ? null : Chronos::parse($this->birth_date)->toDateString(),
