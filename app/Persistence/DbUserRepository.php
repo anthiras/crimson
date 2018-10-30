@@ -9,32 +9,14 @@
 namespace App\Persistence;
 
 
-use App\AuthenticatedUserResolver;
 use App\Domain\Auth0Id;
 use App\Domain\User;
 use App\Domain\UserId;
 use App\Domain\UserNotFound;
 use App\Domain\UserRepository;
-use Auth0\Login\Contract\Auth0UserRepository;
 
-class DbUserRepository implements UserRepository, AuthenticatedUserResolver
+class DbUserRepository implements UserRepository
 {
-    /**
-     * @var Auth0UserRepository
-     */
-//    private $auth0UserRepository;
-//
-//    public function __construct(Auth0UserRepository $auth0UserRepository)
-//    {
-//        $this->auth0UserRepository = $auth0UserRepository;
-//    }
-
-    public function id(): UserId
-    {
-        throw new \Exception("Deprecated");
-        //return new UserId(UserModel::query()->first()->id);
-    }
-
     public function user(UserId $userId): User
     {
         $userModel = UserModel::with('auth0Users')->find($userId);

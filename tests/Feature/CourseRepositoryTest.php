@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Builders\CourseBuilder;
 use Tests\Builders\ParticipantBuilder;
-use App\Persistence\DatabaseCourseRepository;
+use App\Persistence\DbCourseRepository;
 use App\Persistence\UserModel;
 use App\Domain\UserId;
 use App\Domain\CourseId;
@@ -24,7 +24,7 @@ class CourseRepositoryTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->repo = new DatabaseCourseRepository();
+        $this->repo = new DbCourseRepository();
         $this->courseBuilder = new CourseBuilder();
         $this->seed();
     }

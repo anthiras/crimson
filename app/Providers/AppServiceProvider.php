@@ -24,9 +24,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('App\Domain\CourseRepository', 'App\Persistence\DatabaseCourseRepository');
+        $this->app->singleton('App\Domain\CourseRepository', 'App\Persistence\DbCourseRepository');
         $this->app->singleton('App\Domain\UserRepository', 'App\Persistence\DbUserRepository');
-        $this->app->singleton('App\AuthenticatedUserResolver', 'App\Persistence\DbUserRepository');
         $this->app->singleton('App\Domain\MembershipRepository', 'App\Persistence\DbMembershipRepository');
 
         $this->app->bind(

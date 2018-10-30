@@ -8,7 +8,7 @@ use App\Domain\CourseNotFound;
 use App\Persistence\CourseModel;
 use Illuminate\Support\Collection;
 
-class DatabaseCourseRepository implements CourseRepository
+class DbCourseRepository implements CourseRepository
 {
     const RELATED_TABLES = ['instructors', 'participants'];
 
