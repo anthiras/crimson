@@ -1,0 +1,45 @@
+{
+  "common": {
+    "cancel": "Cancel",
+    "manage": "Manage",
+    "name": "Name",
+    "startDate": "Start date",
+    "time": "Time",
+    "weeks": "Weeks",
+    "language": {
+      "da": "Danish",
+      "en": "English"
+    }
+  },
+  "titles": {
+    "courses": "Classes",
+    "users": "Users",
+    "myProfile": "My profile",
+    "membership": "Membership"
+  },
+  "actions": {
+    "signUp": "Sign up...",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "saveCourse": "Save class",
+    "confirmSignup": "Confirm signup"
+  },
+  "courses": {
+    "signupConfirmed": "Signup confirmed",
+    "signupRequested": "Signup requested",
+    "signupFor": "Sign up for",
+    "lead": "Lead (male)",
+    "follow": "Follow (female)",
+    "signupError": "An error occurred while attempting to signup for the class.",
+    "xLessons": "{{count}} lessons",
+    "createNew": "Create new class",
+    "lessonDuration": "Duration of lessons (minutes)",
+    "scheduleSummary": "{{ startDate, ll }} {{ startDate, HH:mm }}–{{ endDate, HH:mm }}",
+    "scheduleSummary_plural": "{{ startDate, dddd }}s {{ startDate, HH:mm }}–{{ endDate, HH:mm }} from {{ startDate, ll }}"
+  },
+  "users": {
+    "instructors": "Instructors"
+  },
+  "membership": {
+  }
+}

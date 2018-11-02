@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCheckCircle} from "@fortawesome/free-solid-svg-icons/index";
 import SignUpModal from './SignUpModal';
 import Auth from './Auth'
+import { withNamespaces } from 'react-i18next';
 
 class CourseSignUp extends Component {
     constructor(props) {
@@ -43,6 +44,7 @@ class CourseSignUp extends Component {
     }
 
     render() {
+        const t = this.props.t;
         const status = this.props.status;
 
         return (
@@ -52,19 +54,19 @@ class CourseSignUp extends Component {
                 {status === "pending" &&
                     <p>
                         <FontAwesomeIcon icon={faCheckCircle} size="lg"/>
-                        <span> Signup requested </span>
-                        <a href="#" className="text-white" onClick={this.cancel}>(cancel)</a>
+                        <span> {t('courses:signupRequested')} </span>
+                        <a href="#" className="text-white" onClick={this.cancel}>({t('common:cancel').toLowerCase()})</a>
                     </p>
                 }
                 {status === "confirmed" &&
-                    <p><FontAwesomeIcon icon={faCheckCircle} size="lg"/> Signup confirmed</p>
+                    <p><FontAwesomeIcon icon={faCheckCircle} size="lg"/> {t('courses:signupConfirmed')}</p>
                 }
                 {(status === null || status === "cancelled") &&
-                    <button className="btn btn-primary" onClick={this.openSignUpModal}>Sign up...</button>
+                    <button className="btn btn-primary" onClick={this.openSignUpModal}>{t('actions:signUp')}</button>
                 }
             </React.Fragment>
         );
     }
 }
 
-export default CourseSignUp;
+export default withNamespaces()(CourseSignUp);
