@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { put, get } from './Api';
+import { Loading } from './Utilities';
 
 class UserProfile extends Component {
 	constructor(props) {
@@ -47,7 +48,7 @@ class UserProfile extends Component {
 
 	render() {
         if (this.state.user == null) {
-            return "Loading...";
+            return <Loading />;
         }
         const { name, birthDate, gender, email } = this.state.user;
         const uiState = this.state.uiState;

@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import {get, post} from "./Api";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faCheckCircle, faClock} from "@fortawesome/free-solid-svg-icons/index";
+import {faCheckCircle, faClock, faSpinner} from "@fortawesome/free-solid-svg-icons/index";
+import { Loading } from './Utilities';
 
 class Membership extends Component
 {
@@ -38,7 +39,7 @@ class Membership extends Component
 
     render() {
         if (!this.state.membershipLoaded || !this.state.userLoaded) {
-            return "Loading...";
+            return <Loading />;
         }
 
         const infoCompleted = this.state.user != null &&
