@@ -35,21 +35,18 @@ export default class Auth {
     }
 
     storeAuth0Profile(idToken) {
-        //console.log(profile);
         return fetch('/api/auth0user',
             {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    //'Authorization': `Bearer ${this.getAccessToken()}`
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({'idToken': idToken})
             });
     }
 
     setSession(authResult) {
-        //console.log("authResult", authResult);
         // Set the time that the Access Token will expire at
         let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
         localStorage.setItem('access_token', authResult.accessToken);
@@ -84,13 +81,6 @@ export default class Auth {
     }
 
     getProfile() {
-        // let accessToken = this.getAccessToken();
-        // this.auth0.client.userInfo(accessToken, (err, profile) => {
-        //     if (profile) {
-        //         this.userProfile = profile;
-        //     }
-        //     cb(err, profile);
-        // });
         const profile = localStorage.getItem('profile');
         if (!profile) {
             throw new Error('No profile found');

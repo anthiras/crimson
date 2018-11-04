@@ -5329,6 +5329,10 @@ function parseJsonIfContentTypeJson(response) {
 }
 
 function handleErrors(response) {
+    if (response.status === 401) {
+        var auth = new __WEBPACK_IMPORTED_MODULE_0__Auth__["a" /* default */]();
+        auth.login();
+    }
     if (!response.ok) {
         throw new Error(response.statusText);
     }
@@ -6205,13 +6209,11 @@ var Auth = function () {
     }, {
         key: 'storeAuth0Profile',
         value: function storeAuth0Profile(idToken) {
-            //console.log(profile);
             return fetch('/api/auth0user', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
-                    //'Authorization': `Bearer ${this.getAccessToken()}`
                 },
                 body: JSON.stringify({ 'idToken': idToken })
             });
@@ -6219,7 +6221,6 @@ var Auth = function () {
     }, {
         key: 'setSession',
         value: function setSession(authResult) {
-            //console.log("authResult", authResult);
             // Set the time that the Access Token will expire at
             var expiresAt = JSON.stringify(authResult.expiresIn * 1000 + new Date().getTime());
             localStorage.setItem('access_token', authResult.accessToken);
@@ -6258,13 +6259,6 @@ var Auth = function () {
     }, {
         key: 'getProfile',
         value: function getProfile() {
-            // let accessToken = this.getAccessToken();
-            // this.auth0.client.userInfo(accessToken, (err, profile) => {
-            //     if (profile) {
-            //         this.userProfile = profile;
-            //     }
-            //     cb(err, profile);
-            // });
             var profile = localStorage.getItem('profile');
             if (!profile) {
                 throw new Error('No profile found');

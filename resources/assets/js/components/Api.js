@@ -61,6 +61,10 @@ function parseJsonIfContentTypeJson(response) {
 }
 
 function handleErrors(response) {
+    if (response.status === 401) {
+        let auth = new Auth();
+        auth.login();
+    }
     if (!response.ok) {
         throw new Error(response.statusText);
     }
