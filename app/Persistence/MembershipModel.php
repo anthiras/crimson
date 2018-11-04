@@ -28,7 +28,7 @@ class MembershipModel extends Model
 
     public static function whereActive(Chronos $atDate)
     {
-        return static::where('created_at', '<', $atDate)
+        return static::where('starts_at', '<=', $atDate)
             ->where('expires_at', '>', $atDate);
     }
 

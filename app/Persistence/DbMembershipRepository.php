@@ -13,6 +13,7 @@ use App\Domain\Membership;
 use App\Domain\MembershipRepository;
 use App\Domain\UserId;
 use Cake\Chronos\Chronos;
+use Illuminate\Support\Facades\Log;
 
 class DbMembershipRepository implements MembershipRepository
 {

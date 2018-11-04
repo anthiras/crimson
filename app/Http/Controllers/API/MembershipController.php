@@ -11,6 +11,7 @@ use App\Persistence\MembershipModel;
 use Cake\Chronos\Chronos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class MembershipController extends Controller
 {
@@ -51,9 +52,8 @@ class MembershipController extends Controller
 
     public function setPaid(UserId $userId) {
         $now = Chronos::now();
-        $membership = $this->membershipRepository->membership($userId, $now);
+        $membership = $this->membershipRepository->membership($userId, $now)->setPaid();
         $this->authorize('setPaid', $membership);
-        $membership->setPaid();
         $this->membershipRepository->save($membership);
         return new MembershipResource(MembershipModel::forUserAndDate($userId, $now));
     }

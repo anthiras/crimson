@@ -16,9 +16,9 @@ class MembershipToDb
     public static function map(Membership $membership)
     {
         return [
-            //'user_id' => $membership->getUserId(),
-            'created_at' => $membership->getStartsAt(),
-            //'expires_at' => $membership->getExpiresAt(),
+            'user_id' => $membership->getUserId(),
+            'starts_at' => $membership->getStartsAt(),
+            'expires_at' => $membership->getExpiresAt(),
             'paid_at' => $membership->getPaidAt()
         ];
     }

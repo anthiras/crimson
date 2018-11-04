@@ -19,7 +19,7 @@ class MembershipFactory
     {
         return new Membership(
             new UserId($model->user_id),
-            Chronos::parse($model->created_at),
+            Chronos::parse($model->starts_at),
             Chronos::parse($model->expires_at),
             $model->paid_at == null ? null : Chronos::parse($model->paid_at));
     }
