@@ -9,8 +9,18 @@ A web app for managing courses/classes and signups
 
 ## Architecture
 
-* Frontend: React JS and Bootstrap.
-* Backend API: Built in PHP on Laravel.
+* Frontend: 
+  * React JS 
+  * Bootstrap
+* Backend:
+  * Laravel PHP
+  * Onion architecture
+  * Core domain layer
+  * REST/JSON API controllers
+  * Repositories for writing data using domain models
+  * Queries for reading data using Laravel resources
+  * Repositories and queries are segregated and defined in interfaces
+  * Persistence is implemented in Laravel Eloquent/MySQL, and dependency injected
 * External services:
   * Auth0 for authentication
 
