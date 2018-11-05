@@ -9,16 +9,21 @@
 namespace App\Http\Controllers\API;
 
 
-use App\Domain\RoleId;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\IdName;
-use App\Persistence\RoleModel;
+use App\Queries\RoleQuery;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+    protected $roleQuery;
+
+    public function __construct(RoleQuery $roleQuery)
+    {
+        $this->roleQuery = $roleQuery;
+    }
+
     public function index(Request $request)
     {
-        return IdName::collection(RoleModel::where('id', '!=', RoleId::admin())->get());
+        return $this->roleQuery->listExceptAdmin();
     }
 }

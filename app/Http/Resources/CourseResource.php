@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 
-class Course extends JsonResource
+class CourseResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,9 +22,9 @@ class Course extends JsonResource
             'startsAt' => $this->starts_at,
             'endsAt' => $this->ends_at,
             'durationMinutes' => $this->duration_minutes,
-            'instructors' => User::collection($this->whenLoaded('instructors')),
-            'participants' => User::collection($this->whenLoaded('participants')),
-            'myParticipation' => Auth::check() ? $this->participant(Auth::id())->get()->map(function ($user) { return new User($user); })->first() : null
+            'instructors' => UserResource::collection($this->whenLoaded('instructors')),
+            'participants' => UserResource::collection($this->whenLoaded('participants')),
+            'myParticipation' => Auth::check() ? $this->participant(Auth::id())->get()->map(function ($user) { return new UserResource($user); })->first() : null
         ];
     }
 }

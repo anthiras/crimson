@@ -1,16 +1,17 @@
 <?php
-namespace App\Http\Resources;
-
-use Illuminate\Http\Resources\Json\JsonResource;
-
 /**
  * Created by PhpStorm.
  * User: anders
  * Date: 08-07-2018
- * Time: 15:07
+ * Time: 15:18
  */
 
-class Role extends JsonResource
+namespace App\Http\Resources;
+
+
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class IdNameResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,9 +21,6 @@ class Role extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name
-        ];
+        return ['id' => $this->id, 'name' => $this->name ];
     }
 }

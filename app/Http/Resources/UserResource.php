@@ -7,7 +7,7 @@ use App\Persistence\RoleModel;
 use Cake\Chronos\Chronos;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class User extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -31,9 +31,9 @@ class User extends JsonResource
                     'createdAt' => $this->pivot->created_at->__toString()
                 ];
             }),
-            'roles' => IdName::collection($this->whenLoaded('roles')),
-            'takingCourses' => IdName::collection($this->whenLoaded('takingCourses')),
-            'teachingCourses' => IdName::collection($this->whenLoaded('teachingCourses')),
+            'roles' => IdNameResource::collection($this->whenLoaded('roles')),
+            'takingCourses' => IdNameResource::collection($this->whenLoaded('takingCourses')),
+            'teachingCourses' => IdNameResource::collection($this->whenLoaded('teachingCourses')),
             'currentMembership' => $this->currentMembership() == null ? null : new MembershipResource($this->currentMembership())
         ];
     }

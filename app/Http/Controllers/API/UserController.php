@@ -4,54 +4,33 @@ namespace App\Http\Controllers\API;
 
 use App\Domain\UserId;
 use App\Domain\UserRepository;
-use App\Persistence\UserModel;
+use App\Queries\UserQuery;
 use Cake\Chronos\Chronos;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\User as UserResource;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
     protected $userRepository;
+    protected $userQuery;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, UserQuery $userQuery)
     {
         $this->userRepository = $userRepository;
+        $this->userQuery = $userQuery;
     }
 
     public function index(Request $request)
     {
-        $users = UserModel::query();
-
-        $query = $request->query('query');
-        if ($query)
-        {
-            $users = $users->where('name', 'like', '%'.$query.'%');
-        }
-
-        $users = $users->orderBy('name')->get();
-
-        $availableIncludes = collect(UserModel::AVAILABLE_INCLUDES);
-        $includes = $request->query('include');
-        if ($includes)
-        {
-            $availableIncludes
-                ->intersect($includes)
-                ->each(function ($include) use ($users) {
-                    $users->load($include);
-                });
-        }
-
-        return UserResource::collection($users);
+        return $this->userQuery->list($request->query('query'), $request->query('include'));
     }
 
     public function show(UserId $userId)
     {
         $user = $this->userRepository->user($userId);
         $this->authorize('show', $user);
-        return new UserResource(UserModel::with(UserModel::AVAILABLE_INCLUDES)->find($userId));
+        return $this->userQuery->show($userId);
     }
 
     public function current(Request $request)
@@ -66,8 +45,6 @@ class UserController extends Controller
         $user->setName($request->name)
             ->setGender($request->gender)
             ->setBirthDate(Chronos::parse($request->birthDate));
-            //->setEmail($request->email)
-            //->setPicture($request->picture);
         $this->userRepository->save($user);
         return 204;
     }

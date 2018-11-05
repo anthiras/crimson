@@ -6,21 +6,22 @@ use App\Domain\Membership;
 use App\Domain\MembershipRepository;
 use App\Domain\UserId;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\MembershipResource;
-use App\Persistence\MembershipModel;
+use App\Queries\MembershipQuery;
 use Cake\Chronos\Chronos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class MembershipController extends Controller
 {
     /** @var MembershipRepository  */
     protected $membershipRepository;
+    /** @var MembershipQuery */
+    protected $membershipQuery;
 
-    public function __construct(MembershipRepository $membershipRepository)
+    public function __construct(MembershipRepository $membershipRepository, MembershipQuery $membershipQuery)
     {
         $this->membershipRepository = $membershipRepository;
+        $this->membershipQuery = $membershipQuery;
     }
 
     public function current(Request $request)
@@ -37,7 +38,7 @@ class MembershipController extends Controller
         }
         $membership = $this->membershipRepository->membership($userId, $now);
         $this->authorize('show', $membership);
-        return new MembershipResource(MembershipModel::forUserAndDate($userId, $now));
+        return $this->membershipQuery->show($userId, $now);
     }
 
     public function store(Request $request)
@@ -47,7 +48,7 @@ class MembershipController extends Controller
         $membership = Membership::create($userId);
         $this->authorize('store', $membership);
         $this->membershipRepository->save($membership);
-        return new MembershipResource(MembershipModel::forUserAndDate($userId, $now));
+        return $this->membershipQuery->show($userId, $now);
     }
 
     public function setPaid(UserId $userId) {
@@ -55,6 +56,6 @@ class MembershipController extends Controller
         $membership = $this->membershipRepository->membership($userId, $now)->setPaid();
         $this->authorize('setPaid', $membership);
         $this->membershipRepository->save($membership);
-        return new MembershipResource(MembershipModel::forUserAndDate($userId, $now));
+        return $this->membershipQuery->show($userId, $now);
     }
 }

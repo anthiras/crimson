@@ -7,46 +7,33 @@ use App\Domain\CourseId;
 use App\Domain\CourseRepository;
 use App\Domain\Schedule;
 use App\Domain\UserId;
-use App\Persistence\CourseModel;
+use App\Queries\CourseQuery;
 use Cake\Chronos\Chronos;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Course as CourseResource;
-use App\Http\Resources\Id as IdResource;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use App\Http\Resources\CourseResource as CourseResource;
+use App\Http\Resources\IdResource as IdResource;
 
 class CourseController extends Controller
 {
     protected $courseRepository;
+    protected $courseQuery;
 
-    public function __construct(CourseRepository $courseRepository)
+    public function __construct(CourseRepository $courseRepository, CourseQuery $courseQuery)
     {
         $this->courseRepository = $courseRepository;
+        $this->courseQuery = $courseQuery;
     }
 
     /**
      * Display a listing of the resource.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return \App\Http\Resources\CourseResourceCollection
      */
     public function index(Request $request)
     {
-        $courses = CourseModel::all();
-
-        $availableIncludes = collect(['instructors', 'participants']);
-        $includes = $request->query('include');
-        if ($includes)
-        {
-            $availableIncludes
-                ->intersect($includes)
-                ->each(function ($include) use ($courses) { 
-                    $courses->load($include); 
-                });
-        }
-
-        return CourseResource::collection($courses);
+        return $this->courseQuery->list($request->query('include'));
     }
 
     /**
@@ -82,7 +69,7 @@ class CourseController extends Controller
      */
     public function show(CourseId $courseId)
     {
-        return new CourseResource(CourseModel::with(['instructors', 'participants'])->find($courseId));
+        return $this->courseQuery->show($courseId);
     }
 
     /**
