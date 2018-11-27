@@ -69,7 +69,9 @@ class CourseController extends Controller
      */
     public function show(CourseId $courseId)
     {
-        return $this->courseQuery->show($courseId);
+        $course = $this->courseQuery->show($courseId);
+        $this->authorize('show', $course);
+        return $course;
     }
 
     /**

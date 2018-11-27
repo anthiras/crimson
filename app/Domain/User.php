@@ -110,9 +110,9 @@ class User extends AggregateRoot implements Authenticatable, Authorizable
     }
 
     /**
-     * @return Chronos
+     * @return Chronos|null
      */
-    public function getBirthDate(): Chronos
+    public function getBirthDate(): ?Chronos
     {
         return $this->birthDate;
     }

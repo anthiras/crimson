@@ -7,6 +7,7 @@ import UserList from './UserList'
 import UserProfile from './UserProfile';
 import Membership from './Membership';
 import Navigation from './Navigation'
+import { Loading } from './Utilities';
 import { Router, Route, Redirect, Switch } from "react-router-dom";
 import Auth from './Auth'
 import history from './History';
@@ -38,7 +39,7 @@ const App = ({ t }) => (
                     <Route path="/membership" component={Membership} />
                     <Route path="/callback" render={(props) => {
                         auth.handleAuthentication(props);
-                        return (<div>Loading</div>);
+                        return <Loading />;
                     }}/>
                 </Switch>
             </div>

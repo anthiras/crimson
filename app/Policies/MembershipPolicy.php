@@ -12,6 +12,8 @@ namespace App\Policies;
 use App\Domain\Membership;
 use App\Domain\RoleId;
 use App\Domain\User;
+use App\Domain\UserId;
+use App\Http\Resources\MembershipResource;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class MembershipPolicy
@@ -26,6 +28,16 @@ class MembershipPolicy
         }
 
         return $user->id()->equals($membership->getUserId());
+    }
+
+    public function showResource(User $user, MembershipResource $membership)
+    {
+        if ($user->hasRole(RoleId::admin()))
+        {
+            return true;
+        }
+
+        return $user->id()->equals(new UserId($membership->getUserId()));
     }
 
     public function store(User $user, Membership $membership)

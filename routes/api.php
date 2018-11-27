@@ -36,6 +36,7 @@ Route::post('/courses/{courseId}/cancelSignUp', 'API\CourseParticipantController
 
 Route::get('/users', 'API\UserController@index')->middleware('requireauth');;
 Route::get('/users/current', 'API\UserController@current')->middleware('requireauth');
+Route::get('/users/current/permissions', 'API\PermissionController@current')->middleware('requireauth');
 Route::get('/users/{userId}', 'API\UserController@show')->middleware('requireauth');
 Route::put('/users/{userId}', 'API\UserController@update')->middleware('requireauth');
 Route::post('/users/{userId}/roles/{roleId}', 'API\UserRoleController@addRole')->middleware('requireauth');

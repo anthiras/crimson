@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Domain\User;
 use App\Domain\UserId;
 use App\Domain\UserRepository;
 use App\Queries\UserQuery;
@@ -23,6 +24,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        $this->authorize('list', User::class);
         return $this->userQuery->list($request->query('query'), $request->query('include'));
     }
 

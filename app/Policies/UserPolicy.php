@@ -4,6 +4,8 @@ namespace App\Policies;
 
 use App\Domain\RoleId;
 use App\Domain\User;
+use App\Domain\UserId;
+use App\Http\Resources\UserResource;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
@@ -20,6 +22,16 @@ class UserPolicy
         return $authenticatedUser->id()->equals($accessedUser->id());
     }
 
+    public function showResource(User $authenticatedUser, UserResource $accessedUser)
+    {
+        if ($authenticatedUser->hasRole(RoleId::admin()))
+        {
+            return true;
+        }
+
+        return $authenticatedUser->id()->equals(new UserId($accessedUser->id));
+    }
+
     public function update(User $authenticatedUser, User $accessedUser)
     {
         if ($authenticatedUser->hasRole(RoleId::admin()))
@@ -28,5 +40,10 @@ class UserPolicy
         }
 
         return $authenticatedUser->id()->equals($accessedUser->id());
+    }
+
+    public function list(User $user)
+    {
+        return true;
     }
 }

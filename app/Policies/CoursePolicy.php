@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Domain\Course;
 use App\Domain\RoleId;
 use App\Domain\User;
+use App\Http\Resources\CourseResource;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Log;
 
@@ -16,12 +17,12 @@ class CoursePolicy
      * Determine whether the user can view the course.
      *
      * @param  \App\Domain\User  $user
-     * @param  \App\Domain\Course  $course
+     * @param  \App\Http\Resources\CourseResource  $course
      * @return mixed
      */
-    public function view(User $user, Course $course)
+    public function show(User $user, CourseResource $course)
     {
-        return true;
+        return $user->hasRole(RoleId::instructor(), RoleId::admin());
     }
 
     /**

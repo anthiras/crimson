@@ -31,7 +31,7 @@ class CourseCard extends Component {
                     <h6 className="card-subtitle mb-1">{ this.course.instructors.map(instructor => instructor.name).join(" & ") }</h6>
                     <p className={"card-text "+mutedClass}>{ t('courses:xLessons', {count: this.course.weeks}) }</p>
                     <CourseSignUp status={this.state.status} course={this.course} onStatusChanged={this.statusChanged} />
-                    {" "}<Link to={this.courseLink} className="btn btn-secondary">{t('common:manage')}</Link>
+                    {" "}{this.course.canShow && (<Link to={this.courseLink} className="btn btn-secondary">{t('common:manage')}</Link>)}
                 </div>
                 <div className="card-footer">
                     <small className={mutedClass}>{ t('courses:scheduleSummary', { startDate: this.courseStartsAt, endDate: this.courseEndsAt, count: this.course.weeks }) }</small>
