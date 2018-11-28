@@ -10,9 +10,8 @@ class Membership extends Component
     constructor(props) {
         super(props);
         this.state = {
-            membership: null,
             user: null,
-            membershipLoaded: false,
+            membership: null,
             userLoaded: false
         }
         this.register = this.register.bind(this);
@@ -20,15 +19,8 @@ class Membership extends Component
 
     componentDidMount() {
         get('/api/users/current').then(user => {
-            this.setState({ user });
+            this.setState({ user: user, membership: user.currentMembership });
             this.setState({ userLoaded: true });
-        });
-        get('/api/membership/current').then(membership => {
-            this.setState({ membership });
-            this.setState({ membershipLoaded: true });
-        }).catch(() => {
-            this.setState({ 'membership': null });
-            this.setState({ membershipLoaded: true });
         });
     }
 
@@ -38,7 +30,7 @@ class Membership extends Component
     }
 
     render() {
-        if (!this.state.membershipLoaded || !this.state.userLoaded) {
+        if (!this.state.userLoaded) {
             return <Loading />;
         }
 

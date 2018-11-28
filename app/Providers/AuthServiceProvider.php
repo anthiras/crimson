@@ -7,6 +7,7 @@ use App\Domain\Membership;
 use App\Domain\RoleId;
 use App\Domain\User;
 use App\Http\Resources\CourseResource;
+use App\Http\Resources\MembershipResource;
 use App\Http\Resources\UserResource;
 use App\Policies\CoursePolicy;
 use App\Policies\MembershipPolicy;
@@ -28,7 +29,8 @@ class AuthServiceProvider extends ServiceProvider
         User::class => UserPolicy::class,
         UserResource::class => UserPolicy::class,
         RoleId::class => RolePolicy::class,
-        Membership::class => MembershipPolicy::class
+        Membership::class => MembershipPolicy::class,
+        MembershipResource::class => MembershipPolicy::class
     ];
 
     /**

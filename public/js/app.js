@@ -103357,9 +103357,8 @@ var Membership = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Membership.__proto__ || Object.getPrototypeOf(Membership)).call(this, props));
 
         _this.state = {
-            membership: null,
             user: null,
-            membershipLoaded: false,
+            membership: null,
             userLoaded: false
         };
         _this.register = _this.register.bind(_this);
@@ -103372,15 +103371,8 @@ var Membership = function (_Component) {
             var _this2 = this;
 
             Object(__WEBPACK_IMPORTED_MODULE_1__Api__["b" /* get */])('/api/users/current').then(function (user) {
-                _this2.setState({ user: user });
+                _this2.setState({ user: user, membership: user.currentMembership });
                 _this2.setState({ userLoaded: true });
-            });
-            Object(__WEBPACK_IMPORTED_MODULE_1__Api__["b" /* get */])('/api/membership/current').then(function (membership) {
-                _this2.setState({ membership: membership });
-                _this2.setState({ membershipLoaded: true });
-            }).catch(function () {
-                _this2.setState({ 'membership': null });
-                _this2.setState({ membershipLoaded: true });
             });
         }
     }, {
@@ -103395,7 +103387,7 @@ var Membership = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            if (!this.state.membershipLoaded || !this.state.userLoaded) {
+            if (!this.state.userLoaded) {
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Utilities__["a" /* Loading */], null);
             }
 

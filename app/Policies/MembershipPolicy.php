@@ -37,7 +37,7 @@ class MembershipPolicy
             return true;
         }
 
-        return $user->id()->equals(new UserId($membership->getUserId()));
+        return $user->id()->equals(new UserId($membership->user_id));
     }
 
     public function store(User $user, Membership $membership)
