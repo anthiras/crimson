@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CourseResource as CourseResource;
 use App\Http\Resources\IdResource as IdResource;
+use function PHPSTORM_META\map;
 
 class CourseController extends Controller
 {
@@ -33,7 +34,17 @@ class CourseController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->courseQuery->list($request->query('include'));
+        return $this->courseQuery->list(
+            $request->query('include'),
+            $this->parseDate($request, 'startsBefore'),
+            $this->parseDate($request, 'startsAfter'),
+            $this->parseDate($request, 'endsBefore'),
+            $this->parseDate($request, 'endsAfter'));
+    }
+
+    private function parseDate(Request $request, string $key): ?Chronos
+    {
+        return $request->has($key) ? Chronos::parse($request->query($key)) : null;
     }
 
     /**

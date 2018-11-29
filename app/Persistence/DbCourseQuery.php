@@ -13,6 +13,7 @@ use App\Domain\CourseId;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseResourceCollection;
 use App\Queries\CourseQuery;
+use Cake\Chronos\Chronos;
 
 class DbCourseQuery implements CourseQuery
 {
@@ -22,9 +23,36 @@ class DbCourseQuery implements CourseQuery
         return new CourseResource(CourseModel::with(['instructors', 'participants'])->find($courseId));
     }
 
-    public function list($includes): CourseResourceCollection
+    public function list(
+        $includes = null,
+        Chronos $startsBefore = null,
+        Chronos $startsAfter = null,
+        Chronos $endsBefore = null,
+        Chronos $endsAfter = null)
+        : CourseResourceCollection
     {
-        $courses = CourseModel::all();
+        $courses = CourseModel::query();
+
+        if ($startsBefore)
+        {
+            $courses = $courses->where('starts_at', '<', $startsBefore);
+        }
+        if ($startsAfter)
+        {
+            $courses = $courses->where('starts_at', '>', $startsAfter);
+        }
+        if ($endsBefore)
+        {
+            $courses = $courses->where('ends_at', '<', $endsBefore);
+        }
+        if ($endsAfter)
+        {
+            $courses = $courses->where('ends_at', '>', $endsAfter);
+        }
+
+        //dd($courses->toSql());
+
+        $courses = $courses->orderBy('starts_at')->get();
 
         $availableIncludes = collect(['instructors', 'participants']);
 
