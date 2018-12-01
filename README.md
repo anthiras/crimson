@@ -1,5 +1,5 @@
 # Crimson
-A web app for managing courses/classes and signups
+REST API for managing courses/classes and signups
 
 ## Features
 
@@ -9,20 +9,17 @@ A web app for managing courses/classes and signups
 
 ## Architecture
 
-* Frontend: 
-  * React JS 
-  * Bootstrap
-* Backend:
-  * Laravel PHP
-  * Onion architecture
-  * Core domain layer
-  * REST/JSON API controllers
-  * Repositories for writing data using domain models
-  * Queries for reading data using Laravel resources
-  * Repositories and queries are segregated and defined in interfaces
-  * Persistence is implemented in Laravel Eloquent/MySQL, and dependency injected
-* External services:
-  * Auth0 for authentication
+* Laravel PHP
+* Onion architecture
+* Core domain layer
+* REST/JSON API controllers
+* Repositories for writing data using domain models
+* Queries for reading data using Laravel resources
+* Repositories and queries are segregated and defined in interfaces
+* Persistence is implemented in Laravel Eloquent/MySQL, and dependency injected
+
+External services:
+* Auth0 for authentication
 
 ## Developer setup
 
@@ -36,21 +33,6 @@ A web app for managing courses/classes and signups
 8. Download and install [npm](https://www.npmjs.com/get-npm) in your host OS (Windows/Mac).
 
 ## Developer tools
-
-### Frontend build
-
-To build the frontend JS once:
-```
-npm run dev
-```
-
-or to keep watching for changes and rebuild automatically:
-
-```
-npm run watch
-```
-
-I recommend installing and running npm from Windows, and not in the virtual machine.
 
 ### Unit tests
 

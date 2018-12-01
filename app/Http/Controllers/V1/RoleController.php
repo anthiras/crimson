@@ -6,7 +6,7 @@
  * Time: 16:12
  */
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\V1;
 
 
 use App\Http\Controllers\Controller;

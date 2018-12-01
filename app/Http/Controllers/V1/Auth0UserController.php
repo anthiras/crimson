@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\V1;
 
 use App\Domain\Auth0Id;
 use App\Domain\User;
