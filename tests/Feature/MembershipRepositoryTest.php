@@ -51,5 +51,7 @@ class MembershipRepositoryTest extends TestCase
         $this->assertEquals($activeMembership->getStartsAt(), $reloadedMembership->getStartsAt());
         $this->assertEquals($activeMembership->getExpiresAt(), $reloadedMembership->getExpiresAt());
         $this->assertEquals($activeMembership->getPaidAt(), $reloadedMembership->getPaidAt());
+        $this->assertEquals($activeMembership->getPaymentMethod(), $reloadedMembership->getPaymentMethod());
+        $this->assertEquals($activeMembership->getSignupComment(), $reloadedMembership->getSignupComment());
     }
 }

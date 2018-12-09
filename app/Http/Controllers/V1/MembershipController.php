@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1;
 
 use App\Domain\Membership;
+use App\Domain\MembershipRenewal;
 use App\Domain\MembershipRepository;
 use App\Domain\UserId;
 use App\Http\Controllers\Controller;
@@ -22,6 +23,14 @@ class MembershipController extends Controller
     {
         $this->membershipRepository = $membershipRepository;
         $this->membershipQuery = $membershipQuery;
+    }
+
+    public function currentPeriod(Request $request)
+    {
+        return response()->json([
+            'lastRenewal' => MembershipRenewal::lastRenewal(Chronos::now())->toDateTimeString(),
+            'nextRenewal' => MembershipRenewal::nextRenewal(Chronos::now())->toDateTimeString()
+        ]);
     }
 
     public function current(Request $request)
@@ -45,7 +54,7 @@ class MembershipController extends Controller
     {
         $userId = new UserId($request->userId);
         $now = Chronos::now();
-        $membership = Membership::create($userId);
+        $membership = Membership::create($userId, $request->paymentMethod, $request->signupComment);
         $this->authorize('store', $membership);
         $this->membershipRepository->save($membership);
         return $this->membershipQuery->show($userId, $now);

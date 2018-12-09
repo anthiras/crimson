@@ -18,18 +18,22 @@ class Membership
     protected $startsAt;
     protected $expiresAt;
     protected $paidAt;
+    protected $paymentMethod;
+    protected $signupComment;
 
-    public function __construct(UserId $userId, Chronos $startsAt, Chronos $expiresAt, $paidAt = null)
+    public function __construct(UserId $userId, Chronos $startsAt, Chronos $expiresAt, string $paymentMethod, ?string $signupComment = null, $paidAt = null)
     {
         $this->userId = $userId;
         $this->startsAt = $startsAt;
         $this->expiresAt = $expiresAt;
+        $this->paymentMethod = $paymentMethod;
+        $this->signupComment = $signupComment;
         $this->paidAt = $paidAt;
     }
 
-    public static function create(UserId $userId): Membership
+    public static function create(UserId $userId, string $paymentMethod, ?string $signupComment = null): Membership
     {
-        return new Membership($userId, Chronos::now(), MembershipRenewal::nextRenewal(Chronos::now()));
+        return new Membership($userId, Chronos::now(), MembershipRenewal::nextRenewal(Chronos::now()), $paymentMethod, $signupComment);
     }
 
     /**
@@ -70,5 +74,21 @@ class Membership
     public function setPaid() {
         $this->paidAt = Chronos::now();
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSignupComment(): ?string
+    {
+        return $this->signupComment;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentMethod(): string
+    {
+        return $this->paymentMethod;
     }
 }

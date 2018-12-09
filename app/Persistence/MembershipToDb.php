@@ -19,7 +19,9 @@ class MembershipToDb
             'user_id' => $membership->getUserId(),
             'starts_at' => $membership->getStartsAt(),
             'expires_at' => $membership->getExpiresAt(),
-            'paid_at' => $membership->getPaidAt()
+            'paid_at' => $membership->getPaidAt(),
+            'payment_method' => $membership->getPaymentMethod(),
+            'signup_comment' => $membership->getSignupComment()
         ];
     }
 }

@@ -15,13 +15,23 @@ use Cake\Chronos\Date;
 
 class MembershipRenewal
 {
+    public static function lastRenewal(Chronos $date): Chronos
+    {
+        return self::nextRenewal($date)->sub(self::period());
+    }
+
     public static function nextRenewal(Chronos $date): Chronos
     {
         $renewal = Chronos::parse(env('MEMBERSHIP_RENEWAL_AT'));
-        $period = \DateInterval::createFromDateString(env('MEMBERSHIP_RENEWAL_PERIOD'));
+        $period = self::period();
         while ($renewal < $date) {
             $renewal = $renewal->add($period);
         }
         return $renewal;
+    }
+
+    private static function period(): \DateInterval
+    {
+        return \DateInterval::createFromDateString(env('MEMBERSHIP_RENEWAL_PERIOD'));
     }
 }

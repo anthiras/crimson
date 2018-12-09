@@ -21,6 +21,8 @@ class MembershipFactory
             new UserId($model->user_id),
             Chronos::parse($model->starts_at),
             Chronos::parse($model->expires_at),
+            $model->payment_method,
+            $model->signup_comment,
             $model->paid_at == null ? null : Chronos::parse($model->paid_at));
     }
 }

@@ -1,14 +1,12 @@
 <?php
 
 use App\Domain\RoleId;
-use Illuminate\Http\Request;
 use App\Domain\CourseId;
 use App\Domain\UserId;
-use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
-| V1 Routes
+| API Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
@@ -16,10 +14,6 @@ use Illuminate\Support\Facades\Log;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
 
 Route::bind('courseId', function($value) { return new CourseId($value); });
 Route::bind('userId', function($value) { return new UserId($value); });
@@ -42,6 +36,7 @@ Route::put('/v1/users/{userId}', 'V1\UserController@update')->middleware('requir
 Route::post('/v1/users/{userId}/roles/{roleId}', 'V1\UserRoleController@addRole')->middleware('requireauth');
 Route::delete('/v1/users/{userId}/roles/{roleId}', 'V1\UserRoleController@removeRole')->middleware('requireauth');
 
+Route::get('/v1/membership/currentPeriod', 'V1\MembershipController@currentPeriod')->middleware('requireauth');
 Route::get('/v1/membership/current', 'V1\MembershipController@current')->middleware('requireauth');
 Route::post('/v1/membership/{userId}/setPaid', 'V1\MembershipController@setPaid')->middleware('requireauth');
 Route::post('/v1/membership', 'V1\MembershipController@store')->middleware('requireauth');

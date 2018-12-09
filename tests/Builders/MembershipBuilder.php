@@ -19,6 +19,8 @@ class MembershipBuilder
     protected $startsAt;
     protected $expiresAt;
     protected $paidAt;
+    protected $paymentMethod;
+    protected $signupComment;
 
     public function __construct()
     {
@@ -27,6 +29,8 @@ class MembershipBuilder
         $this->startsAt = Chronos::createFromTimestamp($faker->unixTime());
         $this->expiresAt = $this->startsAt->addYear(1);
         $this->paidAt = $this->startsAt->addDay(1);
+        $this->paymentMethod = $faker->creditCardType;
+        $this->signupComment = $faker->text();
     }
 
     public function withUserId(UserId $userId): MembershipBuilder
@@ -55,6 +59,8 @@ class MembershipBuilder
             $this->userId,
             $this->startsAt,
             $this->expiresAt,
+            $this->paymentMethod,
+            $this->signupComment,
             $this->paidAt
         );
     }

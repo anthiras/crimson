@@ -18,6 +18,8 @@ class MembershipResource extends JsonResource
             'userId' => $this->user_id,
             'createdAt' => $this->created_at->__toString(),
             'expiresAt' => $this->expires_at,
+            'paymentMethod' => $this->payment_method,
+            'signupComment' => $this->signup_comment,
             'paidAt' => $this->paid_at
         ];
     }

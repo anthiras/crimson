@@ -28,32 +28,32 @@ class UserApiTest extends TestCase
 
     public function testListUsersUnauthorized()
     {
-        $this->json('GET','/api/users')
+        $this->json('GET','/v1/users')
             ->assertStatus(401);
     }
 
     public function testListUsersAuthorized()
     {
         $this->actingAs($this->user)
-            ->json('GET','/api/users')
+            ->json('GET','/v1/users')
             ->assertSuccessful();
     }
 
     public function testUserCanShowOwnUserDetails()
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/users/current')
+            ->json('GET', '/v1/users/current')
             ->assertSuccessful();
 
         $this->actingAs($this->user)
-            ->json('GET', '/api/users/'.$this->user->id())
+            ->json('GET', '/v1/users/'.$this->user->id())
             ->assertSuccessful();
     }
 
     public function testUserCannotShowOtherUserDetails()
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/users/'.$this->otherUser->id())
+            ->json('GET', '/v1/users/'.$this->otherUser->id())
             ->assertStatus(403);
     }
 }

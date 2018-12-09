@@ -18,7 +18,7 @@ class CourseApiTest extends TestCase
 
     public function testCoursesIndex()
     {
-        $this->json('GET','/api/courses?include[]=instructors')
+        $this->json('GET','/v1/courses?include[]=instructors')
             ->assertSuccessful()
             ->assertJsonStructure([['id', 'name', 'instructors', 'myParticipation']])
             ->assertJsonFragment(['myParticipation' => null]);
@@ -26,7 +26,7 @@ class CourseApiTest extends TestCase
 
     public function testCoursesStoreUnauthorized()
     {
-        $this->json('POST','/api/courses', ["name" => "new course"])
+        $this->json('POST','/v1/courses', ["name" => "new course"])
             ->assertStatus(401);
     }
 }
