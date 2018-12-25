@@ -13,6 +13,7 @@ use App\Domain\UserId;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserResourceCollection;
 use App\Queries\UserQuery;
+use Illuminate\Support\Facades\DB;
 
 class DbUserQuery implements UserQuery
 {
@@ -24,6 +25,8 @@ class DbUserQuery implements UserQuery
 
     public function list($query, $includes): UserResourceCollection
     {
+        //DB::connection()->enableQueryLog();
+
         $users = UserModel::query();
 
         if ($query)
@@ -31,7 +34,7 @@ class DbUserQuery implements UserQuery
             $users = $users->where('name', 'like', '%'.$query.'%');
         }
 
-        $users = $users->orderBy('name')->get();
+        $users = $users->orderBy('name')->paginate(10);//->get();
 
         $availableIncludes = collect(UserModel::AVAILABLE_INCLUDES);
         if ($includes)
@@ -43,6 +46,10 @@ class DbUserQuery implements UserQuery
                 });
         }
 
-        return new UserResourceCollection($users);
+        $uc = new UserResourceCollection($users);
+
+        //dd(DB::getQueryLog());
+
+        return $uc;
     }
 }
