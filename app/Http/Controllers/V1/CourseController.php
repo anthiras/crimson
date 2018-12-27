@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CourseResource as CourseResource;
 use App\Http\Resources\IdResource as IdResource;
-use function PHPSTORM_META\map;
 
 class CourseController extends Controller
 {
@@ -77,25 +76,33 @@ class CourseController extends Controller
      *
      * @param  CourseId $courseId
      * @return CourseResource
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(CourseId $courseId)
     {
         $course = $this->courseQuery->show($courseId);
-        $this->authorize('show', $course);
+        $this->authorize('showResource', $course);
         return $course;
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @param  CourseId $courseId
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, CourseId $courseId)
     {
         $course = $this->courseRepository->course($courseId);
-        $course->setName($request->name);
+        $this->authorize('update', $course);
+        $schedule = new Schedule(
+            Chronos::parse($request->startsAt),
+            $request->weeks,
+            $request->durationMinutes);
+        $course->setName($request->name)
+            ->setSchedule($schedule);
         $this->courseRepository->save($course);
         return 204;
     }
@@ -105,9 +112,12 @@ class CourseController extends Controller
      *
      * @param  CourseId $courseId
      * @return int
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function destroy($courseId)
+    public function destroy(CourseId $courseId)
     {
+        $course = $this->courseRepository->course($courseId);
+        $this->authorize('delete', $course);
         $this->courseRepository->delete($courseId);
 
         return 204;

@@ -25,7 +25,8 @@ class CourseResource extends JsonResource
             'instructors' => UserResource::collection($this->whenLoaded('instructors')),
             'participants' => UserResource::collection($this->whenLoaded('participants')),
             'myParticipation' => Auth::check() ? $this->participant(Auth::id())->get()->map(function ($user) { return new UserResource($user); })->first() : null,
-            'canShow' => Auth::check() ? Auth::user()->can('show', $this) : false
+            'canShow' => Auth::check() ? Auth::user()->can('showResource', $this) : false,
+            'canUpdate' => Auth::check() ? Auth::user()->can('updateResource', $this) : false
         ];
     }
 }

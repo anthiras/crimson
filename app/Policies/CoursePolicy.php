@@ -20,7 +20,7 @@ class CoursePolicy
      * @param  \App\Http\Resources\CourseResource  $course
      * @return mixed
      */
-    public function show(User $user, CourseResource $course)
+    public function showResource(User $user, CourseResource $course)
     {
         return $user->hasRole(RoleId::instructor(), RoleId::admin());
     }
@@ -49,6 +49,11 @@ class CoursePolicy
         return $user->hasRole(RoleId::instructor(), RoleId::admin());
     }
 
+    public function updateResource(User $user, CourseResource $course)
+    {
+        return $user->hasRole(RoleId::instructor(), RoleId::admin());
+    }
+
     /**
      * Determine whether the user can delete the course.
      *
@@ -57,6 +62,11 @@ class CoursePolicy
      * @return mixed
      */
     public function delete(User $user, Course $course)
+    {
+        return $user->hasRole(RoleId::instructor(), RoleId::admin());
+    }
+
+    public function deleteResource(User $user, CourseResource $course)
     {
         return $user->hasRole(RoleId::instructor(), RoleId::admin());
     }
