@@ -12,5 +12,5 @@
 */
 
 Route::get('/{path}', function () {
-    return view('main', [ 'configJson' => \App\ClientConfig::configJson()]);
+    return view('main');
 })->where('path', '.*');

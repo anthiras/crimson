@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Domain\Course;
+use App\Domain\CourseId;
 use App\Domain\RoleId;
 use App\Domain\User;
 use App\Http\Resources\CourseResource;
@@ -21,6 +22,11 @@ class CoursePolicy
      * @return mixed
      */
     public function showResource(User $user, CourseResource $course)
+    {
+        return $user->hasRole(RoleId::instructor(), RoleId::admin());
+    }
+
+    public function showId(User $user, CourseId $courseId)
     {
         return $user->hasRole(RoleId::instructor(), RoleId::admin());
     }

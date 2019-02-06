@@ -32,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('App\Queries\MembershipQuery', 'App\Persistence\DbMembershipQuery');
         $this->app->singleton('App\Queries\UserQuery', 'App\Persistence\DbUserQuery');
         $this->app->singleton('App\Queries\RoleQuery', 'App\Persistence\DbRoleQuery');
+        $this->app->singleton('App\Queries\CourseParticipantQuery', 'App\Persistence\DbCourseParticipantQuery');
 
         $this->app->bind(
             \Auth0\Login\Contract\Auth0UserRepository::class,

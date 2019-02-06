@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Domain\Course;
+use App\Domain\CourseId;
 use App\Domain\Membership;
 use App\Domain\RoleId;
 use App\Domain\User;
@@ -26,6 +27,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Course::class => CoursePolicy::class,
         CourseResource::class => CoursePolicy::class,
+        CourseId::class => CoursePolicy::class,
         User::class => UserPolicy::class,
         UserResource::class => UserPolicy::class,
         RoleId::class => RolePolicy::class,
