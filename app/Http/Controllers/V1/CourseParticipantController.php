@@ -4,10 +4,12 @@ namespace App\Http\Controllers\V1;
 
 use App\Domain\CourseId;
 use App\Domain\CourseRepository;
+use App\Events\CourseParticipantSignedUp;
 use App\Http\Controllers\Controller;
 use App\Queries\CourseParticipantQuery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class CourseParticipantController extends Controller
 {
@@ -30,8 +32,10 @@ class CourseParticipantController extends Controller
     {
         $userId = Auth::id();
         $course = $this->courseRepository->course($courseId)->signUp($userId, $request->role);
-        $status = $course->participant($userId)->status();
+        $participant = $course->participant($userId);
+        $status = $participant->status();
         $this->courseRepository->save($course);
+        event(new CourseParticipantSignedUp($courseId, $userId));
         return response()->json(['status' => $status]);
     }
 
