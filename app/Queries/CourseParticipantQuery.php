@@ -10,9 +10,12 @@ namespace App\Queries;
 
 
 use App\Domain\CourseId;
+use App\Domain\UserId;
+use App\Http\Resources\UserResource;
 use App\Http\Resources\UserResourceCollection;
 
 interface CourseParticipantQuery
 {
     public function list(CourseId $courseId): UserResourceCollection;
+    public function show(CourseId $courseId, UserId $userId): UserResource;
 }

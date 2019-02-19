@@ -27,7 +27,9 @@ Route::delete('/v1/courses/{courseId}', 'V1\CourseController@destroy')->middlewa
 
 Route::get('/v1/courses/{courseId}/participants', 'V1\CourseParticipantController@index')->middleware('requireauth');
 Route::post('/v1/courses/{courseId}/signUp', 'V1\CourseParticipantController@signUp')->middleware('requireauth');
-Route::post('/v1/courses/{courseId}/cancelSignUp', 'V1\CourseParticipantController@cancel')->middleware('requireauth');
+Route::post('/v1/courses/{courseId}/cancelSignUp', 'V1\CourseParticipantController@cancelSignUp')->middleware('requireauth');
+Route::post('/v1/courses/{courseId}/participants/{userId}/confirm', 'V1\CourseParticipantController@confirm')->middleware('requireauth');
+Route::post('/v1/courses/{courseId}/participants/{userId}/cancel', 'V1\CourseParticipantController@cancel')->middleware('requireauth');
 
 Route::get('/v1/users', 'V1\UserController@index')->middleware('requireauth');;
 Route::get('/v1/users/current', 'V1\UserController@current')->middleware('requireauth');

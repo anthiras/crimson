@@ -10,6 +10,8 @@ namespace App\Persistence;
 
 
 use App\Domain\CourseId;
+use App\Domain\UserId;
+use App\Http\Resources\UserResource;
 use App\Http\Resources\UserResourceCollection;
 use App\Queries\CourseParticipantQuery;
 
@@ -20,5 +22,12 @@ class DbCourseParticipantQuery implements CourseParticipantQuery
     {
         $course = CourseModel::with(['participants'])->find($courseId);
         return new UserResourceCollection($course->participants()->get());
+    }
+
+    public function show(CourseId $courseId, UserId $userId): UserResource
+    {
+        $course = CourseModel::with(['participants'])->find($courseId);
+        $participant = $course->participants()->where('user_id', $userId)->first();
+        return new UserResource($participant);
     }
 }

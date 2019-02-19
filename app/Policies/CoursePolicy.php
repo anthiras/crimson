@@ -76,4 +76,9 @@ class CoursePolicy
     {
         return $user->hasRole(RoleId::instructor(), RoleId::admin());
     }
+
+    public function manageParticipants(User $user, Course $course)
+    {
+        return $user->hasRole(RoleId::instructor(), RoleId::admin());
+    }
 }
