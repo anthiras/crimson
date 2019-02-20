@@ -12,12 +12,13 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class CourseParticipantSignedUp
+class CourseParticipantStatusChanged
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $courseId;
     public $userId;
+    public $status;
 
     /**
      * Create a new event instance.
@@ -25,10 +26,11 @@ class CourseParticipantSignedUp
      * @param CourseId $courseId
      * @param UserId $userId
      */
-    public function __construct(CourseId $courseId, UserId $userId)
+    public function __construct(CourseId $courseId, UserId $userId, string $status)
     {
         $this->courseId = $courseId;
         $this->userId = $userId;
+        $this->status = $status;
     }
 
     /**

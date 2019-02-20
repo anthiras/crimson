@@ -3,13 +3,14 @@
 namespace App\Listeners;
 
 use App\Domain\CourseRepository;
+use App\Domain\Participant;
 use App\Domain\UserRepository;
-use App\Events\CourseParticipantSignedUp;
+use App\Events\CourseParticipantStatusChanged;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
-class CourseParticipantSignedUpListener
+class CourseParticipantStatusChangedListener
 {
     /**
      * @var CourseRepository
@@ -35,14 +36,22 @@ class CourseParticipantSignedUpListener
     /**
      * Handle the event.
      *
-     * @param  CourseParticipantSignedUp  $event
+     * @param  CourseParticipantStatusChanged  $event
      * @return void
      */
-    public function handle(CourseParticipantSignedUp $event)
+    public function handle(CourseParticipantStatusChanged $event)
     {
         $user = $this->userRepository->user($event->userId);
         $course = $this->courseRepository->course($event->courseId);
-        Mail::to($user->getEmail(), $user->getName())
-            ->send(new \App\Mail\CourseParticipantSignedUp($course, $user));
+
+        if ($event->status == Participant::STATUS_PENDING) {
+            Mail::to($user->getEmail(), $user->getName())
+                ->send(new \App\Mail\CourseParticipantSignedUp($course, $user));
+        }
+
+        if ($event->status == Participant::STATUS_CONFIRMED) {
+            Mail::to($user->getEmail(), $user->getName())
+                ->send(new \App\Mail\CourseParticipantConfirmed($course, $user));
+        }
     }
 }

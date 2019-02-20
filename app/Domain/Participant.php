@@ -26,17 +26,17 @@ class Participant
         return new Participant($userId, static::STATUS_PENDING, $role);
     }
 
-    public function userId()
+    public function userId(): UserId
     {
         return $this->userId;
     }
 
-    public function status()
+    public function status(): string
     {
         return $this->status;
     }
 
-    public function role()
+    public function role(): string
     {
         return $this->role;
     }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\V1;
 use App\Domain\CourseId;
 use App\Domain\CourseRepository;
 use App\Domain\UserId;
-use App\Events\CourseParticipantSignedUp;
+use App\Events\CourseParticipantStatusChanged;
 use App\Http\Controllers\Controller;
 use App\Queries\CourseParticipantQuery;
 use Illuminate\Http\Request;
@@ -36,9 +36,8 @@ class CourseParticipantController extends Controller
         $participant = $course->participant($userId);
         $status = $participant->status();
         $this->courseRepository->save($course);
-        event(new CourseParticipantSignedUp($courseId, $userId));
+        event(new CourseParticipantStatusChanged($courseId, $userId, $status));
         return $this->courseParticipantQuery->show($courseId, $userId);
-        //return response()->json(['status' => $status]);
     }
 
     public function cancelSignUp(CourseId $courseId)
@@ -47,8 +46,8 @@ class CourseParticipantController extends Controller
         $course = $this->courseRepository->course($courseId)->cancelParticipant($userId);
         $status = $course->participant($userId)->status();
         $this->courseRepository->save($course);
+        event(new CourseParticipantStatusChanged($courseId, $userId, $status));
         return $this->courseParticipantQuery->show($courseId, $userId);
-        //return response()->json(['status' => $status]);
     }
 
     public function confirm(CourseId $courseId, UserId $userId)
@@ -56,7 +55,9 @@ class CourseParticipantController extends Controller
         $course = $this->courseRepository->course($courseId);
         $this->authorize('manageParticipants', $course);
         $course = $course->confirmParticipant($userId);
+        $status = $course->participant($userId)->status();
         $this->courseRepository->save($course);
+        event(new CourseParticipantStatusChanged($courseId, $userId, $status));
         return $this->courseParticipantQuery->show($courseId, $userId);
     }
 
@@ -65,7 +66,9 @@ class CourseParticipantController extends Controller
         $course = $this->courseRepository->course($courseId);
         $this->authorize('manageParticipants', $course);
         $course = $course->cancelParticipant($userId);
+        $status = $course->participant($userId)->status();
         $this->courseRepository->save($course);
+        event(new CourseParticipantStatusChanged($courseId, $userId, $status));
         return $this->courseParticipantQuery->show($courseId, $userId);
     }
 }
