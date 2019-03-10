@@ -33,7 +33,7 @@ Route::post('/v1/courses/{courseId}/participants/{userId}/cancel', 'V1\CoursePar
 
 Route::get('/v1/users', 'V1\UserController@index')->middleware('requireauth');;
 Route::get('/v1/users/current', 'V1\UserController@current')->middleware('requireauth');
-Route::get('/v1/users/current/permissions', 'V1\PermissionController@current')->middleware('requireauth');
+Route::get('/v1/users/current/permissions', 'V1\PermissionController@current');
 Route::get('/v1/users/{userId}', 'V1\UserController@show')->middleware('requireauth');
 Route::put('/v1/users/{userId}', 'V1\UserController@update')->middleware('requireauth');
 Route::post('/v1/users/{userId}/roles/{roleId}', 'V1\UserRoleController@addRole')->middleware('requireauth');

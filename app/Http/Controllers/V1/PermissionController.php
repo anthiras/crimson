@@ -26,6 +26,9 @@ class PermissionController extends Controller
 
     public function current(Request $request)
     {
+        if (!Auth::check()) {
+            return response()->json(new \stdClass());
+        }
         $user = $this->userRepository->user(Auth::id());
         return new UserPermissionsResource($user);
     }
