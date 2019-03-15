@@ -14,7 +14,7 @@ class UserPolicy
 
     public function show(User $authenticatedUser, User $accessedUser)
     {
-        if ($authenticatedUser->hasRole(RoleId::admin()))
+        if ($authenticatedUser->hasRole(RoleId::admin()) || $authenticatedUser->hasRole(RoleId::instructor()))
         {
             return true;
         }
@@ -24,7 +24,7 @@ class UserPolicy
 
     public function showResource(User $authenticatedUser, UserResource $accessedUser)
     {
-        if ($authenticatedUser->hasRole(RoleId::admin()))
+        if ($authenticatedUser->hasRole(RoleId::admin()) || $authenticatedUser->hasRole(RoleId::instructor()))
         {
             return true;
         }

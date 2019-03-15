@@ -27,18 +27,18 @@ class UserResource extends JsonResource
                 'email' => $this->email,
                 'picture' => $this->picture,
                 'gender' => $this->gender,
-                'birthDate' => $this->birth_date == null ? null : Chronos::parse($this->birth_date)->toDateString()
+                'birthDate' => $this->birth_date == null ? null : Chronos::parse($this->birth_date)->toDateString(),
+                'participation' => $this->whenPivotLoaded('course_participants', function() {
+                    return [
+                        'status' => $this->pivot->status,
+                        'role' => $this->pivot->role,
+                        'createdAt' => $this->pivot->created_at->__toString()
+                    ];
+                }),
+                'roles' => IdNameResource::collection($this->whenLoaded('roles')),
+                'takingCourses' => IdNameResource::collection($this->whenLoaded('takingCourses')),
+                'teachingCourses' => IdNameResource::collection($this->whenLoaded('teachingCourses'))
             ]),
-            'participation' => $this->whenPivotLoaded('course_participants', function() {
-                return [
-                    'status' => $this->pivot->status,
-                    'role' => $this->pivot->role,
-                    'createdAt' => $this->pivot->created_at->__toString()
-                ];
-            }),
-            'roles' => IdNameResource::collection($this->whenLoaded('roles')),
-            'takingCourses' => IdNameResource::collection($this->whenLoaded('takingCourses')),
-            'teachingCourses' => IdNameResource::collection($this->whenLoaded('teachingCourses')),
             'currentMembership' => $this->when(
                 $membership != null && Auth::check() && Auth::user()->can('showResource', $membership),
                 function () use ($membership) { return $membership; })
