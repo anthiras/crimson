@@ -22,7 +22,7 @@ class MembershipRenewal
 
     public static function nextRenewal(Chronos $date): Chronos
     {
-        $renewal = Chronos::parse(env('MEMBERSHIP_RENEWAL_AT'));
+        $renewal = Chronos::parse(config('membership.renewal_at'));
         $period = self::period();
         while ($renewal < $date) {
             $renewal = $renewal->add($period);
@@ -32,6 +32,6 @@ class MembershipRenewal
 
     private static function period(): \DateInterval
     {
-        return \DateInterval::createFromDateString(env('MEMBERSHIP_RENEWAL_PERIOD'));
+        return \DateInterval::createFromDateString(config('membership.renewal_period'));
     }
 }

@@ -39,7 +39,7 @@ Route::put('/v1/users/{userId}', 'V1\UserController@update')->middleware('requir
 Route::post('/v1/users/{userId}/roles/{roleId}', 'V1\UserRoleController@addRole')->middleware('requireauth');
 Route::delete('/v1/users/{userId}/roles/{roleId}', 'V1\UserRoleController@removeRole')->middleware('requireauth');
 
-Route::get('/v1/membership/currentPeriod', 'V1\MembershipController@currentPeriod')->middleware('requireauth');
+Route::get('/v1/membership/currentPeriod', 'V1\MembershipController@currentPeriod');
 Route::get('/v1/membership/current', 'V1\MembershipController@current')->middleware('requireauth');
 Route::post('/v1/membership/{userId}/setPaid', 'V1\MembershipController@setPaid')->middleware('requireauth');
 Route::post('/v1/membership', 'V1\MembershipController@store')->middleware('requireauth');
