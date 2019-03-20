@@ -38,7 +38,7 @@ class CourseApiTest extends TestCase
     {
         $this->json('GET','/v1/courses?include[]=instructors')
             ->assertSuccessful()
-            ->assertJsonStructure([['id', 'name', 'instructors', 'myParticipation']])
+            ->assertJsonStructure(['data' => ['*' => ['id', 'name', 'instructors', 'myParticipation']]])
             ->assertJsonFragment(['myParticipation' => null]);
     }
 

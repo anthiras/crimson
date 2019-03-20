@@ -52,7 +52,7 @@ class DbCourseQuery implements CourseQuery
 
         //dd($courses->toSql());
 
-        $courses = $courses->orderBy('starts_at')->get();
+        $courses = $courses->orderBy('starts_at')->paginate(10);//->get();
 
         $availableIncludes = collect(['instructors', 'participants']);
 
