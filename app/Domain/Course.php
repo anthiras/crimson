@@ -54,6 +54,7 @@ class Course extends AggregateRoot
     public function setSchedule(Schedule $schedule)
     {
         $this->schedule = $schedule;
+        $this->lessons = collect($schedule->createLessons());
         return $this;
     }
 

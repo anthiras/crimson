@@ -39,7 +39,6 @@ class CoursePolicy
      */
     public function create(User $user)
     {
-        Log::debug("Authorize create course for user ".$user->id());
         return $user->hasRole(RoleId::instructor(), RoleId::admin());
     }
 
