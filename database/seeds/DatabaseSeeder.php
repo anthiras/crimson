@@ -1,7 +1,10 @@
 <?php
 
 use App\Domain\Participant;
+use App\Domain\RoleId;
 use App\Domain\UserId;
+use App\Persistence\CourseModel;
+use App\Persistence\UserModel;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,24 +26,29 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $users = factory(\App\Persistence\UserModel::class, 50)->create();
-        $courses = factory(\App\Persistence\CourseModel::class, 10)->create();
+        $users = factory(UserModel::class, 50)->create();
+        $courses = factory(CourseModel::class, 10)->create();
 
-        $normalUser = factory(\App\Persistence\UserModel::class)->make();
+        $normalUser = factory(UserModel::class)->make();
         $normalUser->id = self::normalUserId();
         $normalUser->save();
 
-        $instructor = factory(\App\Persistence\UserModel::class)->make();
+        $instructor = factory(UserModel::class)->make();
         $instructor->id = self::instructorUserId();
         $instructor->save();
-        $instructor->roles()->attach(\App\Domain\RoleId::instructor());
+        $instructor->roles()->attach(RoleId::instructor());
 
         $courses->each(function ($course) use ($users) {
             $randomUserIds = $users->random(12)->pluck('id');
             $instructors = $randomUserIds->take(2);
             $participants = $randomUserIds->take(-10);
-            $course->participants()->attach($participants, 
-                ['status' => Participant::STATUS_CONFIRMED, 'role' => Participant::ROLE_LEAD]);
+
+            $participants->each(function ($userId) use ($course) {
+                $course->participants()->attach($userId, [
+                    'status' => collect([Participant::STATUS_PENDING, Participant::STATUS_CONFIRMED])->random(),
+                    'role' => collect([Participant::ROLE_LEAD, Participant::ROLE_FOLLOW])->random()]);
+            });
+
             $course->instructors()->attach($instructors);
         });
     }

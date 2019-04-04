@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Domain\RegistrationSettings;
+use Tests\Builders\RegistrationSettingsBuilder;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -20,12 +22,14 @@ class CourseRepositoryTest extends TestCase
 
     protected $repo;
     protected $courseBuilder;
+    protected $participantBuilder;
 
     protected function setUp()
     {
         parent::setUp();
         $this->repo = new DbCourseRepository();
         $this->courseBuilder = new CourseBuilder();
+        $this->participantBuilder = new ParticipantBuilder();
         $this->seed();
     }
 
@@ -37,7 +41,8 @@ class CourseRepositoryTest extends TestCase
         // Create
         $course = $this->courseBuilder
             ->withInstructors(array(new UserId($users->first()->id)))
-            ->withParticipants(array(ParticipantBuilder::build(new UserId($users->last()->id))))
+            ->withParticipants(array($this->participantBuilder->withUserId(new UserId($users->last()->id))->build()))
+            ->withRegistrationSettings(RegistrationSettings::default())
             ->build();
         $courseId = $course->id();
         $this->repo->save($course);
@@ -51,7 +56,10 @@ class CourseRepositoryTest extends TestCase
         $this->assertEqualCourses($course, $courseFromList);
         
         // Update
-        $course->setName("New name");
+        $course = $course
+            ->setName("New name")
+            ->setInstructors(array(new UserId($users->slice(0)->first()->id)))
+            ->setRegistrationSettings(RegistrationSettingsBuilder::buildRandom());
         $this->repo->save($course);
 
         // Load
@@ -71,7 +79,8 @@ class CourseRepositoryTest extends TestCase
         $this->assertEquals($course->name(), $reloadedCourse->name());
         $this->assertEquals($course->schedule(), $reloadedCourse->schedule());
         $this->assertEquals($course->lessons(), $reloadedCourse->lessons());
-        $this->assertEquals($course->instructors(), $reloadedCourse->instructors());
+        $this->assertEquals($course->getInstructors(), $reloadedCourse->getInstructors());
         $this->assertEquals($course->participants(), $reloadedCourse->participants());
+        $this->assertEquals($course->getRegistrationSettings(), $reloadedCourse->getRegistrationSettings());
     }
 }

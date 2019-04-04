@@ -3,6 +3,7 @@ namespace Tests\Builders;
 
 use App\Domain\Course;
 use App\Domain\CourseId;
+use App\Domain\RegistrationSettings;
 use App\Domain\UserId;
 use Faker\Factory;
 use Illuminate\Support\Collection;
@@ -15,6 +16,7 @@ class CourseBuilder
     protected $lessons;
     protected $instructors;
     protected $participants;
+    protected $registrationSettings;
 
     public function withId(CourseId $courseId)
     {
@@ -40,7 +42,13 @@ class CourseBuilder
         return $this;
     }
 
-    public function build()
+    public function withRegistrationSettings(RegistrationSettings $registrationSettings)
+    {
+        $this->registrationSettings = $registrationSettings;
+        return $this;
+    }
+
+    public function build(): Course
     {
         $faker = Factory::create();
         $schedule = $this->schedule ?? ScheduleBuilder::build();
@@ -50,10 +58,11 @@ class CourseBuilder
             $schedule,
             $this->lessons ?? iterator_to_array($schedule->createLessons()),
             $this->instructors ?? array(UserId::create(), UserId::create()),
-            $this->participants ?? Collection::times(20, function() { return ParticipantBuilder::build(); })->toArray());
+            $this->participants ?? Collection::times(20, function() { return ParticipantBuilder::buildRandom(); })->toArray(),
+            $this->registrationSettings ?? RegistrationSettingsBuilder::buildRandom());
     }
 
-    public static function buildRandom()
+    public static function buildRandom(): Course
     {
         $courseBuilder = new CourseBuilder();
         return $courseBuilder->build();

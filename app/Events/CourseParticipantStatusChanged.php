@@ -25,6 +25,7 @@ class CourseParticipantStatusChanged
      *
      * @param CourseId $courseId
      * @param UserId $userId
+     * @param string $status
      */
     public function __construct(CourseId $courseId, UserId $userId, string $status)
     {
@@ -36,7 +37,7 @@ class CourseParticipantStatusChanged
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return Channel|array
      */
     public function broadcastOn()
     {

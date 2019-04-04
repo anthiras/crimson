@@ -37,10 +37,12 @@ class DbCourseRepository implements CourseRepository
             ["id" => $course->id()],
             CourseToDb::map($course));
         
-        $courseModel->instructors()->sync($course->instructors()->map->string());
+        $courseModel->instructors()->sync($course->getInstructors()->map->string());
         $courseModel->participants()->sync($course->participants()->mapWithKeys([CourseToDb::class, 'mapParticipant']));
 
         $courseModel->save();
+
+        $course->dispatchEvents();
     }
 
     public function delete(CourseId $courseId)

@@ -19,7 +19,7 @@ Route::get('/mailable', function() {
     $user = $userRepo->user($userId);
     $courseRepo = new \App\Persistence\DbCourseRepository();
     $course = $courseRepo->course(new \App\Domain\CourseId('bc0399c0-2003-11e9-bcc6-8f81603b4e07'));
-    $participant = $course->participant($userId);
+    $participant = $course->getParticipant($userId);
     return new \App\Mail\CourseParticipantSignedUp($course, $participant, $user);
 });
 

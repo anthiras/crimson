@@ -54,10 +54,17 @@ class DbCourseQuery implements CourseQuery
 
         $courses = $courses->orderBy('starts_at')->paginate(10);//->get();
 
-        $availableIncludes = collect(['instructors', 'participants']);
+        $availableIncludes = collect(['instructors']);
 
         if ($includes)
         {
+            if (in_array('participants', $includes))
+            {
+                $courses->load(['participants' => function ($query) {
+                    $query->orderBy('signed_up_at', 'asc');
+                }]);
+            }
+
             $availableIncludes
                 ->intersect($includes)
                 ->each(function ($include) use ($courses) {

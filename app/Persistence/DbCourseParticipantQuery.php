@@ -21,7 +21,7 @@ class DbCourseParticipantQuery implements CourseParticipantQuery
     public function list(CourseId $courseId): UserResourceCollection
     {
         $course = CourseModel::with(['participants'])->find($courseId);
-        return new UserResourceCollection($course->participants()->get());
+        return new UserResourceCollection($course->participants()->orderBy('signed_up_at')->get());
     }
 
     public function show(CourseId $courseId, UserId $userId): UserResource

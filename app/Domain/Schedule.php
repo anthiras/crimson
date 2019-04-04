@@ -35,12 +35,4 @@ class Schedule
     {
     	return Lesson::createWeekly($this->startsAt(), $this->weeks(), $this->durationMinutes());
     }
-
-//    public function equals(Schedule $other)
-//    {
-//        return
-//            $this->startsAt() == $other->startsAt() &&
-//            $this->weeks() == $other->weeks() &&
-//            $this->durationMinutes() == $other->durationMinutes();
-//    }
 }

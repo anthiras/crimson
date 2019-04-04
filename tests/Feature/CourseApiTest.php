@@ -30,7 +30,9 @@ class CourseApiTest extends TestCase
             'startAt' => '2019-01-01',
             'weeks' => 10,
             'durationMinutes' => 60,
-            'instructors' => []
+            'instructors' => [],
+            'allowRegistration' => true,
+            'autoConfirm' => false
         ];
     }
 
