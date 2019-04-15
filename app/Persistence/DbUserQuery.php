@@ -27,7 +27,7 @@ class DbUserQuery implements UserQuery
     {
         //DB::connection()->enableQueryLog();
 
-        $users = UserModel::query();
+        $users = UserModel::query()->where('deleted', '=', false);
 
         if ($query)
         {

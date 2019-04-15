@@ -36,6 +36,8 @@ Route::get('/v1/users/current', 'V1\UserController@current')->middleware('requir
 Route::get('/v1/users/current/permissions', 'V1\PermissionController@current');
 Route::get('/v1/users/{userId}', 'V1\UserController@show')->middleware('requireauth');
 Route::put('/v1/users/{userId}', 'V1\UserController@update')->middleware('requireauth');
+Route::delete('/v1/users/current', 'V1\UserController@deleteCurrent')->middleware('requireauth');
+Route::delete('/v1/users/{userId}', 'V1\UserController@delete')->middleware('requireauth');
 Route::post('/v1/users/{userId}/roles/{roleId}', 'V1\UserRoleController@addRole')->middleware('requireauth');
 Route::delete('/v1/users/{userId}/roles/{roleId}', 'V1\UserRoleController@removeRole')->middleware('requireauth');
 

@@ -25,7 +25,8 @@ class UserToDb
             "email" => $user->getEmail(),
             "picture" => $user->getPicture(),
             "gender" => $user->getGender(),
-            "birth_date" => $user->getBirthDate()
+            "birth_date" => $user->getBirthDate(),
+            "deleted" => $user->isDeleted()
         ];
     }
 

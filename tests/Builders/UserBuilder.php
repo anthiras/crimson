@@ -35,7 +35,8 @@ class UserBuilder
             $this->gender ?? User::GENDER_FEMALE,
             $this->birthDate ?? Chronos::createFromTimestamp($faker->unixTime()),
             $this->auth0ids ?? [ new Auth0Id($faker->uuid)],
-            $this->roleIds ?? [ RoleId::instructor() ]
+            $this->roleIds ?? [ RoleId::instructor() ],
+            false
         );
     }
 

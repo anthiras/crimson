@@ -46,4 +46,14 @@ class UserPolicy
     {
         return true;
     }
+
+    public function delete(User $authenticatedUser, User $accessedUser)
+    {
+        if ($authenticatedUser->hasRole(RoleId::admin()))
+        {
+            return true;
+        }
+
+        return $authenticatedUser->id()->equals($accessedUser->id());
+    }
 }

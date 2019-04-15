@@ -13,7 +13,14 @@ class UserRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * @var DbUserRepository
+     */
     protected $repo;
+
+    /**
+     * @var UserBuilder
+     */
     protected $builder;
 
     protected function setUp()
@@ -43,6 +50,27 @@ class UserRepositoryTest extends TestCase
         $email = $user->getEmail();
         $emailUser = $this->repo->userByEmail($email);
         $this->assertEqualUsers($user, $emailUser);
+    }
+
+    public function testDeleteUser()
+    {
+        // Create user
+        $user = $this->builder->build();
+        $userId = $user->id();
+        $name = $user->getName();
+        $email = $user->getEmail();
+        $this->repo->save($user);
+
+        // Delete user
+        $user = $user->delete();
+        $this->repo->save($user);
+
+        // Load user
+        $reloadedUser = $this->repo->user($userId);
+
+        $this->assertTrue($reloadedUser->isDeleted(), "Expected deleted user");
+        $this->assertNotEquals($name, $reloadedUser->getName(), "Expected name to be overwritten");
+        $this->assertNotEquals($email, $reloadedUser->getEmail(), "Expected email to be overwritten");
     }
 
     private function assertEqualUsers(User $user, User $reloadedUser)

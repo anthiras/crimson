@@ -50,4 +50,18 @@ class UserController extends Controller
         $this->userRepository->save($user);
         return 204;
     }
+
+    public function delete(UserId $userId)
+    {
+        $user = $this->userRepository->user($userId);
+        $this->authorize('delete', $user);
+        $user = $user->delete();
+        $this->userRepository->save($user);
+        return 204;
+    }
+
+    public function deleteCurrent()
+    {
+        return $this->delete(Auth::id());
+    }
 }

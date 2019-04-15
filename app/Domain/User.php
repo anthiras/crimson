@@ -24,20 +24,22 @@ class User extends AggregateRoot implements Authenticatable, Authorizable
     protected $birthDate;
     protected $auth0ids;
     protected $roleIds;
+    protected $deleted;
 
     const GENDER_MALE = "male";
     const GENDER_FEMALE = "female";
 
     public function __construct(UserId $userId, string $name, string $email, string $picture, string $gender = null,
-                                Chronos $birthDate = null, array $auth0ids, array $roleIds) {
+                                Chronos $birthDate = null, array $auth0ids, array $roleIds, bool $deleted) {
         $this->userId = $userId;
         $this->name = $name;
         $this->email = $email;
         $this->picture = $picture;
         $this->gender = $gender;
         $this->birthDate = $birthDate;
-        $this->auth0ids = collect($auth0ids)->verifyType(Auth0Id::class)->keyBy([$this, 'auth0Key']);
-        $this->roleIds = collect($roleIds)->verifyType(RoleId::class)->keyBy([$this, 'roleKey']);
+        $this->setAuth0Ids($auth0ids);
+        $this->setRoleIds($roleIds);
+        $this->deleted = $deleted;
     }
 
     public function id(): UserId
@@ -47,7 +49,7 @@ class User extends AggregateRoot implements Authenticatable, Authorizable
 
     public static function createNew(string $name, string $email, string $picture, Auth0Id $auth0Id): User
     {
-        return new User(UserId::create(), $name, $email, $picture, null, null, [$auth0Id], []);
+        return new User(UserId::create(), $name, $email, $picture, null, null, [$auth0Id], [], false);
     }
 
     /**
@@ -109,6 +111,12 @@ class User extends AggregateRoot implements Authenticatable, Authorizable
         return $this;
     }
 
+    private function removeGender(): User
+    {
+        $this->gender = null;
+        return $this;
+    }
+
     /**
      * @return Chronos|null
      */
@@ -127,6 +135,12 @@ class User extends AggregateRoot implements Authenticatable, Authorizable
         return $this;
     }
 
+    private function removeBirthDate(): User
+    {
+        $this->birthDate = null;
+        return $this;
+    }
+
     protected function auth0Item(Auth0Id $id)
     {
         return [$this->auth0Key($id) => $id];
@@ -140,6 +154,12 @@ class User extends AggregateRoot implements Authenticatable, Authorizable
     public function getAuth0Ids()
     {
         return $this->auth0ids;
+    }
+
+    public function setAuth0Ids(array $auth0ids): User
+    {
+        $this->auth0ids = collect($auth0ids)->verifyType(Auth0Id::class)->keyBy([$this, 'auth0Key']);
+        return $this;
     }
 
     public function assignAuth0Id(Auth0Id $id)
@@ -174,9 +194,40 @@ class User extends AggregateRoot implements Authenticatable, Authorizable
         return $this->roleIds;
     }
 
+    public function setRoleIds(array $roleIds): User
+    {
+        $this->roleIds = collect($roleIds)->verifyType(RoleId::class)->keyBy([$this, 'roleKey']);
+        return $this;
+    }
+
     public function hasRole(RoleId ...$roles): bool
     {
         return $this->roleIds->intersect($roles)->isNotEmpty();
+    }
+
+    /**
+     * @return User
+     */
+    public function delete(): User
+    {
+        $this->deleted = true;
+
+        return $this
+            ->setRoleIds([])
+            ->setAuth0Ids([])
+            ->setEmail("deleted@" . $this->getUserId()->string() . ".deleted")
+            ->setName("Deleted")
+            ->removeBirthDate()
+            ->removeGender()
+            ->setPicture("https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y");
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeleted(): bool
+    {
+        return $this->deleted;
     }
 
     /**
