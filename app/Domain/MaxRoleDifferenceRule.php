@@ -25,24 +25,6 @@ class MaxRoleDifferenceRule implements IRegistrationRule
 
     public function validate(Collection $participants): bool
     {
-        $confirmedParticipants = $participants
-            ->verifyType(Participant::class)
-            ->filter(function ($participant) {
-                return $participant->getStatus() == Participant::STATUS_CONFIRMED;
-            });
-
-        $countLeads = $confirmedParticipants
-            ->filter(function ($participant) {
-                return $participant->getRole() == Participant::ROLE_LEAD;
-            })
-            ->count();
-
-        $countFollowers = $confirmedParticipants
-            ->filter(function ($participant) {
-                return $participant->getRole() == Participant::ROLE_FOLLOW;
-            })
-            ->count();
-
-        return abs($countLeads-$countFollowers) <= $this->maxRoleDifference;
+        return ParticipantStats::getRoleDifference($participants) <= $this->maxRoleDifference;
     }
 }

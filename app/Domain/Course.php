@@ -299,6 +299,7 @@ class Course extends AggregateRoot
 
         while (true) {
             $pendingParticipants = $this->getPendingParticipants();
+            $confirmedParticipants = $this->getConfirmedParticipants();
 
             // Find next participant to be confirmed
             $nextParticipant = $pendingParticipants->first();
@@ -312,6 +313,10 @@ class Course extends AggregateRoot
                 ->filter(function ($p) use ($nextParticipant) { return $p->getRole() != $nextParticipant->getRole(); })
                 ->first();
 
+            $leadFollowerDiff = ParticipantStats::getLeadFollowerDifference($confirmedParticipants);
+            $absRoleDiff = abs($leadFollowerDiff);
+            $maxRoleDiff = $this->registrationSettings->getMaxRoleDifference();
+
             // Try confirm next participant
             $confirmed = $this->tryConfirmParticipants($nextParticipant, $rules);
             // If no luck, try confirm next participant of the opposite role
@@ -323,6 +328,20 @@ class Course extends AggregateRoot
             if (!$confirmed && $nextOtherParticipant != null)
             {
                 $confirmed = $this->tryConfirmParticipants([$nextParticipant, $nextOtherParticipant], $rules);
+            }
+
+            // If still no luck, and role difference is too high, try confirm multiple of the same role
+            if (!$confirmed && $maxRoleDiff != null && $absRoleDiff > $maxRoleDiff)
+            {
+                $roleToConfirm = $leadFollowerDiff > 0 ? Participant::ROLE_FOLLOW : Participant::ROLE_LEAD;
+                $participantsNeeded = $absRoleDiff - $maxRoleDiff;
+                $participantsToConfirm = $pendingParticipants
+                    ->filter(function ($p) use ($roleToConfirm) {
+                        return $p->getRole() == $roleToConfirm;
+                    })
+                    ->take($participantsNeeded)
+                    ->toArray();
+                $confirmed = $this->tryConfirmParticipants($participantsToConfirm, $rules);
             }
 
             // Break when it is no longer possible to confirm anyone, otherwise loop to next participant

@@ -31,6 +31,24 @@ class RegistrationSettingsBuilder
         return $this;
     }
 
+    public function autoConfirm(): RegistrationSettingsBuilder
+    {
+        $this->autoConfirm = true;
+        return $this;
+    }
+
+    public function withMaxParticipants($maxParticipants): RegistrationSettingsBuilder
+    {
+        $this->maxParticipants = $maxParticipants;
+        return $this;
+    }
+
+    public function withMaxRoleDifference($maxRoleDifference): RegistrationSettingsBuilder
+    {
+        $this->maxRoleDifference = $maxRoleDifference;
+        return $this;
+    }
+
     public function autoConfirmMaxParticipants(int $maxParticipants): RegistrationSettingsBuilder
     {
         $this->autoConfirm = true;
