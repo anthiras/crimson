@@ -12,20 +12,14 @@ class ParticipantStats
     {
         $confirmedParticipants = $participants
             ->verifyType(Participant::class)
-            ->filter(function ($participant) {
-                return $participant->getStatus() == Participant::STATUS_CONFIRMED;
-            });
+            ->filterStatus(Participant::STATUS_CONFIRMED);
 
         $countLeads = $confirmedParticipants
-            ->filter(function ($participant) {
-                return $participant->getRole() == Participant::ROLE_LEAD;
-            })
+            ->filterRole(Participant::ROLE_LEAD)
             ->count();
 
         $countFollowers = $confirmedParticipants
-            ->filter(function ($participant) {
-                return $participant->getRole() == Participant::ROLE_FOLLOW;
-            })
+            ->filterRole(Participant::ROLE_FOLLOW)
             ->count();
 
         return $countLeads-$countFollowers;

@@ -29,6 +29,18 @@ class CollectionServiceProvider extends ServiceProvider
             }
             return $this;
         });
+
+        Collection::macro('filterStatus', function($status) {
+            return $this->filter(function ($item) use ($status) {
+                return $item->getStatus() == $status;
+            });
+        });
+
+        Collection::macro('filterRole', function($role) {
+            return $this->filter(function ($item) use ($role) {
+                return $item->getRole() == $role;
+            });
+        });
     }
 
     /**

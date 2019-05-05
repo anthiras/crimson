@@ -158,7 +158,7 @@ class Course extends AggregateRoot
     public function getPendingParticipants()
     {
         return $this->getParticipantsSorted()
-            ->filter(function ($p) { return $p->getStatus() == Participant::STATUS_PENDING; });
+            ->filterStatus(Participant::STATUS_PENDING);
     }
 
     /**
@@ -167,7 +167,7 @@ class Course extends AggregateRoot
     public function getConfirmedParticipants()
     {
         return $this->getParticipantsSorted()
-            ->filter(function ($p) { return $p->getStatus() == Participant::STATUS_CONFIRMED; });
+            ->filterStatus(Participant::STATUS_CONFIRMED);
     }
 
     /**
@@ -336,9 +336,7 @@ class Course extends AggregateRoot
                 $roleToConfirm = $leadFollowerDiff > 0 ? Participant::ROLE_FOLLOW : Participant::ROLE_LEAD;
                 $participantsNeeded = $absRoleDiff - $maxRoleDiff;
                 $participantsToConfirm = $pendingParticipants
-                    ->filter(function ($p) use ($roleToConfirm) {
-                        return $p->getRole() == $roleToConfirm;
-                    })
+                    ->filterRole($roleToConfirm)
                     ->take($participantsNeeded)
                     ->toArray();
                 $confirmed = $this->tryConfirmParticipants($participantsToConfirm, $rules);

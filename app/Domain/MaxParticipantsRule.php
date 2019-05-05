@@ -27,9 +27,7 @@ class MaxParticipantsRule implements IRegistrationRule
     {
         return $participants
             ->verifyType(Participant::class)
-            ->filter(function ($participant) {
-                return $participant->getStatus() == Participant::STATUS_CONFIRMED;
-            })
+            ->filterStatus(Participant::STATUS_CONFIRMED)
             ->count()
             <= $this->maxParticipants;
     }
