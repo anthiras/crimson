@@ -29,7 +29,8 @@ class Auth0UserController extends Controller
         $user = $this->userRepository->userExistsWithEmail($tokenInfo['email'])
             ? $this->userRepository->userByEmail($tokenInfo['email'])
             : User::createNew($tokenInfo['name'], $tokenInfo['email'], $tokenInfo['picture'], $auth0Id);
-        $user->assignAuth0Id($auth0Id);
+        $user->assignAuth0Id($auth0Id)
+            ->setPicture($tokenInfo['picture']);
         $this->userRepository->save($user);
     }
 }

@@ -165,6 +165,7 @@ class User extends AggregateRoot implements Authenticatable, Authorizable
     public function assignAuth0Id(Auth0Id $id)
     {
         $this->auth0ids = $this->auth0ids->union($this->auth0Item($id));
+        return $this;
     }
 
     protected function roleItem(RoleId $id)
