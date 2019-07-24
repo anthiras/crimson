@@ -20,14 +20,17 @@ class Course extends AggregateRoot
      */
     protected $schedule;
     /**
+     * Lesson
      * @var Collection
      */
     protected $lessons;
     /**
+     * UserId
      * @var Collection
      */
     protected $instructors;
     /**
+     * Participant
      * @var Collection
      */
     protected $participants;

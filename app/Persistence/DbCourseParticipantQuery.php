@@ -18,10 +18,20 @@ use App\Queries\CourseParticipantQuery;
 class DbCourseParticipantQuery implements CourseParticipantQuery
 {
 
-    public function list(CourseId $courseId): UserResourceCollection
+    public function list(CourseId $courseId, array $status = null): UserResourceCollection
     {
         $course = CourseModel::with(['participants'])->find($courseId);
-        return new UserResourceCollection($course->participants()->orderBy('signed_up_at')->get());
+
+        $participants = $course->participants();
+
+        if ($status != null)
+        {
+            $participants = $participants->whereIn('status', $status);
+        }
+        
+        $participants = $participants->orderBy('signed_up_at')->get();
+
+        return new UserResourceCollection($participants);
     }
 
     public function show(CourseId $courseId, UserId $userId): UserResource

@@ -8,8 +8,11 @@ use App\Domain\CourseRepository;
 use App\Domain\RegistrationSettings;
 use App\Domain\Schedule;
 use App\Domain\UserId;
+use App\Domain\Participant;
 use App\Http\Resources\CourseResourceCollection;
+use App\Mail\CourseNotification;
 use App\Queries\CourseQuery;
+use App\Queries\CourseParticipantQuery;
 use Cake\Chronos\Chronos;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
@@ -17,6 +20,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CourseResource as CourseResource;
 use App\Http\Resources\IdResource as IdResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 
 class CourseController extends Controller
 {
@@ -31,14 +35,21 @@ class CourseController extends Controller
     protected $courseQuery;
 
     /**
+     * @var CourseParticipantQuery
+     */
+    protected $courseParticipationQuery;
+
+    /**
      * CourseController constructor.
      * @param CourseRepository $courseRepository
      * @param CourseQuery $courseQuery
+     * @param CourseParticipantQuery $courseParticipationQuery
      */
-    public function __construct(CourseRepository $courseRepository, CourseQuery $courseQuery)
+    public function __construct(CourseRepository $courseRepository, CourseQuery $courseQuery, CourseParticipantQuery $courseParticipationQuery)
     {
         $this->courseRepository = $courseRepository;
         $this->courseQuery = $courseQuery;
+        $this->courseParticipationQuery = $courseParticipationQuery;
     }
 
     /**
@@ -163,5 +174,31 @@ class CourseController extends Controller
         return 204;
     }
 
+    /**
+     * Send notification to all (pending/confirmed) participants in the course
+     * 
+     * @param Request $request
+     * @param CourseId $courseId
+     * @return int
+     * @throws AuthorizationException
+     */
+    public function notify(Request $request, CourseId $courseId)
+    {
+        $message = $request->message;
+        $course = $this->courseRepository->course($courseId);
+        $this->authorize('sendNotification', $course);
 
+        $mails = $this->courseParticipationQuery
+            ->list($courseId, [Participant::STATUS_PENDING, Participant::STATUS_CONFIRMED])
+            ->map(function ($participant) use ($course, $message) {
+                return new CourseNotification($course, $message, $participant);
+            });
+
+        foreach ($mails as $mail)
+        {
+            Mail::to($mail->getEmail(), $mail->getName())->send($mail);
+        }
+        
+        return 204;
+    }
 }

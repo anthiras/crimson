@@ -80,4 +80,9 @@ class CoursePolicy
     {
         return $user->hasRole(RoleId::instructor(), RoleId::admin());
     }
+
+    public function sendNotification(User $user, Course $course)
+    {
+        return $user->hasRole(RoleId::instructor(), RoleId::admin());
+    }
 }

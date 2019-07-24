@@ -16,6 +16,6 @@ use App\Http\Resources\UserResourceCollection;
 
 interface CourseParticipantQuery
 {
-    public function list(CourseId $courseId): UserResourceCollection;
+    public function list(CourseId $courseId, array $status = null): UserResourceCollection;
     public function show(CourseId $courseId, UserId $userId): UserResource;
 }
