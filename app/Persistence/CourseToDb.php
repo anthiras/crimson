@@ -28,7 +28,8 @@ class CourseToDb
             [
                 "status" => $participant->getStatus(),
                 "role" => $participant->getRole(),
-                "signed_up_at" => $participant->getSignedUpAt()
+                "signed_up_at" => $participant->getSignedUpAt(),
+                "amount_paid" => $participant->getAmountPaid()
             ]
         ];
     }

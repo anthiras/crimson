@@ -317,4 +317,13 @@ class CourseTest extends TestCase
         ];
     }
 
+    public function testSetParticipantAmount()
+    {
+        $course = CourseBuilder::buildRandom();
+        $userId = $course->participants()->first()->getUserId();
+        $amountPaid = "123.45";
+        $course->setParticipantAmountPaid($userId, $amountPaid);
+
+        $this->assertEquals($amountPaid, $course->getParticipant($userId)->getAmountPaid());
+    }
 }

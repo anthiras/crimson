@@ -381,4 +381,23 @@ class Course extends AggregateRoot
         }
         return false;
     }
+
+    /**
+     * @param UserId $userId
+     * @param string $amountPaid
+     * @return $this
+     * @throws UserNotFound
+     */
+    public function setParticipantAmountPaid(UserId $userId, string $amountPaid) : Course
+    {
+        if (!$this->participants->has($userId->string()))
+        {
+            throw new UserNotFound(sprintf("User %s is not signed up for the course", $userId));
+        }
+
+        $participant = $this->getParticipant($userId)->setAmountPaid($amountPaid);
+        $this->participants = $this->participants->merge([$userId->string() => $participant]);
+
+        return $this;
+    }
 }

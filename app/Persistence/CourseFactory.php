@@ -47,7 +47,8 @@ class CourseFactory
             new UserId($participant->id),
             $participant->pivot->status,
             $participant->pivot->role,
-            Chronos::parse($participant->pivot->signed_up_at));
+            Chronos::parse($participant->pivot->signed_up_at),
+            $participant->pivot->amount_paid);
     }
 
     public static function createRegistrationSettings(CourseModel $courseModel): RegistrationSettings

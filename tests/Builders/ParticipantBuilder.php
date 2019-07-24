@@ -12,6 +12,7 @@ class ParticipantBuilder
     protected $status;
     protected $role;
     protected $signedUpAt;
+    protected $amountPaid;
 
     public function withUserId(UserId $userId)
     {
@@ -36,6 +37,12 @@ class ParticipantBuilder
         return $this;
     }
 
+    public function withAmountPaid(string $amountPaid)
+    {
+        $this->amountPaid = $amountPaid;
+        return $this;
+    }
+
 	public function build()
 	{
         $faker = Factory::create();
@@ -43,7 +50,8 @@ class ParticipantBuilder
 		    $this->userId ?? UserId::create(),
             $this->status ?? Participant::STATUS_CONFIRMED,
             $this->role ?? Participant::ROLE_LEAD,
-            $this->signedUpAt ?? Chronos::createFromTimestamp($faker->unixTime()));
+            $this->signedUpAt ?? Chronos::createFromTimestamp($faker->unixTime()),
+            $this->amountPaid ?? "123.45");
 	}
 
 	public static function buildRandom() : Participant

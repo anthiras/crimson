@@ -32,7 +32,8 @@ class UserResource extends JsonResource
                     return [
                         'status' => $this->pivot->status,
                         'role' => $this->pivot->role,
-                        'signedUpAt' => $this->pivot->signed_up_at
+                        'signedUpAt' => $this->pivot->signed_up_at,
+                        'amountPaid' => $this->pivot->amount_paid,
                     ];
                 }),
                 'roles' => IdNameResource::collection($this->whenLoaded('roles')),

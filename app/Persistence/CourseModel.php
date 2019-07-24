@@ -27,7 +27,7 @@ class CourseModel extends Model
     public function participants()
     {
     	return $this->belongsToMany('App\Persistence\UserModel', 'course_participants', 'course_id', 'user_id')
-    		->withPivot('status', 'role', 'signed_up_at')
+    		->withPivot('status', 'role', 'signed_up_at', 'amount_paid')
             ->withTimestamps();
     }
 

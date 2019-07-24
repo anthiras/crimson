@@ -109,4 +109,20 @@ class CourseParticipantController extends Controller
         $this->courseRepository->save($course);
         return $this->courseParticipantQuery->show($courseId, $userId);
     }
+
+    /**
+     * @param Request $request
+     * @param CourseId $courseId
+     * @param UserId @userId
+     * @throws AuthorizationException
+     * @throws UserNotFound
+     */
+    public function setAmountPaid(Request $request, CourseId $courseId, UserId $userId)
+    {
+        $course = $this->courseRepository->course($courseId);
+        $this->authorize('manageParticipants', $course);
+        $course = $course->setParticipantAmountPaid($userId, $request->amountPaid);
+        $this->courseRepository->save($course);
+        return $this->courseParticipantQuery->show($courseId, $userId);
+    }
 }
