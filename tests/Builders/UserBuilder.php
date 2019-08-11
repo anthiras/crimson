@@ -33,7 +33,7 @@ class UserBuilder
             $this->email ?? $faker->email,
             $this->picture ?? $faker->imageUrl,
             $this->gender ?? User::GENDER_FEMALE,
-            $this->birthDate ?? Chronos::createFromTimestamp($faker->unixTime()),
+            $this->birthDate ?? Chronos::parse($faker->date()),
             $this->auth0ids ?? [ new Auth0Id($faker->uuid)],
             $this->roleIds ?? [ RoleId::instructor() ],
             false
