@@ -86,10 +86,18 @@ class DbUserRepository implements UserRepository
         $model->save();
     }
 
-    public function userIdByAuth0Id(Auth0Id $auth0Id): UserId
+    public function userIdByAuth0Id(Auth0Id $auth0Id)
     {
         return Auth0UserModel::where('auth0_id', $auth0Id)
             ->pluck('user_id')
+            ->map(function ($userIdStr) { return new UserId($userIdStr); })
+            ->first();
+    }
+    
+    public function userIdByEmail(string $email)
+    {
+        return UserModel::where('email', $email)
+            ->pluck('id')
             ->map(function ($userIdStr) { return new UserId($userIdStr); })
             ->first();
     }

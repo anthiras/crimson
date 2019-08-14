@@ -3,19 +3,21 @@
 namespace App\Http\Controllers\V1;
 
 use App\Domain\Auth0Id;
-use App\Domain\User;
-use App\Domain\UserRepository;
+use App\Domain\Auth0UserService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 
 class Auth0UserController extends Controller
 {
-    protected $userRepository;
+    /**
+     * @var Auth0UserService
+     */
+    protected $auth0UserService;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(Auth0UserService $auth0UserService)
     {
-        $this->userRepository = $userRepository;
+        $this->auth0UserService = $auth0UserService;
     }
 
     public function store(Request $request)
@@ -23,14 +25,10 @@ class Auth0UserController extends Controller
         //Log::debug("store auth0 user", $request->idToken);
         $auth0 = \App::make('auth0');
         $tokenInfo = get_object_vars($auth0->decodeJWT($request->idToken));
-        Log::debug("idToken", $tokenInfo);
+        //Log::debug("idToken", $tokenInfo);
 
         $auth0Id = new Auth0Id($tokenInfo['sub']);
-        $user = $this->userRepository->userExistsWithEmail($tokenInfo['email'])
-            ? $this->userRepository->userByEmail($tokenInfo['email'])
-            : User::createNew($tokenInfo['name'], $tokenInfo['email'], $tokenInfo['picture'], $auth0Id);
-        $user->assignAuth0Id($auth0Id)
-            ->setPicture($tokenInfo['picture']);
-        $this->userRepository->save($user);
+
+        $this->auth0UserService->createOrUpdateUser($auth0Id, $tokenInfo['email'], $tokenInfo['name'], $tokenInfo['picture']);
     }
 }

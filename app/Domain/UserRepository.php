@@ -17,6 +17,7 @@ interface UserRepository
     public function exists(UserId $userId): bool;
     public function userExistsWithEmail(string $email): bool;
     public function userExistsWithAuth0Id(Auth0Id $auth0Id): bool;
-    public function userIdByAuth0Id(Auth0Id $auth0Id): UserId;
+    public function userIdByAuth0Id(Auth0Id $auth0Id);
+    public function userIdByEmail(string $email);
     public function save(User $user);
 }
