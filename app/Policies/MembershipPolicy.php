@@ -50,7 +50,7 @@ class MembershipPolicy
         return $user->id()->equals($membership->getUserId());
     }
 
-    public function setPaid(User $user, Membership $membership)
+    public function setPaid(User $user, Membership $membership = null)
     {
         return $user->hasRole(RoleId::admin());
     }

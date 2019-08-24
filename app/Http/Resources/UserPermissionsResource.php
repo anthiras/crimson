@@ -12,6 +12,7 @@ namespace App\Http\Resources;
 use App\Domain\Course;
 use App\Domain\RoleId;
 use App\Domain\User;
+use App\Domain\Membership;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserPermissionsResource extends JsonResource
@@ -21,7 +22,8 @@ class UserPermissionsResource extends JsonResource
         return [
             'users:list' => $this->can('list', User::class),
             'roles:assignRole:instructor' => $this->can('assignRole', RoleId::instructor()),
-            'courses:create' => $this->can('create', Course::class)
+            'courses:create' => $this->can('create', Course::class),
+            'membership:setPaid' => $this->can('setPaid', Membership::class)
         ];
     }
 }
