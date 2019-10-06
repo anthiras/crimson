@@ -10,6 +10,7 @@ namespace App\Queries;
 
 
 use App\Domain\CourseId;
+use App\Domain\UserId;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseResourceCollection;
 use Cake\Chronos\Chronos;
@@ -22,6 +23,7 @@ interface CourseQuery
         Chronos $startsBefore = null,
         Chronos $startsAfter = null,
         Chronos $endsBefore = null,
-        Chronos $endsAfter = null)
+        Chronos $endsAfter = null,
+        UserId $userId = null)
         : CourseResourceCollection;
 }

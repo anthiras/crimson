@@ -10,10 +10,13 @@ namespace App\Persistence;
 
 
 use App\Domain\CourseId;
+use App\Domain\UserId;
+use App\Domain\Participant;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\CourseResourceCollection;
 use App\Queries\CourseQuery;
 use Cake\Chronos\Chronos;
+use Illuminate\Database\Eloquent\Builder;
 
 class DbCourseQuery implements CourseQuery
 {
@@ -28,27 +31,33 @@ class DbCourseQuery implements CourseQuery
         Chronos $startsBefore = null,
         Chronos $startsAfter = null,
         Chronos $endsBefore = null,
-        Chronos $endsAfter = null)
+        Chronos $endsAfter = null,
+        UserId $userId = null)
         : CourseResourceCollection
     {
-        $courses = CourseModel::query();
-
-        if ($startsBefore)
-        {
-            $courses = $courses->where('starts_at', '<', $startsBefore);
-        }
-        if ($startsAfter)
-        {
-            $courses = $courses->where('starts_at', '>', $startsAfter);
-        }
-        if ($endsBefore)
-        {
-            $courses = $courses->where('ends_at', '<', $endsBefore);
-        }
-        if ($endsAfter)
-        {
-            $courses = $courses->where('ends_at', '>', $endsAfter);
-        }
+        $courses = CourseModel::query()
+            ->when($startsBefore, function ($query, $startsBefore) {
+                return $query->where('starts_at', '<', $startsBefore);
+            })
+            ->when($startsAfter, function ($query, $startsAfter) {
+                return $query->where('starts_at', '>', $startsAfter);
+            })
+            ->when($endsBefore, function ($query, $endsBefore) {
+                return $query->where('ends_at', '<', $endsBefore);
+            })
+            ->when($endsAfter, function ($query, $endsAfter) {
+                return $query->where('ends_at', '>', $endsAfter);
+            })
+            ->when($userId, function($query, $userId) {
+                // Course has user as non-cancelled participant, or instructor
+                return $query->where(function ($userQuery) use ($userId) {
+                    return $userQuery->whereHas('participants', function (Builder $subQuery) use ($userId) {
+                        return $subQuery->where('user_id', '=', $userId)->where('status', '!=', Participant::STATUS_CANCELLED);
+                    })->orwhereHas('instructors', function (Builder $subQuery) use ($userId) {
+                        return $subQuery->where('user_id', '=', $userId);
+                    });
+                });
+            });
 
         //dd($courses->toSql());
 

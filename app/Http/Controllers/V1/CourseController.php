@@ -21,6 +21,7 @@ use App\Http\Resources\CourseResource as CourseResource;
 use App\Http\Resources\IdResource as IdResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -60,12 +61,14 @@ class CourseController extends Controller
      */
     public function index(Request $request)
     {
+        $userId = $request->query('mine') ? Auth::id() : null;
         return $this->courseQuery->list(
             $request->query('include'),
             $this->parseDate($request, 'startsBefore'),
             $this->parseDate($request, 'startsAfter'),
             $this->parseDate($request, 'endsBefore'),
-            $this->parseDate($request, 'endsAfter'));
+            $this->parseDate($request, 'endsAfter'),
+            $userId);
     }
 
     private function parseDate(Request $request, string $key): ?Chronos
