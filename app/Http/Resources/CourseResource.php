@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
+use Cake\Chronos\Chronos;
 
 class CourseResource extends JsonResource
 {
@@ -19,8 +20,10 @@ class CourseResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'weeks' => $this->weeks,
-            'startsAt' => $this->starts_at,
+            'startsAt' => $this->starts_at, // TODO: Convert to UTC
             'endsAt' => $this->ends_at,
+            'startsAtUtc' => Chronos::parse($this->starts_at, 'Europe/Copenhagen')->setTimezone('UTC')->toDateTimeString(),
+            'createdAt' => $this->created_at,
             'durationMinutes' => $this->duration_minutes,
             'instructors' => UserResource::collection($this->whenLoaded('instructors')),
             'participants' => UserResource::collection($this->whenLoaded('participants')),

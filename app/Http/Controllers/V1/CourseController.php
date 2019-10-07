@@ -22,6 +22,7 @@ use App\Http\Resources\IdResource as IdResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 
 class CourseController extends Controller
 {
@@ -54,7 +55,7 @@ class CourseController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * List courses
      *
      * @param Request $request
      * @return CourseResourceCollection
@@ -62,6 +63,43 @@ class CourseController extends Controller
     public function index(Request $request)
     {
         $userId = $request->query('mine') ? Auth::id() : null;
+
+        return $this->listCourses($request, $userId)
+            ->additional(['links' => ['ics' => $this->buildICalUrl($request, $userId)]]);
+    }
+
+    /**
+     * List courses in iCalendar (.ics) format
+     * 
+     * @param Request $request
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function ical(Request $request) {
+        $userId = $request->query('mine') && $request->query('userId') ? new UserId($request->query('userId')) : null;
+
+        $courses = $this->listCourses($request, $userId)->toArray($request);
+
+        return view('courses/ical', [
+            'courses' => $courses, 
+            'dateFormatter' => function ($dateStr) { return Chronos::parse($dateStr)->format("Ymd\THis\Z"); }]);
+    }
+
+    private function buildICalUrl(Request $request, UserId $userId = null)
+    {
+        // Use same parameters for the iCal URL, except paging, and add userID if it's a personal list
+        $iCalParams = $request->all();
+        unset($iCalParams['page']);
+
+        if ($userId != null)
+        {
+            $iCalParams['userId'] = $userId->__toString();
+        }
+
+        return URL::signedRoute('courses.ical', $iCalParams);
+    }
+
+    private function listCourses(Request $request, UserId $userId = null)
+    {
         return $this->courseQuery->list(
             $request->query('include'),
             $this->parseDate($request, 'startsBefore'),

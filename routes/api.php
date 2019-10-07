@@ -20,6 +20,7 @@ Route::bind('userId', function($value) { return new UserId($value); });
 Route::bind('roleId', function($value) { return new RoleId($value); });
 
 Route::get('/v1/courses', 'V1\CourseController@index');
+Route::get('/v1/courses/ical.ics', 'V1\CourseController@ical')->name('courses.ical')->middleware('signed');
 Route::get('/v1/courses/{courseId}', 'V1\CourseController@show')->middleware('requireauth');
 Route::post('/v1/courses', 'V1\CourseController@store')->middleware('requireauth');
 Route::put('/v1/courses/{courseId}', 'V1\CourseController@update')->middleware('requireauth');
