@@ -79,9 +79,12 @@ class CourseController extends Controller
 
         $courses = $this->listCourses($request, $userId)->toArray($request);
 
-        return view('courses/ical', [
-            'courses' => $courses, 
-            'dateFormatter' => function ($dateStr) { return Chronos::parse($dateStr)->format("Ymd\THis\Z"); }]);
+        return response(
+            view('courses/ical', [
+                'courses' => $courses, 
+                'dateFormatter' => function ($dateStr) { return Chronos::parse($dateStr)->format("Ymd\THis\Z"); }]))
+            ->header('Content-Type', 'text/calendar')
+            ->header('Content-Disposition', 'inline; filename=courses.ics');
     }
 
     private function buildICalUrl(Request $request, UserId $userId = null)
