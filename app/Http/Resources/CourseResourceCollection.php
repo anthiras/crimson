@@ -16,4 +16,21 @@ class CourseResourceCollection extends ResourceCollection
     {
         return parent::toArray($request);
     }
+
+    public function echoICalString()
+    {
+        echo join("\r\n", [
+            "BEGIN:VCALENDAR",
+            "VERSION:2.0",
+            "PRODID:-//" . config('app.name') . "//Courses//EN"
+        ]);
+
+        echo "\r\n";
+
+        foreach ($this->collection as $course) {
+            $course->echoICalString();
+        }
+        echo "\r\n";
+        echo "END:VCALENDAR";
+    }
 }

@@ -72,19 +72,18 @@ class CourseController extends Controller
      * List courses in iCalendar (.ics) format
      * 
      * @param Request $request
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function ical(Request $request) {
         $userId = $request->query('mine') && $request->query('userId') ? new UserId($request->query('userId')) : null;
 
-        $courses = $this->listCourses($request, $userId)->toArray($request);
+        $courses = $this->listCourses($request, $userId);
 
-        return response(
-            view('courses/ical', [
-                'courses' => $courses, 
-                'dateFormatter' => function ($dateStr) { return Chronos::parse($dateStr)->format("Ymd\THis\Z"); }]))
-            ->header('Content-Type', 'text/calendar')
-            ->header('Content-Disposition', 'inline; filename=courses.ics');
+        return response()->streamDownload(
+            function () use ($courses) {
+                $courses->echoICalString();
+            }, 
+            'courses.ics', 
+            ['Content-Type' => 'text/calendar']);
     }
 
     private function buildICalUrl(Request $request, UserId $userId = null)

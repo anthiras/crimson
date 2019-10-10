@@ -22,7 +22,6 @@ class CourseResource extends JsonResource
             'weeks' => $this->weeks,
             'startsAt' => $this->starts_at, // TODO: Convert to UTC
             'endsAt' => $this->ends_at,
-            'startsAtUtc' => Chronos::parse($this->starts_at, 'Europe/Copenhagen')->setTimezone('UTC')->toDateTimeString(),
             'createdAt' => $this->created_at,
             'durationMinutes' => $this->duration_minutes,
             'instructors' => UserResource::collection($this->whenLoaded('instructors')),
@@ -37,5 +36,24 @@ class CourseResource extends JsonResource
                 'maxRoleDifference' => $this->max_role_difference
             ])
         ];
+    }
+
+    public function echoICalString()
+    {
+        echo join("\r\n", [
+            "BEGIN:VEVENT",
+            "UID:" . $this->id,
+            "DTSTAMP:" . self::formatICalDate(Chronos::parse($this->created_at)),
+            "DTSTART:" . self::formatICalDate(Chronos::parse($this->starts_at, 'Europe/Copenhagen')->setTimezone('UTC')),
+            "DURATION:PT" . intdiv($this->duration_minutes, 60) . "H" . $this->duration_minutes . "M",
+            "SUMMARY:" . $this->name,
+            "RRULE:FREQ=WEEKLY;COUNT=" . $this->weeks,
+            "END:VEVENT"
+        ]);
+    }
+
+    private static function formatICalDate(Chronos $date)
+    {
+        return $date->format("Ymd\THis\Z");
     }
 }
