@@ -45,7 +45,7 @@ class CourseResource extends JsonResource
             "UID:" . $this->id,
             "DTSTAMP:" . self::formatICalDate(Chronos::parse($this->created_at)),
             "DTSTART:" . self::formatICalDate(Chronos::parse($this->starts_at, 'Europe/Copenhagen')->setTimezone('UTC')),
-            "DURATION:PT" . intdiv($this->duration_minutes, 60) . "H" . $this->duration_minutes . "M",
+            "DURATION:PT" . intdiv($this->duration_minutes, 60) . "H" . ($this->duration_minutes % 60) . "M",
             "SUMMARY:" . $this->name,
             "RRULE:FREQ=WEEKLY;COUNT=" . $this->weeks,
             "END:VEVENT"
