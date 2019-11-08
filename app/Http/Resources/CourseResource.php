@@ -59,6 +59,6 @@ class CourseResource extends JsonResource
 
     private static function formatUtcICalDate(Chronos $date)
     {
-        return $date->format("Ymd\THisZ");
+        return $date->format("Ymd\THis\Z");
     }
 }

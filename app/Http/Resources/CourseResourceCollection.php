@@ -23,9 +23,6 @@ class CourseResourceCollection extends ResourceCollection
             "BEGIN:VCALENDAR",
             "VERSION:2.0",
             "PRODID:-//" . config('app.name') . "//Courses//EN",
-            "BEGIN:VCALENDAR",
-            "PRODID:-//tzurl.org//NONSGML Olson 2018g-rearguard//EN",
-            "VERSION:2.0",
             "BEGIN:VTIMEZONE",
             "TZID:Europe/Copenhagen",
             "TZURL:http://tzurl.org/zoneinfo-outlook/Europe/Copenhagen",
@@ -51,8 +48,8 @@ class CourseResourceCollection extends ResourceCollection
 
         foreach ($this->collection as $course) {
             $course->echoICalString();
+            echo "\r\n";
         }
-        echo "\r\n";
         echo "END:VCALENDAR";
     }
 }
