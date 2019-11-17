@@ -23,6 +23,7 @@ class CourseResourceCollection extends ResourceCollection
             "BEGIN:VCALENDAR",
             "VERSION:2.0",
             "PRODID:-//" . config('app.name') . "//Courses//EN",
+            "X-WR-TIMEZONE:Europe/Copenhagen",
             "BEGIN:VTIMEZONE",
             "TZID:Europe/Copenhagen",
             "TZURL:http://tzurl.org/zoneinfo-outlook/Europe/Copenhagen",
