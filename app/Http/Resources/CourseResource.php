@@ -42,8 +42,17 @@ class CourseResource extends JsonResource
     {
         echo join("\r\n", [
             "BEGIN:VEVENT",
+            // Unique identifier for event
             "UID:" . $this->id,
-            "DTSTAMP:" . self::formatUtcICalDate(Chronos::parse($this->created_at)),
+            // Creation time of VEVENT message
+            "DTSTAMP:" . self::formatUtcICalDate(Chronos::now()),
+            // Creation time of event in data store
+            "CREATED:" . self::formatUtcICalDate(Chronos::parse($this->created_at)),
+            // Last modification time of event in data store
+            "LAST-MODIFIED:" . self::formatUtcICalDate(Chronos::parse($this->updated_at)),
+            // Increasing sequence number to indicate event updates
+            "SEQUENCE:" . $this->version,
+            // Start time of event in local time zone
             "DTSTART;TZID=Europe/Copenhagen:" . self::formatLocalICalDate(Chronos::parse($this->starts_at, 'Europe/Copenhagen')),
             "DURATION:PT" . intdiv($this->duration_minutes, 60) . "H" . ($this->duration_minutes % 60) . "M",
             "SUMMARY:" . $this->name,

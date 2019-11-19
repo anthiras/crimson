@@ -23,6 +23,8 @@ class CourseResourceCollection extends ResourceCollection
             "BEGIN:VCALENDAR",
             "VERSION:2.0",
             "PRODID:-//" . config('app.name') . "//Courses//EN",
+            "CALSCALE:GREGORIAN",
+            "METHOD:PUBLISH",
             "X-WR-TIMEZONE:Europe/Copenhagen",
             "BEGIN:VTIMEZONE",
             "TZID:Europe/Copenhagen",

@@ -40,6 +40,8 @@ class DbCourseRepository implements CourseRepository
         $courseModel->instructors()->sync($course->getInstructors()->map->string());
         $courseModel->participants()->sync($course->participants()->mapWithKeys([CourseToDb::class, 'mapParticipant']));
 
+        $courseModel->version++;
+
         $courseModel->save();
 
         $course->dispatchEvents();
