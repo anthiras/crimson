@@ -29,7 +29,8 @@ class MembershipController extends Controller
     {
         return response()->json([
             'lastRenewal' => MembershipRenewal::lastRenewal(Chronos::now())->toDateTimeString(),
-            'nextRenewal' => MembershipRenewal::nextRenewal(Chronos::now())->toDateTimeString()
+            'nextRenewal' => MembershipRenewal::nextRenewal(Chronos::now())->toDateTimeString(),
+            'openForRegistration' => MembershipRenewal::isOpenForRegistration()
         ]);
     }
 

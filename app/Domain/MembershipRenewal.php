@@ -34,4 +34,9 @@ class MembershipRenewal
     {
         return \DateInterval::createFromDateString(config('membership.renewal_period'));
     }
+
+    public static function isOpenForRegistration(): bool
+    {
+        return config('membership.open_for_registration');
+    }
 }

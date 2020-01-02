@@ -33,6 +33,10 @@ class Membership
 
     public static function create(UserId $userId, string $paymentMethod, ?string $signupComment = null): Membership
     {
+        if (!MembershipRenewal::isOpenForRegistration())
+        {
+            throw new \Exception("Membership is not open for registration");
+        }
         return new Membership($userId, Chronos::now(), MembershipRenewal::nextRenewal(Chronos::now()), $paymentMethod, $signupComment);
     }
 
