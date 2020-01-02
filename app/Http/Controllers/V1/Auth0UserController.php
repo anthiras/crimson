@@ -30,5 +30,7 @@ class Auth0UserController extends Controller
         $auth0Id = new Auth0Id($tokenInfo['sub']);
 
         $this->auth0UserService->createOrUpdateUser($auth0Id, $tokenInfo['email'], $tokenInfo['name'], $tokenInfo['picture']);
+
+        return 204;
     }
 }

@@ -29,6 +29,7 @@ class UserRoleController extends Controller
         $user = $this->userRepository->user($userId)
             ->addRole($roleId);
         $this->userRepository->save($user);
+        return 204;
     }
 
     public function removeRole(UserId $userId, RoleId $roleId)
@@ -37,5 +38,6 @@ class UserRoleController extends Controller
         $user = $this->userRepository->user($userId)
             ->removeRole($roleId);
         $this->userRepository->save($user);
+        return 204;
     }
 }
