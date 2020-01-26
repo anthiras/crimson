@@ -16,5 +16,10 @@ use App\Http\Resources\UserResourceCollection;
 interface UserQuery
 {
     public function show(UserId $userId): UserResource;
-    public function list($query, $includes): UserResourceCollection;
+    public function list(
+        ?string $searchText = null,
+        $includes = null,
+        ?bool $isMember = null,
+        ?bool $isPaidMember = null)
+        : UserResourceCollection;
 }

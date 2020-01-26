@@ -5,6 +5,7 @@ use App\Domain\RoleId;
 use App\Domain\UserId;
 use App\Persistence\CourseModel;
 use App\Persistence\UserModel;
+use App\Persistence\MembershipModel;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,6 +28,16 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $users = factory(UserModel::class, 50)->create();
+
+        // Set first 5 users as unpaid members
+        $users->take(5)->each(function ($user) {
+            $user->memberships()->save(factory(MembershipModel::class)->state('unpaid')->make());
+        });
+        // Set next 3 users as paid members
+        $users->slice(5, 3)->each(function ($user) {
+            $user->memberships()->save(factory(MembershipModel::class)->state('paid')->make());
+        });
+
         $courses = factory(CourseModel::class, 10)->create();
 
         $normalUser = factory(UserModel::class)->make();

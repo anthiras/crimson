@@ -31,5 +31,7 @@ class DatabaseTest extends TestCase
         $this->assertDatabaseHas('users', [
             'id' => \DatabaseSeeder::normalUserId()
         ]);
+
+        $this->assertDatabaseHas('membership', []);
     }
 }

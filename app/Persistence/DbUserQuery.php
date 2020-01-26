@@ -14,6 +14,8 @@ use App\Http\Resources\UserResource;
 use App\Http\Resources\UserResourceCollection;
 use App\Queries\UserQuery;
 use Illuminate\Support\Facades\DB;
+use Cake\Chronos\Chronos;
+use Illuminate\Database\Eloquent\Builder;
 
 class DbUserQuery implements UserQuery
 {
@@ -23,18 +25,41 @@ class DbUserQuery implements UserQuery
         return new UserResource(UserModel::with(UserModel::AVAILABLE_INCLUDES)->find($userId));
     }
 
-    public function list($query, $includes): UserResourceCollection
+    public function list(
+        ?string $searchText = null,
+        $includes = null,
+        ?bool $isMember = null,
+        ?bool $isPaidMember = null)
+        : UserResourceCollection
     {
         //DB::connection()->enableQueryLog();
 
-        $users = UserModel::query()->where('deleted', '=', false);
+        $users = UserModel::query()->where('deleted', '=', false)
+            ->when(!is_null($isMember), function ($query) use ($isMember) {
+                return $isMember
+                ? $query->whereHas('memberships', function (Builder $subQuery) {
+                    return self::membershipQuery($subQuery);
+                })
+                : $query->whereDoesntHave('memberships', function (Builder $subQuery) {
+                    return self::membershipQuery($subQuery);
+                });
 
-        if ($query)
-        {
-            $users = $users->where('name', 'like', '%'.$query.'%');
-        }
+            })
+            ->when(!is_null($isPaidMember), function($query) use ($isPaidMember) {
+                return $isPaidMember
+                    ? $query->whereHas('memberships', function (Builder $subQuery) {
+                        return self::paidMembershipQuery($subQuery);
+                    })
+                    : $query->whereDoesntHave('memberships', function (Builder $subQuery) {
+                        return self::paidMembershipQuery($subQuery);
+                    });
+            })
+            ->when($searchText, function($query, $searchText) {
+                return $query->where('name', 'like', '%'.$searchText.'%');
+            })
+            ->orderBy('name')->paginate(10);//->get();
 
-        $users = $users->orderBy('name')->paginate(10);//->get();
+        //dd($users->toSql());
 
         $availableIncludes = collect(UserModel::AVAILABLE_INCLUDES);
         if ($includes)
@@ -51,5 +76,20 @@ class DbUserQuery implements UserQuery
         //dd(DB::getQueryLog());
 
         return $uc;
+    }
+
+    private static function membershipQuery(Builder $query): Builder {
+        $now = Chronos::now();
+        return $query
+            ->where('created_at', '<', $now)
+            ->where('expires_at', '>', $now);
+    }
+
+    private static function paidMembershipQuery(Builder $query) : Builder {
+        return self::membershipQuery($query)->whereNotNull('paid_at');
+    }
+
+    private static function unpaidMembershipQuery(Builder $query) : Builder {
+        return self::membershipQuery($query)->whereNull('paid_at');
     }
 }
