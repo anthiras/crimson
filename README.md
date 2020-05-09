@@ -21,7 +21,15 @@ REST API for managing courses/classes and signups
 External services:
 * Auth0 for authentication
 
-## Developer setup
+## Docker developer setup
+
+1. Run `install.sh` to install PHP packages using composer through docker.
+2. Create a configuration file by copying `.evn.example` to `.env` and fill it out with your database credentials, Auth0 credentials etc.
+3. Start the app, including a webserver and database server using `docker-compose up -d`.
+4. Generate an app key for the `.env` file using `docker-compose exec app php artisan key:generate`.
+5. Run database migrations (optionally with the `--seed` flag to seed database with dummy data): `docker-compose exec app php artisan migrate:refresh --seed`
+
+## Laravel Homestead developer setup
 
 1. Install a PHP/MySQL environment. The recommended method is [Laravel Homestead](https://laravel.com/docs/5.6/homestead) which is a pre-packaged virtual box with everything needed to run Laravel. To run Laravel Homestead you also need to install VirtualBox and Vagrant.
 2. Clone the crimson repository.
