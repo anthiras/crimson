@@ -28,6 +28,7 @@ External services:
 3. Start the app, including a webserver and database server using `docker-compose up -d`.
 4. Generate an app key for the `.env` file using `docker-compose exec app php artisan key:generate`.
 5. Run database migrations (optionally with the `--seed` flag to seed database with dummy data): `docker-compose exec app php artisan migrate:refresh --seed`
+6. Add the domain name to your hosts file: `127.0.0.1 crimson.test`
 
 ## Laravel Homestead developer setup
 
