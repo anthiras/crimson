@@ -16,7 +16,7 @@ class CourseApiTest extends TestCase
     protected $normalUser;
     protected $courseData;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->seed();
@@ -36,7 +36,7 @@ class CourseApiTest extends TestCase
         ];
     }
 
-    public function testCoursesIndex()
+    public function testCoursesIndex(): void
     {
         $this->json('GET','/v1/courses?include[]=instructors')
             ->assertSuccessful()
@@ -44,20 +44,20 @@ class CourseApiTest extends TestCase
             ->assertJsonFragment(['myParticipation' => null]);
     }
 
-    public function testCoursesStoreUnauthorized()
+    public function testCoursesStoreUnauthorized(): void
     {
         $this->json('POST','/v1/courses', $this->courseData)
             ->assertStatus(401);
     }
 
-    public function testCoursesStoreForbiddenForNormalUser()
+    public function testCoursesStoreForbiddenForNormalUser(): void
     {
         $this->actingAs($this->normalUser)
             ->json('POST','/v1/courses', $this->courseData)
             ->assertStatus(403);
     }
 
-    public function testCoursesStoreAuthorizedAsInstructor()
+    public function testCoursesStoreAuthorizedAsInstructor(): void
     {
         $this->actingAs($this->instructor)
             ->json('POST','/v1/courses', $this->courseData)

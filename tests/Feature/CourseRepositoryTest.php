@@ -24,7 +24,7 @@ class CourseRepositoryTest extends TestCase
     protected $courseBuilder;
     protected $participantBuilder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repo = new DbCourseRepository();
@@ -34,7 +34,7 @@ class CourseRepositoryTest extends TestCase
     }
 
 
-    public function testCreateLoadUpdateDeleteCourse()
+    public function testCreateLoadUpdateDeleteCourse(): void
     {
         $users = UserModel::all();
 
@@ -73,7 +73,7 @@ class CourseRepositoryTest extends TestCase
         $this->repo->course($courseId);
     }
 
-    private function assertEqualCourses(Course $course, Course $reloadedCourse)
+    private function assertEqualCourses(Course $course, Course $reloadedCourse): void
     {
         $this->assertEquals($course->id(), $reloadedCourse->id());
         $this->assertEquals($course->name(), $reloadedCourse->name());

@@ -35,7 +35,7 @@ class CourseTest extends TestCase
      */
     protected $registrationSettingsBuilder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->courseBuilder = new CourseBuilder();
@@ -43,7 +43,7 @@ class CourseTest extends TestCase
         $this->registrationSettingsBuilder = new RegistrationSettingsBuilder();
     }
 
-    public function testStartAndEnd()
+    public function testStartAndEnd(): void
     {
         $firstStartTime = Chronos::create(2018, 1, 1, 19, 0, 0);
         $firstEndTime = Chronos::create(2018, 1, 1, 20, 0, 0);
@@ -61,7 +61,7 @@ class CourseTest extends TestCase
         $this->assertEquals($lastEndTime, $course->endsAt(), "Expected course end to be end time of last lesson");
     }
 
-    public function testInstructors()
+    public function testInstructors(): void
     {
         $course = CourseBuilder::buildRandom();
         $instructorId = UserId::create();
@@ -73,7 +73,7 @@ class CourseTest extends TestCase
         $this->assertFalse($course->getInstructors()->contains($instructorId), "Did not expect instructorId to be in course instructors");
     }
 
-    public function testSignUpConfirmCancel()
+    public function testSignUpConfirmCancel(): void
     {
         $course = CourseBuilder::buildRandom();
         $userId = UserId::create();
@@ -91,7 +91,7 @@ class CourseTest extends TestCase
             "Expected user to be confirmed as a participant");
     }
 
-    public function testErrorSigningUpWhenRegistrationIsClosed()
+    public function testErrorSigningUpWhenRegistrationIsClosed(): void
     {
         $this->expectException(ClosedForRegistration::class);
 
@@ -102,14 +102,14 @@ class CourseTest extends TestCase
         $course->signUp(UserId::create(), Participant::ROLE_LEAD);
     }
 
-    public function testErrorConfirmingNonExistingParticipant()
+    public function testErrorConfirmingNonExistingParticipant(): void
     {
         $this->expectException(UserNotFound::class);
         $course = CourseBuilder::buildRandom();
         $course->confirmParticipant(UserId::create());
     }
 
-    public function testErrorSigningUpWhenAlreadySignedUp()
+    public function testErrorSigningUpWhenAlreadySignedUp(): void
     {
         $this->expectException(IllegalTransition::class);
 
@@ -120,7 +120,7 @@ class CourseTest extends TestCase
         $course->signUp($userId, Participant::ROLE_LEAD);
     }
 
-    public function testCanSignUpAgainAfterCancelled()
+    public function testCanSignUpAgainAfterCancelled(): void
     {
         $course = CourseBuilder::buildRandom();
         $userId = UserId::create();
@@ -133,7 +133,7 @@ class CourseTest extends TestCase
         $this->assertEquals(Participant::ROLE_FOLLOW, $course->getParticipant($userId)->getRole());
     }
 
-    public function testFirstPendingParticipantIsConfirmed()
+    public function testFirstPendingParticipantIsConfirmed(): void
     {
         $participantBuilder = $this->participantBuilder->withStatus(Participant::STATUS_PENDING);
         $p1 = $participantBuilder->withSignedUpAt(Chronos::yesterday())->build();
@@ -161,7 +161,7 @@ class CourseTest extends TestCase
             "Did not expect the last participant to be confirmed");
     }
 
-    public function testMaxParticipantsAreConfirmed()
+    public function testMaxParticipantsAreConfirmed(): void
     {
         $p1 = $this->participantBuilder->withStatus(Participant::STATUS_CONFIRMED)->withSignedUpAt(Chronos::yesterday())->build();
         $p2 = $this->participantBuilder->withStatus(Participant::STATUS_PENDING)->withSignedUpAt(Chronos::yesterday())->build();
@@ -184,7 +184,7 @@ class CourseTest extends TestCase
         $this->assertEquals(Participant::STATUS_PENDING, $course->getParticipant($p4->getUserId())->getStatus());
     }
 
-    public function testParticipantsConfirmedInCouplesWhenZeroRoleDifference()
+    public function testParticipantsConfirmedInCouplesWhenZeroRoleDifference(): void
     {
         $lead1 = $this->participantBuilder
             ->withStatus(Participant::STATUS_PENDING)
@@ -236,7 +236,7 @@ class CourseTest extends TestCase
      * @param $expectedConfirmedLeads
      * @param $expectedConfirmedFollowers
      */
-    public function testRoleDifference($confirmedLeads, $confirmedFollowers, $pendingLeads, $pendingFollowers, $maxRoleDiff, $maxParticipants, $expectedConfirmedLeads, $expectedConfirmedFollowers)
+    public function testRoleDifference($confirmedLeads, $confirmedFollowers, $pendingLeads, $pendingFollowers, $maxRoleDiff, $maxParticipants, $expectedConfirmedLeads, $expectedConfirmedFollowers): void
     {
         $participantBuilder = $this->participantBuilder;
 
@@ -302,7 +302,7 @@ class CourseTest extends TestCase
             "Expected $expectedConfirmedFollowers of the pending followers to be confirmed");
     }
 
-    public function roleDifferenceProvider()
+    public function roleDifferenceProvider(): array
     {
         // $confirmedLeads, $confirmedFollowers, $pendingLeads, $pendingFollowers, $maxRoleDiff, $maxParticipants, $expectedConfirmedLeads, $expectedConfirmedFollowers
         return [
@@ -317,7 +317,7 @@ class CourseTest extends TestCase
         ];
     }
 
-    public function testSetParticipantAmount()
+    public function testSetParticipantAmount(): void
     {
         $course = CourseBuilder::buildRandom();
         $userId = $course->participants()->first()->getUserId();

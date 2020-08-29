@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class MembershipRenewalTest extends TestCase
 {
-    public function testNextRenewal()
+    public function testNextRenewal(): void
     {
         // Next year
         $date = Chronos::create(2018, 10, 10);

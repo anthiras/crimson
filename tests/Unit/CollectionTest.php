@@ -8,14 +8,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CollectionTest extends TestCase
 {
-    public function testVerifyTypeSuccess()
+    public function testVerifyTypeSuccess(): void
     {
         $collection = collect([new MyCollectionTestClass(), new MyCollectionTestClass()]);
         $collection->verifyType(MyCollectionTestClass::class);
         $this->assertCount(2, $collection);
     }
 
-    public function testVerifyTypeException()
+    public function testVerifyTypeException(): void
     {
         $this->expectException(\Exception::class);
         collect([new MyCollectionTestClass(), "1234"])->verifyType(MyCollectionTestClass::class);

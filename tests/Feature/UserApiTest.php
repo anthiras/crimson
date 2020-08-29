@@ -15,7 +15,7 @@ class UserApiTest extends TestCase
     protected $user;
     protected $otherUser;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->seed();
@@ -26,20 +26,20 @@ class UserApiTest extends TestCase
         $this->otherUser = $userRepo->user(new UserId($userIds[1]));
     }
 
-    public function testListUsersUnauthorized()
+    public function testListUsersUnauthorized(): void
     {
         $this->json('GET','/v1/users')
             ->assertStatus(401);
     }
 
-    public function testListUsersAuthorized()
+    public function testListUsersAuthorized(): void
     {
         $this->actingAs($this->user)
             ->json('GET','/v1/users')
             ->assertSuccessful();
     }
 
-    public function testUserCanShowOwnUserDetails()
+    public function testUserCanShowOwnUserDetails(): void
     {
         $this->actingAs($this->user)
             ->json('GET', '/v1/users/current')
@@ -50,7 +50,7 @@ class UserApiTest extends TestCase
             ->assertSuccessful();
     }
 
-    public function testUserCannotShowOtherUserDetails()
+    public function testUserCannotShowOtherUserDetails(): void
     {
         $this->actingAs($this->user)
             ->json('GET', '/v1/users/'.$this->otherUser->id())

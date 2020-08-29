@@ -42,6 +42,10 @@ External services:
 
 ## Developer tools
 
+### Running commands against the docker app
+
+Prefix commands with `docker-compose exec app ` if you are running the app in docker.
+
 ### Unit tests
 
 ```

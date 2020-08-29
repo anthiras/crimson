@@ -12,7 +12,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
 {
-    public function testAuth0Ids()
+    public function testAuth0Ids(): void
     {
         $user = UserBuilder::buildRandom();
         $auth0Id = new Auth0Id("testId|1234");
@@ -21,7 +21,7 @@ class UserTest extends TestCase
         $this->assertTrue($user->getAuth0Ids()->contains($auth0Id), "Expected auth0 ID to be in user's list of auth0 IDs");
     }
 
-    public function testUserHasRole()
+    public function testUserHasRole(): void
     {
         $userBuilder = new UserBuilder();
         $adminRoleId = RoleId::admin();
@@ -33,7 +33,7 @@ class UserTest extends TestCase
         $this->assertTrue($adminUser->hasRole($adminRoleId, $otherRoleId), "Expected user to have one of the given roles");
     }
 
-    public function testAddRemoveRoles()
+    public function testAddRemoveRoles(): void
     {
         $userBuilder = new UserBuilder();
         $user = $userBuilder->withRoles([])->build();

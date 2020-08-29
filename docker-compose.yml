@@ -53,10 +53,32 @@ services:
     networks:
       - app-network
 
+  dbtest:
+    image: mysql:5.7.22
+    container_name: dbtest
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_DATABASE: laravel_test
+      MYSQL_ROOT_PASSWORD: rootpw
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      # Database storage
+      - dbtestdata:/var/lib/mysql
+      # MySQL configuration
+      #- ./mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
 
 volumes:
   dbdata:
+    driver: local
+  dbtestdata:
     driver: local

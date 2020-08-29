@@ -10,7 +10,7 @@ use Cake\Chronos\Chronos;
 
 class ScheduleTest extends TestCase
 {
-    public function testEquality()
+    public function testEquality(): void
     {
         $schedule1 = new Schedule(Chronos::create('2018-01-01'), 1, 1);
         $schedule2 = new Schedule(Chronos::create('2018-01-01'), 1, 1);

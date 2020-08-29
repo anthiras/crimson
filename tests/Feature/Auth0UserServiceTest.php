@@ -31,7 +31,7 @@ class Auth0UserServiceTest extends TestCase
     protected $auth0Id2;
     protected $email2;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->auth0Id = new Auth0Id("test1");
@@ -44,7 +44,7 @@ class Auth0UserServiceTest extends TestCase
         $this->auth0UserService = new Auth0UserService($this->userRepo);
     }
 
-    public function testCreateUser()
+    public function testCreateUser(): void
     {
         $this->auth0UserService->createOrUpdateUser($this->auth0Id, $this->email, $this->name, $this->picture);
         $user = $this->userRepo->userByAuth0Id($this->auth0Id);
@@ -54,7 +54,7 @@ class Auth0UserServiceTest extends TestCase
         $this->assertEquals($this->picture, $user->getPicture());
     }
 
-    public function testUpdateUserEmail()
+    public function testUpdateUserEmail(): void
     {
         $this->auth0UserService->createOrUpdateUser($this->auth0Id, $this->email, $this->name, $this->picture);
         $this->auth0UserService->createOrUpdateUser($this->auth0Id, $this->email2, $this->name, $this->picture);
@@ -63,7 +63,7 @@ class Auth0UserServiceTest extends TestCase
         $this->assertEquals($this->email2, $user->getEmail());
     }
 
-    public function testAddAuth0IdToExistingUser()
+    public function testAddAuth0IdToExistingUser(): void
     {
         $this->auth0UserService->createOrUpdateUser($this->auth0Id, $this->email, $this->name, $this->picture);
         $this->auth0UserService->createOrUpdateUser($this->auth0Id2, $this->email, $this->name, $this->picture);
@@ -74,7 +74,7 @@ class Auth0UserServiceTest extends TestCase
         $this->assertEquals($userId1, $userId2);
     }
 
-    public function testErrorWhenAuth0IdAndEmailMatchesTwoSeparateAccounts()
+    public function testErrorWhenAuth0IdAndEmailMatchesTwoSeparateAccounts(): void
     {
         $this->auth0UserService->createOrUpdateUser($this->auth0Id, $this->email, $this->name, $this->picture);
         $this->auth0UserService->createOrUpdateUser($this->auth0Id2, $this->email2, $this->name, $this->picture);

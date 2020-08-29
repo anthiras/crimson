@@ -11,7 +11,7 @@ use Cake\Chronos\Chronos;
 
 class LessonTest extends TestCase
 {
-    public function testCreateWeekly()
+    public function testCreateWeekly(): void
     {
         $startsAt = Chronos::create(2018, 1, 1, 19, 0, 0);
         $weeks = 3;

@@ -19,13 +19,13 @@ class MembershipRepositoryTest extends TestCase
     /** @var MembershipRepository */
     protected $repo;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repo = new DbMembershipRepository();
     }
 
-    public function testCreateLoadMembership()
+    public function testCreateLoadMembership(): void
     {
         $this->seed();
         $userId = new UserId(UserModel::query()->take(1)->pluck('id')->first());

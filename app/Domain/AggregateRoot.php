@@ -1,6 +1,8 @@
 <?php
 namespace App\Domain;
 
+use Illuminate\Support\Arr;
+
 abstract class AggregateRoot
 {
 	abstract public function id();
@@ -9,7 +11,7 @@ abstract class AggregateRoot
 
 	protected function registerEvent($event)
     {
-        array_push($this->domainEvents, $event);
+        Arr::prepend($this->domainEvents, $event);
     }
 
     public function dispatchEvents()

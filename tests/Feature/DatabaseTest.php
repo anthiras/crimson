@@ -11,13 +11,13 @@ class DatabaseTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->seed();
     }
 
-    public function testDatabase()
+    public function testDatabase(): void
     {
         $this->assertDatabaseHas('users', [
             'id' => \DatabaseSeeder::instructorUserId()

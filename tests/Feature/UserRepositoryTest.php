@@ -23,14 +23,14 @@ class UserRepositoryTest extends TestCase
      */
     protected $builder;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repo = new DbUserRepository();
         $this->builder = new UserBuilder();
     }
 
-    public function testCreateLoadUser()
+    public function testCreateLoadUser(): void
     {
         $user = $this->builder->build();
         $userId = $user->id();
@@ -52,7 +52,7 @@ class UserRepositoryTest extends TestCase
         $this->assertEqualUsers($user, $emailUser);
     }
 
-    public function testDeleteUser()
+    public function testDeleteUser(): void
     {
         // Create user
         $user = $this->builder->build();
@@ -73,7 +73,7 @@ class UserRepositoryTest extends TestCase
         $this->assertNotEquals($email, $reloadedUser->getEmail(), "Expected email to be overwritten");
     }
 
-    private function assertEqualUsers(User $user, User $reloadedUser)
+    private function assertEqualUsers(User $user, User $reloadedUser): void
     {
         $this->assertEquals($user->id(), $reloadedUser->id());
         $this->assertEquals($user->getName(), $reloadedUser->getName());

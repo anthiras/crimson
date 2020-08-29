@@ -13,14 +13,14 @@ class UserQueryTest extends TestCase
 
     protected $userQuery;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->userQuery = new DbUserQuery();
         $this->seed();
     }
 
-    public function testFilterByMembership()
+    public function testFilterByMembership(): void
     {
         // There should be 5 unpaid + 3 paid members in the database (8 in total)
         $members = $this->userQuery->list(null, null, true)->count();
