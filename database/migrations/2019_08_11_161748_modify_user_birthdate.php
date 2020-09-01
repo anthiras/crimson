@@ -26,7 +26,8 @@ class ModifyUserBirthdate extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->timestamp('birth_date')->nullable()->change();
+            // timestamp changed to date because Laravel no longer supports timestamp
+            $table->date('birth_date')->nullable()->change();
         });
     }
 }

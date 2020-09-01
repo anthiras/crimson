@@ -10,6 +10,8 @@ class Auth0UserModel extends Model
 
     protected $primaryKey = 'auth0_id';
 
+    protected $keyType = 'string';
+
     public $incrementing = false;
 
     protected $guarded = [];

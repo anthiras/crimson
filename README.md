@@ -49,7 +49,7 @@ Prefix commands with `docker-compose exec app ` if you are running the app in do
 ### Unit tests
 
 ```
-phpunit
+./vendor/bin/phpunit
 ```
 
 ### Manage user roles

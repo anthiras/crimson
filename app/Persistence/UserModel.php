@@ -10,6 +10,7 @@ class UserModel extends Model
     protected $table = 'users';
     public $incrementing = false;
     protected $guarded = [];
+    protected $keyType = 'string';
 
     const AVAILABLE_INCLUDES = ['roles', 'takingCourses', 'teachingCourses', 'memberships'];
 

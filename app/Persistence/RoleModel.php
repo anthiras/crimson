@@ -16,6 +16,7 @@ class RoleModel extends Model
     protected $table = 'roles';
     public $incrementing = false;
     protected $guarded = [];
+    protected $keyType = 'string';
 
     public function users()
     {

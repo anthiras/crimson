@@ -1,7 +1,6 @@
 FROM php:7.4-fpm
 
 RUN apt-get update && apt-get install -y \
-    #curl zip unzip libzip-dev \
     git \
     curl \
     libpng-dev \
@@ -10,10 +9,6 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install extensions
-#RUN docker-php-ext-configure zip --with-libzip && \
-#    docker-php-ext-install pdo_mysql mbstring zip exif pcntl
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
@@ -27,9 +22,6 @@ RUN useradd -u 1000 -ms /bin/bash -g www www
 
 # Set working directory
 WORKDIR /var/www
-
-# Copy existing application directory contents
-#COPY . /var/www
 
 # Copy existing application directory permissions
 COPY --chown=www:www . /var/www

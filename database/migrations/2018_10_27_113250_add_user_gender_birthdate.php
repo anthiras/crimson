@@ -15,7 +15,8 @@ class AddUserGenderBirthdate extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('gender')->nullable();
-            $table->timestamp('birth_date')->nullable();
+            // timestamp changed to date because Laravel no longer supports timestamp
+            $table->date('birth_date')->nullable();
         });
     }
 

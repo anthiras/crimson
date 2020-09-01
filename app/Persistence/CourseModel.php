@@ -24,6 +24,8 @@ class CourseModel extends Model
 
     protected $guarded = [];
 
+    protected $keyType = 'string';
+
     public function participants()
     {
     	return $this->belongsToMany('App\Persistence\UserModel', 'course_participants', 'course_id', 'user_id')
