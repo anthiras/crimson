@@ -24,6 +24,7 @@ interface CourseQuery
         Chronos $startsAfter = null,
         Chronos $endsBefore = null,
         Chronos $endsAfter = null,
-        UserId $userId = null)
+        UserId $userId = null,
+        bool $descending = false)
         : CourseResourceCollection;
 }

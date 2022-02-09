@@ -108,7 +108,8 @@ class CourseController extends Controller
             $this->parseDate($request, 'startsAfter'),
             $this->parseDate($request, 'endsBefore'),
             $this->parseDate($request, 'endsAfter'),
-            $userId);
+            $userId,
+            $request->query('direction') == 'desc');
     }
 
     private function parseDate(Request $request, string $key): ?Chronos

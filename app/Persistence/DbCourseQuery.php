@@ -32,7 +32,8 @@ class DbCourseQuery implements CourseQuery
         Chronos $startsAfter = null,
         Chronos $endsBefore = null,
         Chronos $endsAfter = null,
-        UserId $userId = null)
+        UserId $userId = null,
+        bool $descending = false)
         : CourseResourceCollection
     {
         $courses = CourseModel::query()
@@ -61,7 +62,7 @@ class DbCourseQuery implements CourseQuery
 
         //dd($courses->toSql());
 
-        $courses = $courses->orderBy('starts_at')->paginate(10);//->get();
+        $courses = $courses->orderBy('starts_at', $descending ? 'desc' : 'asc')->paginate(10);//->get();
 
         $availableIncludes = collect(['instructors']);
 
