@@ -11,6 +11,7 @@ use Auth0\SDK\Exception\CoreException;
 use Auth0\SDK\Exception\InvalidTokenException;
 use Closure;
 use Illuminate\Support\Facades\Log;
+use Firebase\JWT\JWT;
 
 class Auth0JWTAuthentication
 {
@@ -31,6 +32,8 @@ class Auth0JWTAuthentication
      */
     public function handle($request, Closure $next)
     {
+        JWT::$leeway = 60;
+        
         $accessToken = $request->bearerToken();
 
         if ($accessToken != null) {
