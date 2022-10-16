@@ -28,11 +28,12 @@ Run development environment in Docker (recommended) or Laravel Homestead:
 ## Docker developer setup
 
 1. Run `install.sh` to install PHP packages using composer through docker.
-2. Create a configuration file by copying `.evn.example` to `.env` and fill it out with your database credentials, Auth0 credentials etc.
-3. Start the app, including a webserver and database server using `docker-compose up -d`.
-4. Generate an app key for the `.env` file using `docker-compose exec app php artisan key:generate`.
-5. Run database migrations (optionally with the `--seed` flag to seed database with dummy data): `docker-compose exec app php artisan migrate:refresh --seed`
-6. Add the domain name to your hosts file: `127.0.0.1 crimson.test`
+2. Create a configuration file by copying `.evn.example` to `.env` and fill it out with Auth0 credentials.
+3. Start the app, including a webserver and database server using `docker compose up -d`.
+4. Generate an app key for the `.env` file using `docker compose exec app php artisan key:generate`.
+5. Create empty databases using `docker compose exec db mysql -u root -e "create database crimson; create database crimsontest;" -p`. See default password in `docker-compose.yaml`.
+6. Run database migrations (optionally with the `--seed` flag to seed database with dummy data): `docker compose exec app php artisan migrate:refresh --seed`
+7. Add the domain name to your hosts file: `127.0.0.1 crimson.test`
 
 ## Laravel Homestead developer setup
 
@@ -48,7 +49,7 @@ Run development environment in Docker (recommended) or Laravel Homestead:
 
 ### Running commands against the docker app
 
-Prefix commands with `docker-compose exec app ` if you are running the app in docker.
+Prefix commands with `docker compose exec app ` if you are running the app in docker.
 
 ### Unit tests
 
