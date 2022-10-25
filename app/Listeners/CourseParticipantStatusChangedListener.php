@@ -8,7 +8,9 @@ use App\Domain\UserRepository;
 use App\Events\CourseParticipantStatusChanged;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class CourseParticipantStatusChangedListener
 {
@@ -45,13 +47,20 @@ class CourseParticipantStatusChangedListener
         $course = $this->courseRepository->course($event->courseId);
 
         if ($event->status == Participant::STATUS_PENDING) {
-            Mail::to($user->getEmail(), $user->getName())
-                ->send(new \App\Mail\CourseParticipantSignedUp($course, $user));
+            $this->trySendEmail($user->getEmail(), $user->getName(), new \App\Mail\CourseParticipantSignedUp($course, $user));
         }
 
         if ($event->status == Participant::STATUS_CONFIRMED) {
-            Mail::to($user->getEmail(), $user->getName())
-                ->send(new \App\Mail\CourseParticipantConfirmed($course, $user));
+            $this->trySendEmail($user->getEmail(), $user->getName(), new \App\Mail\CourseParticipantConfirmed($course, $user));
+        }
+    }
+
+    private function trySendEmail(string $email, string $name, Mailable $mail)
+    {
+        try {
+            Mail::to($email, $name)->send($mail);
+        } catch (\Exception $e) {
+            Log::error($e);
         }
     }
 }
