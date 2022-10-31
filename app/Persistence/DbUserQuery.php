@@ -67,7 +67,7 @@ class DbUserQuery implements UserQuery
                         return self::recentCoursesQuery($subQuery);
                     });
             })
-            ->orderBy('name')->paginate(10);//->get();
+            ->orderBy('name')->paginate(20);//->get();
 
         //dd($users->toSql());
 
