@@ -32,4 +32,13 @@ class UserQueryTest extends TestCase
         $this->assertEquals(3, $paidMembers, "Expected 3 paid members");
         $this->assertEquals(10, $nonMembers, "Expected a full page (10) non-members");
     }
+
+    public function testFilterRecentInstructors(): void
+    {
+        $users = $this->userQuery->list(null, ['teachingCourses'], null, null, true);
+        $this->assertNotEmpty($users);
+        foreach ($users as $user) {
+            $this->assertNotEmpty($user->teachingCourses());
+        }
+    }
 }

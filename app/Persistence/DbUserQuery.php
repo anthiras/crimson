@@ -29,7 +29,8 @@ class DbUserQuery implements UserQuery
         ?string $searchText = null,
         $includes = null,
         ?bool $isMember = null,
-        ?bool $isPaidMember = null)
+        ?bool $isPaidMember = null,
+        ?bool $isRecentInstructor = null)
         : UserResourceCollection
     {
         //DB::connection()->enableQueryLog();
@@ -56,6 +57,15 @@ class DbUserQuery implements UserQuery
             })
             ->when($searchText, function($query, $searchText) {
                 return $query->where('name', 'like', '%'.$searchText.'%');
+            })
+            ->when(!is_null($isRecentInstructor), function($query) use ($isRecentInstructor) {
+                return $isRecentInstructor
+                    ? $query->whereHas('teachingCourses', function (Builder $subQuery) {
+                        return self::recentCoursesQuery($subQuery);
+                    })
+                    : $query->whereDoesntHave('teachingCourses', function (Builder $subQuery) {
+                        return self::recentCoursesQuery($subQuery);
+                    });
             })
             ->orderBy('name')->paginate(10);//->get();
 
@@ -91,5 +101,9 @@ class DbUserQuery implements UserQuery
 
     private static function unpaidMembershipQuery(Builder $query) : Builder {
         return self::membershipQuery($query)->whereNull('paid_at');
+    }
+
+    private static function recentCoursesQuery(Builder $query) : Builder {
+        return $query->where('starts_at', '>', Chronos::now()->modify('-1 years'));
     }
 }

@@ -28,12 +28,14 @@ class UserController extends Controller
 
         $isMember = $request->has('isMember') ? in_array($request->query('isMember'), ["1", "true"]) : null;
         $isPaidMember = $request->has('isPaidMember') ? in_array($request->query('isPaidMember'), ["1", "true"]) : null;
+        $isRecentInstructor = $request->has('isRecentInstructor') ? in_array($request->query('isRecentInstructor'), ["1", "true"]) : null;
 
         return $this->userQuery->list(
             $request->query('query'),
             $request->query('include'),
             $isMember,
-            $isPaidMember);
+            $isPaidMember,
+            $isRecentInstructor);
     }
 
     public function show(UserId $userId)

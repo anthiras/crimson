@@ -20,6 +20,7 @@ interface UserQuery
         ?string $searchText = null,
         $includes = null,
         ?bool $isMember = null,
-        ?bool $isPaidMember = null)
+        ?bool $isPaidMember = null,
+        ?bool $isRecentInstructor = null)
         : UserResourceCollection;
 }
