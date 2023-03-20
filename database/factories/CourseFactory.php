@@ -13,6 +13,7 @@ $factory->define(App\Persistence\CourseModel::class, function (Faker $faker) {
         'weeks' => $weeks,
         'starts_at' => $startsAt,
         'ends_at' => $endsAt,
-        'duration_minutes' => $faker->numberBetween(1,24)*5
+        'duration_minutes' => $faker->numberBetween(1,24)*5,
+        'description' => $faker->sentence(10)
     ];
 });

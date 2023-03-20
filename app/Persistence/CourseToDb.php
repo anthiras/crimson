@@ -17,7 +17,8 @@ class CourseToDb
             "allow_registration" => $course->getRegistrationSettings()->getAllowRegistration(),
             "auto_confirm" => $course->getRegistrationSettings()->getAutoConfirm(),
             "max_participants" => $course->getRegistrationSettings()->getMaxParticipants(),
-            "max_role_difference" => $course->getRegistrationSettings()->getMaxRoleDifference()
+            "max_role_difference" => $course->getRegistrationSettings()->getMaxRoleDifference(),
+            "description" => $course->description()
         ];
     }
 

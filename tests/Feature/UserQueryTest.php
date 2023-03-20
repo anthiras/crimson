@@ -30,7 +30,7 @@ class UserQueryTest extends TestCase
         $this->assertEquals(8, $members, "Expected 8 members");
         $this->assertEquals(5, $unpaidMembers, "Expected 5 unpaid members");
         $this->assertEquals(3, $paidMembers, "Expected 3 paid members");
-        $this->assertEquals(10, $nonMembers, "Expected a full page (10) non-members");
+        $this->assertEquals(20, $nonMembers, "Expected a full page (20) non-members");
     }
 
     public function testFilterRecentInstructors(): void

@@ -59,7 +59,8 @@ class CourseBuilder
             $this->lessons ?? iterator_to_array($schedule->createLessons()),
             $this->instructors ?? array(UserId::create(), UserId::create()),
             $this->participants ?? Collection::times(20, function() { return ParticipantBuilder::buildRandom(); })->toArray(),
-            $this->registrationSettings ?? RegistrationSettingsBuilder::buildRandom());
+            $this->registrationSettings ?? RegistrationSettingsBuilder::buildRandom(),
+            $faker->sentence(10));
     }
 
     public static function buildRandom(): Course

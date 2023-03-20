@@ -19,6 +19,7 @@ class CourseResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'description' => $this->description,
             'weeks' => $this->weeks,
             'startsAt' => $this->starts_at, // TODO: Convert to UTC
             'endsAt' => $this->ends_at,

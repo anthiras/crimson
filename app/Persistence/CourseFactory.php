@@ -30,7 +30,8 @@ class CourseFactory
                 ->get()
                 ->map([CourseFactory::class, 'createParticipant'])
                 ->toArray(),
-            $registrationSettings);
+            $registrationSettings,
+            $courseModel->description);
     }
 
     public static function createSchedule(CourseModel $courseModel): Schedule

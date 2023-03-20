@@ -39,8 +39,14 @@ class Course extends AggregateRoot
      */
     protected $registrationSettings;
 
+    /**
+     * @var string
+     */
+    protected $description;
+
     public function __construct(CourseId $courseId, string $name, Schedule $schedule, array $lessons,
-                                array $instructors, array $participants, RegistrationSettings $registrationSettings)
+                                array $instructors, array $participants, RegistrationSettings $registrationSettings,
+                                string $description = null)
     {
         $this->courseId = $courseId;
         $this->name = $name;
@@ -49,6 +55,7 @@ class Course extends AggregateRoot
         $this->participants = collect($participants)->verifyType(Participant::class)->keyBy([$this, 'participantKey']);
         $this->lessons = collect($lessons)->verifyType(Lesson::class);
         $this->registrationSettings = $registrationSettings;
+        $this->description = $description;
     }
 
     public function id()
@@ -64,6 +71,17 @@ class Course extends AggregateRoot
     public function setName(string $name)
     {
         $this->name = $name;
+        return $this;
+    }
+
+    public function description()
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description)
+    {
+        $this->description = $description;
         return $this;
     }
 

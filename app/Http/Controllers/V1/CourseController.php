@@ -146,7 +146,8 @@ class CourseController extends Controller
             iterator_to_array($schedule->createLessons()),
             collect($request->instructors)->map(function ($id) { return new UserId($id); })->toArray(),
             array(),
-            $registrationSettings);
+            $registrationSettings,
+            $request->description);
 
         $this->courseRepository->save($course);
 
@@ -193,6 +194,7 @@ class CourseController extends Controller
             $request->maxRoleDifference);
 
         $course->setName($request->name)
+            ->setDescription($request->description)
             ->setSchedule($schedule)
             ->setRegistrationSettings($registrationSettings)
             ->setInstructors(collect($request->instructors)->map(function ($id) { return new UserId($id); })->toArray());
