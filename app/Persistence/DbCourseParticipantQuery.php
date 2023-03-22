@@ -31,6 +31,8 @@ class DbCourseParticipantQuery implements CourseParticipantQuery
         
         $participants = $participants->orderBy('signed_up_at')->get();
 
+        $participants->load('memberships');
+
         return new UserResourceCollection($participants);
     }
 
