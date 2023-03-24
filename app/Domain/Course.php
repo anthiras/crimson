@@ -79,7 +79,7 @@ class Course extends AggregateRoot
         return $this->description;
     }
 
-    public function setDescription(string $description)
+    public function setDescription(string $description = null)
     {
         $this->description = $description;
         return $this;

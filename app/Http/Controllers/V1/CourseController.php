@@ -194,10 +194,13 @@ class CourseController extends Controller
             $request->maxRoleDifference);
 
         $course->setName($request->name)
-            ->setDescription($request->description)
             ->setSchedule($schedule)
             ->setRegistrationSettings($registrationSettings)
             ->setInstructors(collect($request->instructors)->map(function ($id) { return new UserId($id); })->toArray());
+        
+        if ($request->has('description')) {
+            $course = $course->setDescription($request->description);
+        }
 
         $this->courseRepository->save($course);
 
