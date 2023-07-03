@@ -22,7 +22,7 @@ class MembershipPolicy
 
     public function show(User $user, Membership $membership)
     {
-        if ($user->hasRole(RoleId::admin()))
+        if ($user->hasRole(RoleId::admin()) || $user->hasRole(RoleId::instructor()))
         {
             return true;
         }
@@ -32,7 +32,7 @@ class MembershipPolicy
 
     public function showResource(User $user, MembershipResource $membership)
     {
-        if ($user->hasRole(RoleId::admin()))
+        if ($user->hasRole(RoleId::admin()) || $user->hasRole(RoleId::instructor()))
         {
             return true;
         }
