@@ -30,7 +30,8 @@ class DbUserQuery implements UserQuery
         $includes = null,
         ?bool $isMember = null,
         ?bool $isPaidMember = null,
-        ?bool $isRecentInstructor = null)
+        ?bool $isRecentInstructor = null,
+        int $pageSize = 20)
         : UserResourceCollection
     {
         //DB::connection()->enableQueryLog();
@@ -67,7 +68,7 @@ class DbUserQuery implements UserQuery
                         return self::recentCoursesQuery($subQuery);
                     });
             })
-            ->orderBy('name')->paginate(20);//->get();
+            ->orderBy('name')->paginate($pageSize);//->get();
 
         //dd($users->toSql());
 

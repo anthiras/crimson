@@ -21,6 +21,7 @@ interface UserQuery
         $includes = null,
         ?bool $isMember = null,
         ?bool $isPaidMember = null,
-        ?bool $isRecentInstructor = null)
+        ?bool $isRecentInstructor = null,
+        int $pageSize = 20)
         : UserResourceCollection;
 }
