@@ -25,6 +25,8 @@ interface CourseQuery
         Chronos $endsBefore = null,
         Chronos $endsAfter = null,
         UserId $userId = null,
+        int $minimumWeeks = null,
+        int $maximumWeeks = null,
         bool $descending = false)
         : CourseResourceCollection;
 }

@@ -109,6 +109,8 @@ class CourseController extends Controller
             $this->parseDate($request, 'endsBefore'),
             $this->parseDate($request, 'endsAfter'),
             $userId,
+            $request->query('minWeeks'),
+            $request->query('maxWeeks'),
             $request->query('direction') == 'desc');
     }
 

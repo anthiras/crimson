@@ -33,6 +33,8 @@ class DbCourseQuery implements CourseQuery
         Chronos $endsBefore = null,
         Chronos $endsAfter = null,
         UserId $userId = null,
+        int $minimumWeeks = null,
+        int $maximumWeeks = null,
         bool $descending = false)
         : CourseResourceCollection
     {
@@ -58,11 +60,17 @@ class DbCourseQuery implements CourseQuery
                         return $subQuery->where('user_id', '=', $userId);
                     });
                 });
+            })
+            ->when($minimumWeeks, function($query, $minimumWeeks) {
+                return $query->where('weeks', '>=', $minimumWeeks);
+            })
+            ->when($maximumWeeks, function($query, $maximumWeeks) {
+                return $query->where('weeks', '<=', $maximumWeeks);
             });
 
         //dd($courses->toSql());
 
-        $courses = $courses->orderBy('starts_at', $descending ? 'desc' : 'asc')->orderBy('id', 'asc')->paginate(10);//->get();
+        $courses = $courses->orderBy('starts_at', $descending ? 'desc' : 'asc')->orderBy('id', 'asc')->paginate(40);//->get();
 
         $availableIncludes = collect(['instructors']);
 
