@@ -23,6 +23,7 @@ class UserPermissionsResource extends JsonResource
             'users:list' => $this->can('list', User::class),
             'roles:assignRole:instructor' => $this->can('assignRole', RoleId::instructor()),
             'courses:create' => $this->can('create', Course::class),
+            'courses:manageParticipants' => $this->can('manageParticipants', Course::class),
             'membership:setPaid' => $this->can('setPaid', Membership::class)
         ];
     }

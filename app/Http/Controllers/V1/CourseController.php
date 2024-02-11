@@ -166,7 +166,6 @@ class CourseController extends Controller
     public function show(CourseId $courseId)
     {
         $course = $this->courseQuery->show($courseId);
-        $this->authorize('showResource', $course);
         return $course;
     }
 

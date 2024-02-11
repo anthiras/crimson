@@ -23,12 +23,12 @@ class CoursePolicy
      */
     public function showResource(User $user, CourseResource $course)
     {
-        return $user->hasRole(RoleId::instructor(), RoleId::admin());
+        return true;
     }
 
     public function showId(User $user, CourseId $courseId)
     {
-        return $user->hasRole(RoleId::instructor(), RoleId::admin());
+        return true;
     }
 
     /**
@@ -76,7 +76,12 @@ class CoursePolicy
         return $user->hasRole(RoleId::instructor(), RoleId::admin());
     }
 
-    public function manageParticipants(User $user, Course $course)
+    public function manageParticipants(User $user)
+    {
+        return $user->hasRole(RoleId::instructor(), RoleId::admin());
+    }
+
+    public function manageResourceParticipants(User $user, CourseResource $course)
     {
         return $user->hasRole(RoleId::instructor(), RoleId::admin());
     }
