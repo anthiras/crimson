@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1;
 use App\Domain\User;
 use App\Domain\UserId;
 use App\Domain\UserRepository;
+use App\Domain\RoleId;
 use App\Queries\UserQuery;
 use Cake\Chronos\Chronos;
 use Illuminate\Http\Request;
@@ -29,6 +30,7 @@ class UserController extends Controller
         $isMember = $request->has('isMember') ? in_array($request->query('isMember'), ["1", "true"]) : null;
         $isPaidMember = $request->has('isPaidMember') ? in_array($request->query('isPaidMember'), ["1", "true"]) : null;
         $isRecentInstructor = $request->has('isRecentInstructor') ? in_array($request->query('isRecentInstructor'), ["1", "true"]) : null;
+        $role = $request->has('role') ? new RoleId($request->query('role')) : null;
         $pageSize = $request->query('pageSize', 20);
 
         return $this->userQuery->list(
@@ -37,6 +39,7 @@ class UserController extends Controller
             $isMember,
             $isPaidMember,
             $isRecentInstructor,
+            $role,
             $pageSize);
     }
 

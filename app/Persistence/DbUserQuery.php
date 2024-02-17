@@ -10,6 +10,7 @@ namespace App\Persistence;
 
 
 use App\Domain\UserId;
+use App\Domain\RoleId;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserResourceCollection;
 use App\Queries\UserQuery;
@@ -31,6 +32,7 @@ class DbUserQuery implements UserQuery
         ?bool $isMember = null,
         ?bool $isPaidMember = null,
         ?bool $isRecentInstructor = null,
+        ?RoleId $role = null,
         int $pageSize = 20)
         : UserResourceCollection
     {
@@ -67,6 +69,11 @@ class DbUserQuery implements UserQuery
                     : $query->whereDoesntHave('teachingCourses', function (Builder $subQuery) {
                         return self::recentCoursesQuery($subQuery);
                     });
+            })
+            ->when(!is_null($role), function($query) use ($role) {
+                return $query->whereHas('roles', function (Builder $subQuery) use ($role) {
+                    $subQuery->where('id', '=', $role);
+                });
             })
             ->orderBy('name')->paginate($pageSize);//->get();
 

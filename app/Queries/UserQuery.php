@@ -10,6 +10,7 @@ namespace App\Queries;
 
 
 use App\Domain\UserId;
+use App\Domain\RoleId;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UserResourceCollection;
 
@@ -22,6 +23,7 @@ interface UserQuery
         ?bool $isMember = null,
         ?bool $isPaidMember = null,
         ?bool $isRecentInstructor = null,
+        ?RoleId $role = null,
         int $pageSize = 20)
         : UserResourceCollection;
 }
