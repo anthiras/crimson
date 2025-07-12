@@ -59,9 +59,17 @@ class UserController extends Controller
     {
         $user = $this->userRepository->user($userId);
         $this->authorize('update', $user);
-        $user->setName($request->name)
-            ->setGender($request->gender)
-            ->setBirthDate(Chronos::parse($request->birthDate));
+
+        if ($request->has('name')) {
+            $user->setName($request->name);
+        }
+        if ($request->has('gender')) {
+            $user->setGender($request->gender);
+        }
+        if ($request->has('birthDate')) {
+            $user->setBirthDate(Chronos::parse($request->birthDate));
+        }
+
         $this->userRepository->save($user);
         return 204;
     }
