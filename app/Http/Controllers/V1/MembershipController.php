@@ -68,4 +68,12 @@ class MembershipController extends Controller
         $this->membershipRepository->save($membership);
         return $this->membershipQuery->show($userId, $now);
     }
+
+    public function delete(UserId $userId) {
+        $now = Chronos::now();
+        $membership = $this->membershipRepository->membership($userId, $now);
+        $this->authorize('delete', $membership);
+        $this->membershipRepository->delete($membership);
+        return response()->json(null, 204);
+    }
 }

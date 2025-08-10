@@ -16,4 +16,5 @@ interface MembershipRepository
     public function membership(UserId $userId, Chronos $atDate): Membership;
     public function hasMembership(UserId $userId, Chronos $atDate): bool;
     public function save(Membership $membership);
+    public function delete(Membership $membership): void;
 }

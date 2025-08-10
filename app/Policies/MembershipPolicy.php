@@ -54,4 +54,9 @@ class MembershipPolicy
     {
         return $user->hasRole(RoleId::admin());
     }
+
+    public function delete(User $user, Membership $membership = null)
+    {
+        return $user->hasRole(RoleId::admin());
+    }
 }

@@ -37,4 +37,12 @@ class DbMembershipRepository implements MembershipRepository
             MembershipToDb::map($membership)
         );
     }
+
+    public function delete(Membership $membership): void
+    {
+        MembershipModel::where('user_id', $membership->getUserId())
+            ->where('expires_at', $membership->getExpiresAt())
+            ->delete();
+    }
+
 }

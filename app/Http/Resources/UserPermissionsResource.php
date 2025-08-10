@@ -24,7 +24,8 @@ class UserPermissionsResource extends JsonResource
             'roles:assignRole:instructor' => $this->can('assignRole', RoleId::instructor()),
             'courses:create' => $this->can('create', Course::class),
             'courses:manageParticipants' => $this->can('manageParticipants', Course::class),
-            'membership:setPaid' => $this->can('setPaid', Membership::class)
+            'membership:setPaid' => $this->can('setPaid', Membership::class),
+            'membership:delete' => $this->can('delete', Membership::class)
         ];
     }
 }
